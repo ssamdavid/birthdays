@@ -639,10 +639,21 @@ async function applyImport(mode){
   const p=pending;if(!p)return;
   ["impAdd","impReplace"].forEach(id=>$(id).disabled=true);
   const list=mode==="replace"?p.recs.map(r=>{const ex=p.have[keyOf(r.name,r.bd,r.bm)];return Object.assign({id:ex?ex.id:""},r)}):p.fresh;
-  $("impProg").textContent="Saving "+list.length+" people…";
-  try{accept(await api("import",{mode,members:list}));
+  // send in small groups so each link stays short
+  const chunks=[];let cur=[],len=0;
+  for(const m of list){const n=encodeURIComponent(JSON.stringify(m)).length+3;if(cur.length&&len+n>4500){chunks.push(cur);cur=[];len=0}cur.push(m);len+=n}
+  if(cur.length||!chunks.length)chunks.push(cur);
+  let saved=0;
+  try{
+    for(let i=0;i<chunks.length;i++){
+      $("impProg").textContent="Saving "+saved+" of "+list.length+"…";
+      const last=i===chunks.length-1;
+      const j=await api("import",{mode:(mode==="replace"&&i===0)?"replace":"add",members:chunks[i]},!last);
+      saved+=chunks[i].length;
+      if(last)accept(j);
+    }
     $("imp").close();toast(mode==="replace"?"List replaced with "+p.file:"Added "+p.fresh.length+" new "+(p.fresh.length===1?"person":"people"));
-  }catch(e){$("impProg").textContent=ERR[e.code]||("Couldn't save: "+e.message)}
+  }catch(e){$("impProg").textContent=(ERR[e.code]||("Couldn't save: "+e.message))+(saved?" "+saved+" of "+list.length+" were saved. Load the sheet again to finish.":"");refresh(true)}
   ["impAdd","impReplace"].forEach(id=>$(id).disabled=false);pending=null;
 }
 $("impAdd").onclick=()=>applyImport("add");
@@ -683,12 +694,28 @@ function setStatus(t){$("status").textContent=t}
 const API=((window.APP_CONFIG&&window.APP_CONFIG.apiUrl)||"").trim();
 const API_OK=/^https:\/\/script\.google\.com\/.+\/exec$/.test(API);
 const ERR={bad_pin:"That PIN isn't right.",locked:"Too many wrong tries. Wait 15 minutes and try again.",pins_not_set:"The PINs in the Google script haven't been changed yet. Set them, then deploy again.",view_only:"This PIN can only view the list.",network:"Can't reach the list. Check your internet and try again."};
-async function api(action,extra){
-  let res;
-  try{res=await fetch(API,{method:"POST",body:JSON.stringify(Object.assign({action,pin},extra||{}))})}
-  catch(e){throw Object.assign(new Error("network"),{code:"network"})}
-  let j;try{j=await res.json()}catch(e){throw Object.assign(new Error("network"),{code:"network"})}
-  if(!j.ok) throw Object.assign(new Error(j.error),{code:j.error});
+// Talks to the Google script with a simple link loaded as a script (no browser cross-site checks to trip over)
+let cbN=0;
+function call(params){
+  return new Promise((resolve,reject)=>{
+    const cb="__bd"+Date.now().toString(36)+(cbN++);
+    const s=document.createElement("script");
+    const fail=code=>{cleanup();reject(Object.assign(new Error(code),{code}))};
+    const timer=setTimeout(()=>fail("network"),45000);
+    function cleanup(){clearTimeout(timer);try{delete window[cb]}catch(e){window[cb]=undefined}s.remove()}
+    window[cb]=j=>{cleanup();resolve(j)};
+    s.onerror=()=>fail("network");
+    const q=Object.keys(params).filter(k=>params[k]!==undefined&&params[k]!=="").map(k=>k+"="+encodeURIComponent(params[k])).join("&");
+    s.src=API+"?"+q+"&callback="+cb+"&_="+Date.now();
+    document.head.appendChild(s);
+  });
+}
+async function api(action,extra,quiet){
+  const params={action,pin};
+  if(extra) params.data=JSON.stringify(extra);
+  if(quiet) params.quiet="1";
+  const j=await call(params);
+  if(!j||!j.ok) throw Object.assign(new Error(j&&j.error||"network"),{code:j&&j.error||"network"});
   return j;
 }
 function cleanList(list){
