@@ -73,6 +73,12 @@ details.ta summary{cursor:pointer;padding:8px 0;font-size:.88rem;font-weight:600
 .rec .acts{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
 .rec .acts .btn{flex:1 1 30%;text-decoration:none}
 .btn.callbtn{background:var(--call-bg);border-color:transparent;color:var(--call)}
+.menu{display:grid;gap:8px;padding-bottom:10px}
+.menu .btn{justify-content:flex-start}
+.logi{padding:10px 0;border-bottom:1px dashed var(--line);font-size:.86rem}
+.logi b{font-weight:700}
+.logi .sub{display:block}
+.custom{color:var(--gold);font-size:.72rem;font-weight:700;margin-left:4px}
 .spin svg{animation:spin 1s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}
 @media (prefers-reduced-motion:reduce){.spin svg{animation:none}}
 body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.45 var(--body);-webkit-font-smoothing:antialiased;padding-bottom:calc(80px + env(safe-area-inset-bottom,0px));overflow-x:hidden}
@@ -204,12 +210,14 @@ dialog input[type=text],dialog input[type=number],dialog select{width:100%;borde
     <h1>Birthdays &amp; Wedding Days</h1>
     <button class="icon" id="dirBtn" type="button" aria-label="All members" title="All members">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="9" cy="8" r="3.2"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/><circle cx="17" cy="9" r="2.5"/><path d="M15.5 14.2c3 .2 5.5 2.6 5.5 5.8"/></svg></button>
+    <button class="icon" id="moreBtn" type="button" aria-label="More options" title="More">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><circle cx="12" cy="5" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="19" r="2"/></svg></button>
     <button class="icon" id="refreshBtn" type="button" aria-label="Update the list" title="Update the list">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 12a9 9 0 1 1-2.64-6.36L21 8M21 3v5h-5"/></svg></button>
     <button class="icon solid" id="addBtn" type="button" aria-label="Add a member" title="Add a member" hidden>
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button>
   </div>
-  <div class="statusrow"><div class="status" id="status" role="status"></div><button class="linkbtn" id="installBtn" type="button" hidden>Install app</button><button class="linkbtn" id="loadBtn" type="button" hidden><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M12 15V3M7 8l5-5 5 5M4 15v4a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-4"/></svg>Load sheet</button></div>
+  <div class="statusrow"><div class="status" id="status" role="status"></div><button class="linkbtn" id="installBtn" type="button" hidden>Install app</button></div>
   <input type="file" id="file" accept=".xlsx,.xls,.csv" class="sr" aria-label="Choose a spreadsheet">
 
   <div class="modes" role="group" aria-label="Range">
@@ -242,7 +250,6 @@ dialog input[type=text],dialog input[type=number],dialog select{width:100%;borde
 
   <main id="list"></main>
   <p class="hint" id="editHint"></p>
-  <p class="hint"><button class="linkbtn" id="lockBtn" type="button">Change PIN</button></p>
   <p class="hint" id="verLine"></p>
 
 </div>
@@ -312,6 +319,73 @@ dialog input[type=text],dialog input[type=number],dialog select{width:100%;borde
   <div class="dbody" id="viewBody"></div>
 </dialog>
 
+<!-- more menu -->
+<dialog id="more" aria-labelledby="moreTitle">
+  <div class="dhead"><h3 id="moreTitle">More</h3><button class="icon" type="button" data-close aria-label="Close">✕</button></div>
+  <div class="dbody"><div class="menu">
+    <button class="btn" id="mAreas" type="button">Area names</button>
+    <button class="btn" id="mWords" type="button">Tamil spellings</button>
+    <button class="btn" id="mLog" type="button">Change log</button>
+    <button class="btn" id="loadBtn" type="button">Load sheet</button>
+    <button class="btn" id="mWho" type="button">Your name</button>
+    <button class="btn" id="lockBtn" type="button">Change PIN</button>
+    <p class="sub" id="mRole"></p>
+  </div></div>
+</dialog>
+
+<!-- area names -->
+<dialog id="areas" aria-labelledby="areasTitle">
+  <div class="dhead"><h3 id="areasTitle">Area names</h3><button class="icon" type="button" data-close aria-label="Close">✕</button></div>
+  <div class="dbody"><p class="sub">Tap an area to rename it or fix its Tamil spelling. The change applies to everyone in that area.</p><ul class="people" id="areaList2"></ul></div>
+</dialog>
+<dialog id="areaEd" aria-labelledby="areaEdTitle">
+  <div class="dhead"><h3 id="areaEdTitle">Edit area</h3><button class="icon" type="button" data-close aria-label="Close">✕</button></div>
+  <div class="dbody">
+    <p class="sub" id="areaEdCount"></p>
+    <label for="aName">Area name</label><input id="aName" type="text" autocomplete="off">
+    <label for="aTa">Tamil spelling</label><input id="aTa" type="text" lang="ta" autocomplete="off">
+    <p class="sub">Leave the Tamil box empty to use the automatic spelling.</p>
+    <p class="err" id="aErr"></p>
+  </div>
+  <div class="dfoot"><span class="grow"></span><button class="btn primary" id="aSave" type="button">Save for everyone</button></div>
+</dialog>
+
+<!-- Tamil spellings -->
+<dialog id="words" aria-labelledby="wordsTitle">
+  <div class="dhead"><h3 id="wordsTitle">Tamil spellings</h3><button class="icon" type="button" data-close aria-label="Close">✕</button></div>
+  <div class="dbody">
+    <p class="sub">Fix how a name word is spelled in Tamil. The fix applies everywhere that word appears.</p>
+    <input id="wQ" type="search" placeholder="Search a word, e.g. Samuel" aria-label="Search words" autocomplete="off">
+    <ul class="people" id="wordList"></ul>
+  </div>
+</dialog>
+<dialog id="wordEd" aria-labelledby="wordEdTitle">
+  <div class="dhead"><h3 id="wordEdTitle">Tamil spelling</h3><button class="icon" type="button" data-close aria-label="Close">✕</button></div>
+  <div class="dbody">
+    <p class="sub" id="wUsed"></p>
+    <label for="wTa">Tamil spelling</label><input id="wTa" type="text" lang="ta" autocomplete="off">
+    <p class="err" id="wErr"></p>
+  </div>
+  <div class="dfoot"><button class="btn" id="wReset" type="button">Use automatic</button><span class="grow"></span><button class="btn primary" id="wSave" type="button">Save everywhere</button></div>
+</dialog>
+
+<!-- change log -->
+<dialog id="logDlg" aria-labelledby="logTitle">
+  <div class="dhead"><h3 id="logTitle">Change log</h3><button class="icon" type="button" data-close aria-label="Close">✕</button></div>
+  <div class="dbody"><p class="sub">The latest 300 changes. The full log is in the "Change Log" tab of your Google Sheet.</p><ul class="people" id="logList"></ul></div>
+</dialog>
+
+<!-- your name -->
+<dialog id="whoDlg" aria-labelledby="whoTitle">
+  <div class="dhead"><h3 id="whoTitle">Your name</h3></div>
+  <div class="dbody">
+    <p class="sub">Your name is saved with every change you make, in the change log.</p>
+    <label for="whoIn">Name</label><input id="whoIn" type="text" autocomplete="name">
+    <p class="err" id="whoErr"></p>
+  </div>
+  <div class="dfoot"><span class="grow"></span><button class="btn primary" id="whoSave" type="button">Save</button></div>
+</dialog>
+
 <!-- all members -->
 <dialog id="dir" aria-labelledby="dirTitle">
   <div class="dhead"><h3 id="dirTitle">Members</h3><button class="icon" type="button" data-close aria-label="Close">✕</button></div>
@@ -370,7 +444,7 @@ function validDM(d,m){return d>=1&&m>=1&&m<=12&&d<=[31,29,31,30,31,30,31,31,30,3
 
 /* ---------- data ---------- */
 let members=[];
-let canEdit=false, live=false;
+let canEdit=false, isAdmin=false, live=false, who=lsGet("bd.who",""), TA_OVR=lsGet("bd.words",{});
 let byB={}, byW={}, byId={}, weddings=[];
 
 /* ---------- Tamil ---------- */
@@ -398,7 +472,7 @@ function phonetic(w){
   return out;
 }
 // single-letter initials (and short letter groups like KR, MKB) stay in English
-function taWord(w){const l=w.toLowerCase();if(l.length===1)return w.toUpperCase();return TA_WORDS[l]||phonetic(l)}
+function taWord(w){const l=w.toLowerCase();if(TA_OVR[l])return TA_OVR[l];if(l.length===1)return w.toUpperCase();return TA_WORDS[l]||phonetic(l)}
 function ta(s){return String(s||"").replace(/[A-Za-z]+/g,taWord)}
 const tamil=()=>S.lang==="ta";
 function nameOf(p,tm){return tm?(p.nameTa||ta(p.name)):p.name}
@@ -666,7 +740,7 @@ function openEditor(p){
   $("fPhone").value=p?String(p.phone||"").replace(/^'/,""):"";$("fStatus").value=p?p.status||"":"";
   $("fNameTa").value=p?p.nameTa||"":"";$("fFatherTa").value=p?p.fatherTa||"":"";$("fSpouseTa").value=p?p.spouseTa||"":"";$("fAreaTa").value=p?p.areaTa||"":"";
   $("taBox").open=!!(p&&(p.nameTa||p.fatherTa||p.spouseTa||p.areaTa));
-  $("delBtn").hidden=!p;$("delBtn").textContent="Delete";$("fErr").textContent="";
+  $("delBtn").hidden=!p||!isAdmin;$("delBtn").textContent="Delete";$("fErr").textContent="";
   updatePreview();$("ed").showModal();
   if(!p) setTimeout(()=>$("fName").focus(),50);
 }
@@ -924,8 +998,8 @@ function setStatus(t){$("status").textContent=t}
 /* ---------- connection to the Google Sheet ---------- */
 const API=((window.APP_CONFIG&&window.APP_CONFIG.apiUrl)||"").trim();
 const API_OK=/^https:\/\/script\.google\.com\/.+\/exec$/.test(API);
-const ERR={bad_pin:"That PIN isn't right.",locked:"Too many wrong tries. Wait 15 minutes and try again.",pins_not_set:"The PINs in the Google script haven't been changed yet. Set them, then deploy again.",view_only:"This PIN can only view the list.",network:"Can't reach the list. Check your internet and try again."};
-const APP_VERSION="v6";
+const ERR={admin_only:"Only the admin PIN can do this.",bad_pin:"That PIN isn't right.",locked:"Too many wrong tries. Wait 15 minutes and try again.",pins_not_set:"The PINs in the Google script haven't been changed yet. Set them, then deploy again.",view_only:"This PIN can't make changes.",network:"Can't reach the list. Check your internet and try again."};
+const APP_VERSION="v7";
 // Three ways to reach the Google script. Browsers differ in what they allow, so the app tries each
 // and remembers the one that works on this phone.
 let cbN=0;
@@ -974,6 +1048,7 @@ function diag(e){
 }
 async function api(action,extra,quiet){
   const params={action,pin};
+  if(action!=="list")params.who=who||"Unknown";
   if(extra) params.data=JSON.stringify(extra);
   if(quiet) params.quiet="1";
   const j=await call(params);
@@ -988,13 +1063,23 @@ function cleanList(list){
     ["bd","bm","by","wd","wm","wy"].forEach(k=>o[k]=+p[k]||0);return o});
 }
 function accept(j){
-  role=j.role;canEdit=role==="edit";lsSet("bd.role",role);
+  setRole(j.role);
+  if(j.words){TA_OVR=j.words;lsSet("bd.words",TA_OVR)}
   members=cleanList(j.members);lsSet("bd.cache",members);lastSync=Date.now();lsSet("bd.synced",lastSync);
   live=true;index();render();roleUI();statusText();
 }
 function ago(t){if(!t)return "";const m=Math.round((Date.now()-t)/60000);if(m<1)return "just now";if(m<60)return m+" min ago";const d=new Date(t);return d.getDate()+" "+MON[d.getMonth()]+", "+String(d.getHours()).padStart(2,"0")+":"+String(d.getMinutes()).padStart(2,"0")}
-function statusText(off){setStatus(members.length+" members"+(off?". Offline, showing the list from "+ago(lastSync):", updated "+ago(lastSync))+(canEdit?"":" (view only)"))}
-function roleUI(){$("addBtn").hidden=!canEdit;$("loadBtn").hidden=!canEdit}
+function setRole(r){role=r==="edit"?"admin":r;canEdit=role==="editor"||role==="admin";isAdmin=role==="admin";lsSet("bd.role",role)}
+const ROLE_NAME={view:"view only",editor:"editor",admin:"admin"};
+function statusText(off){setStatus(members.length+" members"+(off?". Offline, showing the list from "+ago(lastSync):", updated "+ago(lastSync))+" ("+(ROLE_NAME[role]||"view only")+")")}
+function roleUI(){
+  $("addBtn").hidden=!canEdit;
+  ["mAreas","mWords","mWho"].forEach(id=>$(id).hidden=!canEdit);
+  ["mLog","loadBtn"].forEach(id=>$(id).hidden=!isAdmin);
+  $("mWho").textContent="Your name: "+(who||"not set");
+  $("mRole").textContent="Signed in as "+(ROLE_NAME[role]||"view only")+". App "+APP_VERSION+".";
+  if(canEdit&&!who&&$("app").hidden===false&&!$("whoDlg").open)askWho();
+}
 let syncing=false;
 async function refresh(quiet){
   if(!API_OK||!pin||syncing)return;
@@ -1008,7 +1093,7 @@ async function refresh(quiet){
   syncing=false;$("refreshBtn").classList.remove("spin");
 }
 function lock(msg){
-  pin="";role="";canEdit=false;members=[];
+  pin="";setRole("");members=[];
   ["bd.pin","bd.role","bd.cache","bd.synced"].forEach(k=>{try{localStorage.removeItem(k)}catch(e){}});
   index();render();roleUI();showGate(msg||"");
 }
@@ -1032,6 +1117,85 @@ $("lockBtn").onclick=()=>lock("");
 document.addEventListener("visibilitychange",()=>{if(!document.hidden)refresh(true)});
 window.addEventListener("online",()=>refresh(true));
 
+/* ---------- more menu ---------- */
+$("moreBtn").onclick=()=>{roleUI();$("more").showModal()};
+["mAreas","mWords","mLog","loadBtn","mWho","lockBtn"].forEach(id=>$(id).addEventListener("click",()=>$("more").close(),true));
+function askWho(){$("whoIn").value=who||"";$("whoErr").textContent="";$("whoDlg").showModal();setTimeout(()=>$("whoIn").focus(),50)}
+$("mWho").onclick=askWho;
+$("whoSave").onclick=()=>{const v=$("whoIn").value.replace(/\s+/g," ").trim();if(!v){$("whoErr").textContent="Enter your name.";return}who=v;lsSet("bd.who",who);$("whoDlg").close();roleUI();toast("Thanks, "+who)};
+$("whoDlg").addEventListener("cancel",e=>{if(!who)e.preventDefault()});
+
+/* ---------- area names ---------- */
+let areaEditing=null;
+function areaGroups(){
+  const g={};members.forEach(p=>{if(!p.area)return;const k=p.area.toLowerCase();(g[k]=g[k]||{name:p.area,people:[]}).people.push(p)});
+  return Object.values(g).sort((a,b)=>a.name.localeCompare(b.name));
+}
+function areaTaOf(gp){const c=gp.people.find(p=>p.areaTa);return c?c.areaTa:ta(gp.name)}
+function renderAreas(){
+  $("areaList2").innerHTML=areaGroups().map(gp=>'<li class="li"><button type="button" class="rowbtn" data-area="'+esc(gp.name)+'"><span class="nm">'+esc(gp.name)+'<span class="sub" lang="ta">'+esc(areaTaOf(gp))+(gp.people.some(p=>p.areaTa)?'<span class="custom">edited</span>':'')+'</span></span><span class="age"><b>'+gp.people.length+'</b> people</span></button></li>').join("");
+}
+$("mAreas").onclick=()=>{renderAreas();$("areas").showModal()};
+$("areaList2").addEventListener("click",e=>{
+  const b=e.target.closest("[data-area]");if(!b)return;
+  const gp=areaGroups().find(x=>x.name===b.dataset.area);if(!gp)return;
+  areaEditing=gp;$("aName").value=gp.name;
+  const custom=gp.people.find(p=>p.areaTa);$("aTa").value=custom?custom.areaTa:"";$("aTa").placeholder=ta(gp.name);
+  $("areaEdCount").textContent=gp.people.length+(gp.people.length===1?" person lives":" people live")+" in this area.";
+  $("aErr").textContent="";$("areaEd").showModal();
+});
+$("aName").addEventListener("input",()=>{$("aTa").placeholder=ta($("aName").value)});
+$("aSave").onclick=async()=>{
+  const gp=areaEditing;if(!gp)return;
+  const to=$("aName").value.replace(/\s+/g," ").trim();if(!to){$("aErr").textContent="Enter the area name.";return}
+  $("aSave").disabled=true;$("aSave").textContent="Saving…";
+  try{accept(await api("area",{from:gp.name,to,toTa:$("aTa").value.trim()}));$("areaEd").close();renderAreas();toast("Area updated for "+gp.people.length+" people")}
+  catch(e){$("aErr").textContent=ERR[e.code]||("Couldn't save: "+e.message)}
+  $("aSave").disabled=false;$("aSave").textContent="Save for everyone";
+};
+
+/* ---------- Tamil spellings of words ---------- */
+let wordEditing=null;
+function wordUse(){
+  const n={};
+  members.forEach(p=>[p.name,p.father,p.spouse].forEach(s=>(String(s||"").match(/[A-Za-z]{2,}/g)||[]).forEach(w=>{w=w.toLowerCase();n[w]=(n[w]||0)+1})));
+  return n;
+}
+function renderWords(){
+  const q=$("wQ").value.trim().toLowerCase(),use=wordUse();
+  const list=Object.keys(use).filter(w=>!q||w.includes(q)).sort((a,b)=>q?(a.indexOf(q)-b.indexOf(q))||a.localeCompare(b):a.localeCompare(b)).slice(0,300);
+  $("wordList").innerHTML=list.map(w=>'<li class="li"><button type="button" class="rowbtn" data-word="'+esc(w)+'"><span class="nm">'+esc(w.charAt(0).toUpperCase()+w.slice(1))+'<span class="sub" lang="ta">'+esc(taWord(w))+(TA_OVR[w]?'<span class="custom">edited</span>':'')+'</span></span><span class="age">'+use[w]+'×</span></button></li>').join("")||'<li class="empty">No word matches.</li>';
+}
+$("mWords").onclick=()=>{$("wQ").value="";renderWords();$("words").showModal()};
+$("wQ").addEventListener("input",renderWords);
+$("wordList").addEventListener("click",e=>{
+  const b=e.target.closest("[data-word]");if(!b)return;
+  const w=b.dataset.word;wordEditing=w;
+  $("wordEdTitle").textContent=w.charAt(0).toUpperCase()+w.slice(1);
+  $("wTa").value=TA_OVR[w]||"";$("wTa").placeholder=(TA_WORDS[w]||(w.length===1?w.toUpperCase():phonetic(w)));
+  $("wUsed").textContent="Used "+(wordUse()[w]||0)+" times in names.";$("wErr").textContent="";$("wReset").hidden=!TA_OVR[w];
+  $("wordEd").showModal();
+});
+async function saveWord(val){
+  const w=wordEditing;if(!w)return;
+  $("wSave").disabled=true;
+  try{accept(await api("word",{word:w,ta:val}));$("wordEd").close();renderWords();toast(val?"Saved everywhere":"Back to automatic")}
+  catch(e){$("wErr").textContent=ERR[e.code]||("Couldn't save: "+e.message)}
+  $("wSave").disabled=false;
+}
+$("wSave").onclick=()=>{const v=$("wTa").value.trim();if(!v){$("wErr").textContent="Type the Tamil spelling, or tap Use automatic.";return}saveWord(v)};
+$("wReset").onclick=()=>saveWord("");
+
+/* ---------- change log ---------- */
+$("mLog").onclick=async()=>{
+  $("logList").innerHTML='<li class="empty">Loading…</li>';$("logDlg").showModal();
+  try{
+    const j=await api("log",{limit:300});
+    $("logList").innerHTML=(j.log||[]).map(l=>{const d=new Date(l.when);const when=isNaN(d)?l.when:d.getDate()+" "+MON[d.getMonth()]+" "+d.getFullYear()+", "+String(d.getHours()).padStart(2,"0")+":"+String(d.getMinutes()).padStart(2,"0");
+      return '<li class="logi"><b>'+esc(l.action)+(l.person?': '+esc(l.person):'')+'</b><span class="sub">'+esc(when)+' by '+esc(l.who)+(l.role?' ('+esc(l.role)+')':'')+'</span><span>'+esc(l.details)+'</span></li>'}).join("")||'<li class="empty">No changes yet.</li>';
+  }catch(e){$("logList").innerHTML='<li class="empty">'+esc(ERR[e.code]||e.message)+'</li>'}
+};
+
 /* ---------- install ---------- */
 let deferredInstall=null;
 const isStandalone=()=>matchMedia("(display-mode: standalone)").matches||navigator.standalone===true;
@@ -1050,8 +1214,8 @@ if("serviceWorker" in navigator&&(location.protocol==="https:"||location.hostnam
 
 /* ---------- start ---------- */
 $("verLine").textContent="App "+APP_VERSION;
-let pin=lsGet("bd.pin",""),role=lsGet("bd.role",""),lastSync=lsGet("bd.synced",0);
-canEdit=role==="edit";
+let pin=lsGet("bd.pin",""),role="",lastSync=lsGet("bd.synced",0);
+setRole(lsGet("bd.role",""));
 index();render();roleUI();
 if(!API_OK||!pin) showGate("");
 else{hideGate();statusText(!navigator.onLine);refresh(true)}
