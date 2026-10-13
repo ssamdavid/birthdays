@@ -46,6 +46,7 @@ html{scroll-padding-top:env(safe-area-inset-top,0px);-webkit-text-size-adjust:10
 .gate input{width:100%;text-align:center;font-size:1.4rem;letter-spacing:.3em;border:1px solid var(--line);border-radius:12px;background:var(--surface);padding:12px;margin-bottom:10px}
 .gate .btn{width:100%}
 .gate code{font-size:.85rem;background:var(--surface);padding:2px 6px;border-radius:6px}
+.diag{font-size:.72rem;color:var(--muted);word-break:break-word;margin:6px 0 0;user-select:all;-webkit-user-select:all}
 .spin svg{animation:spin 1s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}
 @media (prefers-reduced-motion:reduce){.spin svg{animation:none}}
 body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.45 var(--body);-webkit-font-smoothing:antialiased;padding-bottom:calc(80px + env(safe-area-inset-bottom,0px));overflow-x:hidden}
@@ -162,6 +163,7 @@ dialog input[type=text],dialog input[type=number],dialog select{width:100%;borde
       <input id="pinIn" type="password" inputmode="numeric" aria-label="PIN" autocomplete="current-password">
       <button class="btn primary" id="gateBtn" type="submit">Open</button>
       <p class="err" id="gateErr" role="alert"></p>
+      <p class="diag" id="gateDiag"></p>
     </form>
     <div id="gateSetup"><p>Setup isn't finished. Paste the Google script's Web app link into <code>config.js</code>.</p></div>
   </div>
@@ -207,6 +209,7 @@ dialog input[type=text],dialog input[type=number],dialog select{width:100%;borde
   <main id="list"></main>
   <p class="hint" id="editHint"></p>
   <p class="hint"><button class="linkbtn" id="lockBtn" type="button">Change PIN</button></p>
+  <p class="hint" id="verLine"></p>
 
 </div>
 
@@ -694,21 +697,52 @@ function setStatus(t){$("status").textContent=t}
 const API=((window.APP_CONFIG&&window.APP_CONFIG.apiUrl)||"").trim();
 const API_OK=/^https:\/\/script\.google\.com\/.+\/exec$/.test(API);
 const ERR={bad_pin:"That PIN isn't right.",locked:"Too many wrong tries. Wait 15 minutes and try again.",pins_not_set:"The PINs in the Google script haven't been changed yet. Set them, then deploy again.",view_only:"This PIN can only view the list.",network:"Can't reach the list. Check your internet and try again."};
-// Talks to the Google script with a simple link loaded as a script (no browser cross-site checks to trip over)
+const APP_VERSION="v3";
+// Three ways to reach the Google script. Browsers differ in what they allow, so the app tries each
+// and remembers the one that works on this phone.
 let cbN=0;
-function call(params){
+function viaScript(params){
   return new Promise((resolve,reject)=>{
     const cb="__bd"+Date.now().toString(36)+(cbN++);
     const s=document.createElement("script");
-    const fail=code=>{cleanup();reject(Object.assign(new Error(code),{code}))};
-    const timer=setTimeout(()=>fail("network"),45000);
+    const fail=msg=>{cleanup();reject(new Error(msg))};
+    const timer=setTimeout(()=>fail("timeout"),20000);
     function cleanup(){clearTimeout(timer);try{delete window[cb]}catch(e){window[cb]=undefined}s.remove()}
     window[cb]=j=>{cleanup();resolve(j)};
-    s.onerror=()=>fail("network");
-    const q=Object.keys(params).filter(k=>params[k]!==undefined&&params[k]!=="").map(k=>k+"="+encodeURIComponent(params[k])).join("&");
-    s.src=API+"?"+q+"&callback="+cb+"&_="+Date.now();
+    s.onerror=()=>fail("blocked");
+    s.src=API+"?"+qs(params)+"&callback="+cb+"&_="+Date.now();
     document.head.appendChild(s);
   });
+}
+async function withTimeout(p,ms,ctrl){const t=setTimeout(()=>ctrl.abort(),ms);try{return await p}finally{clearTimeout(t)}}
+async function viaGet(params){
+  const ctrl=new AbortController();
+  const res=await withTimeout(fetch(API+"?"+qs(params)+"&_="+Date.now(),{signal:ctrl.signal,cache:"no-store"}),20000,ctrl);
+  const txt=await res.text();try{return JSON.parse(txt)}catch(e){throw new Error("not data ("+res.status+")")}
+}
+async function viaPost(params){
+  const body={action:params.action,pin:params.pin,quiet:params.quiet==="1"};
+  if(params.data)Object.assign(body,JSON.parse(params.data));
+  const ctrl=new AbortController();
+  const res=await withTimeout(fetch(API,{method:"POST",body:JSON.stringify(body),signal:ctrl.signal}),20000,ctrl);
+  const txt=await res.text();try{return JSON.parse(txt)}catch(e){throw new Error("not data ("+res.status+")")}
+}
+const WAYS={script:viaScript,get:viaGet,post:viaPost};
+let way=lsGet("bd.way","");
+function qs(params){return Object.keys(params).filter(k=>params[k]!==undefined&&params[k]!=="").map(k=>k+"="+encodeURIComponent(params[k])).join("&")}
+async function call(params){
+  const order=[way,"script","get","post"].filter((w,i,a)=>w&&WAYS[w]&&a.indexOf(w)===i);
+  const tried=[];
+  for(const w of order){
+    try{const j=await WAYS[w](params);if(w!==way){way=w;lsSet("bd.way",w)}return j}
+    catch(e){tried.push(w+": "+(e&&e.name==="AbortError"?"timeout":(e&&e.message)||"failed"))}
+  }
+  throw Object.assign(new Error("network"),{code:"network",detail:tried.join(" | ")});
+}
+function diag(e){
+  if(!e||e.code!=="network"||!e.detail)return "";
+  const ua=navigator.userAgent.replace(/Mozilla\/5\.0 /,"").slice(0,160);
+  return "Details for Claude: "+APP_VERSION+" | "+e.detail+" | online: "+navigator.onLine+" | "+ua;
 }
 async function api(action,extra,quiet){
   const params={action,pin};
@@ -737,7 +771,7 @@ async function refresh(quiet){
   try{accept(await api("list"))}
   catch(e){
     if(e.code==="bad_pin"){lock("Your PIN has changed. Enter the new one.");}
-    else if(e.code==="network"){statusText(true)}
+    else if(e.code==="network"){statusText(true);console.warn(diag(e))}
     else{setStatus(ERR[e.code]||("Couldn't update: "+e.message))}
   }
   syncing=false;$("refreshBtn").classList.remove("spin");
@@ -757,10 +791,10 @@ function hideGate(){$("gate").hidden=true;$("app").hidden=false;$("bar").hidden=
 $("gateForm").addEventListener("submit",async e=>{
   e.preventDefault();
   const v=$("pinIn").value.trim();if(!v){$("gateErr").textContent="Enter your PIN.";return}
-  $("gateBtn").disabled=true;$("gateErr").textContent="";pin=v;
+  $("gateBtn").disabled=true;$("gateBtn").textContent="Opening…";$("gateErr").textContent="";$("gateDiag").textContent="";pin=v;
   try{const j=await api("list");lsSet("bd.pin",pin);hideGate();S.mode="day";S.anchor=noon(new Date());accept(j)}
-  catch(err){pin="";$("gateErr").textContent=ERR[err.code]||("Something went wrong: "+err.message)}
-  $("gateBtn").disabled=false;
+  catch(err){pin="";$("gateErr").textContent=ERR[err.code]||("Something went wrong: "+err.message);$("gateDiag").textContent=diag(err)}
+  $("gateBtn").disabled=false;$("gateBtn").textContent="Open";
 });
 $("refreshBtn").onclick=()=>refresh(false);
 $("lockBtn").onclick=()=>lock("");
@@ -784,6 +818,7 @@ $("installBtn").onclick=async()=>{
 if("serviceWorker" in navigator&&(location.protocol==="https:"||location.hostname==="localhost")){window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}))}
 
 /* ---------- start ---------- */
+$("verLine").textContent="App "+APP_VERSION;
 let pin=lsGet("bd.pin",""),role=lsGet("bd.role",""),lastSync=lsGet("bd.synced",0);
 canEdit=role==="edit";
 index();render();roleUI();
