@@ -17,7 +17,7 @@
 <style>
 :root{
   --bg:#EEF1F7; --surface:#FFFFFF; --ink:#1A2140; --muted:#5D6680; --line:#D9DEEA;
-  --accent:#3A3FB0; --tile:#3A3FB0; --wed:#A3326B; --gold:#A86F00; --today:#C98A00; --danger:#B42318;
+  --accent:#3A3FB0; --tile:#3A3FB0; --call:#137A3E; --call-bg:#DDF2E5; --wed:#A3326B; --gold:#A86F00; --today:#C98A00; --danger:#B42318;
   --display:"Bricolage Grotesque", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   --body:ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans Tamil", sans-serif;
   box-sizing:border-box;
@@ -28,12 +28,12 @@
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){
     --bg:#10142A; --surface:#1A2040; --ink:#ECEEF8; --muted:#A3AAC4; --line:#2E355C;
-    --accent:#9EA3FF; --tile:#4B51C9; --wed:#B9437F; --gold:#F2BE3A; --today:#F2BE3A; --danger:#FF8A80; color-scheme:dark;
+    --accent:#9EA3FF; --tile:#4B51C9; --call:#7EE2A6; --call-bg:#173B2A; --wed:#B9437F; --gold:#F2BE3A; --today:#F2BE3A; --danger:#FF8A80; color-scheme:dark;
   }
 }
 :root[data-theme="dark"]{
   --bg:#10142A; --surface:#1A2040; --ink:#ECEEF8; --muted:#A3AAC4; --line:#2E355C;
-  --accent:#9EA3FF; --tile:#4B51C9; --wed:#B9437F; --gold:#F2BE3A; --today:#F2BE3A; --danger:#FF8A80; color-scheme:dark;
+  --accent:#9EA3FF; --tile:#4B51C9; --call:#7EE2A6; --call-bg:#173B2A; --wed:#B9437F; --gold:#F2BE3A; --today:#F2BE3A; --danger:#FF8A80; color-scheme:dark;
 }
 html{scroll-padding-top:env(safe-area-inset-top,0px);-webkit-text-size-adjust:100%}
 *,*::before,*::after{box-sizing:border-box}
@@ -47,6 +47,32 @@ html{scroll-padding-top:env(safe-area-inset-top,0px);-webkit-text-size-adjust:10
 .gate .btn{width:100%}
 .gate code{font-size:.85rem;background:var(--surface);padding:2px 6px;border-radius:6px}
 .diag{font-size:.72rem;color:var(--muted);word-break:break-word;margin:6px 0 0;user-select:all;-webkit-user-select:all}
+.li{display:flex;align-items:center;gap:8px;border-bottom:1px dashed var(--line)}
+.people li.li:last-child{border-bottom:0}
+.li>.rowbtn{flex:1;min-width:0}
+.call{flex:none;width:38px;height:38px;border-radius:50%;display:grid;place-items:center;background:var(--call-bg);color:var(--call);text-decoration:none}
+.en{display:block;font-size:.76rem;color:var(--muted);font-weight:500}
+.badge{display:inline-block;font-size:.7rem;font-weight:700;padding:1px 7px;border-radius:999px;background:var(--line);color:var(--ink);margin-left:4px;vertical-align:1px}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .badge.deceased,:root:not([data-theme="light"]) .badge.left,:root:not([data-theme="light"]) .badge.inactive{background:var(--line);color:var(--ink)}}
+.badge.deceased{background:#E4E0EA;color:#3F3550}.badge.left{background:#E3EDF7;color:#1E4C7A}.badge.inactive{background:#F4EBD8;color:#6B4E10}
+.ph{font-size:.8rem;color:var(--muted)}
+#dir .dbody{padding-bottom:16px}
+#dir input[type=search]{width:100%;border:1px solid var(--line);border-radius:10px;background:var(--bg);padding:10px 12px;font-size:16px;margin-top:2px}
+#dirF .toggle[aria-pressed="false"]{text-decoration:none;color:var(--ink)}
+#dir .scroller{margin:0 -16px;padding-left:16px;padding-right:16px}
+details.ta{margin-top:14px;border:1px solid var(--line);border-radius:10px;padding:2px 12px 10px}
+details.ta summary{cursor:pointer;padding:8px 0;font-size:.88rem;font-weight:600}
+.pvta{display:block;margin-top:4px;font-weight:600}
+.rec{border:1px solid var(--line);border-radius:14px;padding:14px;margin-bottom:12px;background:var(--surface)}
+.rec h4{font-family:var(--display);font-size:1.2rem;margin:0;line-height:1.2}
+.rec .tn{font-size:1rem;font-weight:600;margin:2px 0 0}
+.rec dl{display:grid;grid-template-columns:auto 1fr;gap:8px 14px;margin:14px 0 0;font-size:.92rem}
+.rec dt{color:var(--muted)}
+.rec dd{margin:0;overflow-wrap:anywhere}
+.rec dd .sub{display:inline}
+.rec .acts{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.rec .acts .btn{flex:1 1 30%;text-decoration:none}
+.btn.callbtn{background:var(--call-bg);border-color:transparent;color:var(--call)}
 .spin svg{animation:spin 1s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}
 @media (prefers-reduced-motion:reduce){.spin svg{animation:none}}
 body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.45 var(--body);-webkit-font-smoothing:antialiased;padding-bottom:calc(80px + env(safe-area-inset-bottom,0px));overflow-x:hidden}
@@ -171,6 +197,8 @@ dialog input[type=text],dialog input[type=number],dialog select{width:100%;borde
 <div class="wrap" id="app" hidden>
   <div class="top">
     <h1>Birthdays &amp; Wedding Days</h1>
+    <button class="icon" id="dirBtn" type="button" aria-label="All members" title="All members">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="9" cy="8" r="3.2"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/><circle cx="17" cy="9" r="2.5"/><path d="M15.5 14.2c3 .2 5.5 2.6 5.5 5.8"/></svg></button>
     <button class="icon" id="refreshBtn" type="button" aria-label="Update the list" title="Update the list">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 12a9 9 0 1 1-2.64-6.36L21 8M21 3v5h-5"/></svg></button>
     <button class="icon solid" id="addBtn" type="button" aria-label="Add a member" title="Add a member" hidden>
@@ -197,6 +225,7 @@ dialog input[type=text],dialog input[type=number],dialog select{width:100%;borde
 
   <div class="scroller">
     <button class="chip" id="todayBtn" type="button">Today</button>
+    <button class="chip toggle" id="tLang" type="button" aria-label="Show names in Tamil">தமிழ்</button>
     <button class="chip toggle" id="tBday" type="button">Birthdays</button>
     <button class="chip toggle" id="tWed" type="button">Wedding days</button>
     <label class="chip"><span class="k">Date</span><input type="date" id="jump" aria-label="Go to date"></label>
@@ -244,7 +273,19 @@ dialog input[type=text],dialog input[type=number],dialog select{width:100%;borde
     <label for="fArea">Area</label>
     <input id="fArea" type="text" list="areaList" autocomplete="off">
     <datalist id="areaList"></datalist>
-    <div class="preview"><span class="sub">Shows in the message as</span><b id="pv"></b></div>
+    <label for="fPhone">Phone</label>
+    <input id="fPhone" type="tel" inputmode="tel" autocomplete="off" placeholder="10-digit mobile number">
+    <label for="fStatus">Status</label>
+    <select id="fStatus"><option value="">Active</option><option value="inactive">Inactive</option><option value="deceased">Deceased</option><option value="left">Left the church</option></select>
+    <details class="ta" id="taBox">
+      <summary>Tamil spelling</summary>
+      <p class="sub">Filled in automatically. Type here only to correct it.</p>
+      <label for="fNameTa">Name in Tamil</label><input id="fNameTa" type="text" lang="ta" autocomplete="off">
+      <label for="fFatherTa">Father's name in Tamil</label><input id="fFatherTa" type="text" lang="ta" autocomplete="off">
+      <label for="fSpouseTa">Husband's / wife's name in Tamil</label><input id="fSpouseTa" type="text" lang="ta" autocomplete="off">
+      <label for="fAreaTa">Area in Tamil</label><input id="fAreaTa" type="text" lang="ta" autocomplete="off">
+    </details>
+    <div class="preview"><span class="sub">Shows in the list as</span><b id="pv"></b><span class="pvta" id="pvTa" lang="ta"></span></div>
     <p class="err" id="fErr"></p>
   </div>
   <div class="dfoot">
@@ -260,6 +301,29 @@ dialog input[type=text],dialog input[type=number],dialog select{width:100%;borde
   <div class="dbody"><div class="which" id="pickList"></div></div>
 </dialog>
 
+<!-- full record -->
+<dialog id="view" aria-labelledby="viewTitle">
+  <div class="dhead"><h3 id="viewTitle">Details</h3><button class="icon" type="button" data-close aria-label="Close">✕</button></div>
+  <div class="dbody" id="viewBody"></div>
+</dialog>
+
+<!-- all members -->
+<dialog id="dir" aria-labelledby="dirTitle">
+  <div class="dhead"><h3 id="dirTitle">Members</h3><button class="icon" type="button" data-close aria-label="Close">✕</button></div>
+  <div class="dbody">
+    <input id="dirQ" type="search" placeholder="Search name, area or phone" aria-label="Search members" autocomplete="off">
+    <div class="scroller" id="dirF">
+      <button class="chip toggle" type="button" data-f="active">Active</button>
+      <button class="chip toggle" type="button" data-f="inactive">Inactive</button>
+      <button class="chip toggle" type="button" data-f="deceased">Deceased</button>
+      <button class="chip toggle" type="button" data-f="left">Left church</button>
+      <button class="chip toggle" type="button" data-f="all">Everyone</button>
+    </div>
+    <p class="sub" id="dirCount"></p>
+    <ul class="people" id="dirList"></ul>
+  </div>
+</dialog>
+
 <!-- load sheet -->
 <dialog id="imp" aria-labelledby="impTitle">
   <div class="dhead"><h3 id="impTitle">Load sheet</h3><button class="icon" type="button" data-close aria-label="Close">✕</button></div>
@@ -268,10 +332,10 @@ dialog input[type=text],dialog input[type=number],dialog select{width:100%;borde
     <ul class="sumlist" id="impSummary"></ul>
     <p class="sub" id="impNote"></p>
     <div class="dbtns">
-      <button class="btn primary" id="impAdd" type="button">Add new people</button>
+      <button class="btn primary" id="impAdd" type="button">Add new people and fill in missing details</button>
       <button class="btn danger" id="impReplace" type="button">Replace the whole list</button>
     </div>
-    <p class="sub">"Add" keeps everyone already in the app, including your edits. "Replace" makes the app match the sheet exactly.</p>
+    <p class="sub">The first option keeps everyone already in the app and never overwrites your edits. It only adds new people and fills empty details such as phone numbers. "Replace" makes the app match the sheet exactly.</p>
     <p class="err" id="impProg" style="color:var(--muted)"></p>
   </div>
 </dialog>
@@ -304,15 +368,59 @@ let members=[];
 let canEdit=false, live=false;
 let byB={}, byW={}, byId={}, weddings=[];
 
-function relOf(p){
-  if(p.g==="F"&&p.spouse) return "W/O "+p.spouse;
-  if(p.father) return (p.g==="F"?"D/O ":"S/O ")+p.father;
+/* ---------- Tamil ---------- */
+const TA_WORDS={"aadarsh":"ஆதர்ஷ்","aani":"ஆனி","aarokhyasamy":"ஆரோக்கியசாமி","aaron":"ஆரோன்","abel":"ஆபேல்","abhishek":"அபிஷேக்","abi":"அபி","abiragam":"அபிரகாம்","abraham":"ஆபிரகாம்","achari":"ஆச்சாரி","ad":"ஏ.டி","adelin":"அடலின்","adonica":"அடோனிகா","adriel":"அட்ரியல்","adylene":"அடிலின்","agastin":"அகஸ்டின்","ahana":"அஹானா","aindrilla":"ஐந்திரிலா","akash":"ஆகாஷ்","albert":"ஆல்பர்ட்","alice":"ஆலிஸ்","aliyah":"அலியா","allen":"ஆலன்","alvin":"ஆல்வின்","alwin":"ஆல்வின்","amala":"அமலா","ambattur":"அம்பத்தூர்","ammu":"அம்மு","amos":"ஆமோஸ்","anand":"ஆனந்த்","ananda":"ஆனந்தா","anbalagan":"அன்பழகன்","andrews":"ஆண்ட்ரூஸ்","angel":"ஏஞ்சல்","anitha":"அனிதா","anjugam":"அஞ்சுகம்","ann":"ஆன்","annai":"அன்னை","anne":"ஆன்","anthony":"அந்தோணி","antony":"அந்தோணி","anu":"அனு","anushiya":"அனுஷியா","anusuya":"அனுசுயா","anyutha":"அன்யுதா","appu":"அப்பு","arputharaj":"அற்புதராஜ்","arul":"அருள்","arumaiganam":"அருமைகனம்","arumugam":"ஆறுமுகம்","arun":"அருண்","arunachalam":"அருணாசலம்","asha":"ஆஷா","ashok":"அசோக்","asir":"ஆசீர்","asirvatham":"ஆசீர்வாதம்","augstin":"அகஸ்டின்","augustin":"அகஸ்டின்","austin":"ஆஸ்டின்","avadi":"ஆவடி","ayanavaram":"அயனாவரம்","ayapakkam":"அயப்பாக்கம்","azariya":"அசரியா","babu":"பாபு","bai":"பாய்","bal":"பால்","bala":"பாலா","balaraman":"பலராமன்","balkrishna":"பால்கிருஷ்ணா","bank":"பேங்க்","baskar":"பாஸ்கர்","baskaran":"பாஸ்கரன்","basker":"பாஸ்கர்","bemish":"பெமிஷ்","ben":"பென்","benita":"பெனிட்டா","benjamin":"பெஞ்சமின்","benny":"பென்னி","berlina":"பெர்லினா","bernice":"பெர்னிஸ்","betsy":"பெட்சி","beulah":"பியூலா","blessy":"பிளெஸ்ஸி","boombugar":"பூம்புகார்","boopathy":"பூபதி","bruce":"புரூஸ்","bruse":"புரூஸ்","buleha":"பியூலா","caleb":"காலேப்","carolin":"கரோலின்","caroline":"கரோலின்","cerlo":"செர்லோ","chandra":"சந்திரா","chandran":"சந்திரன்","charles":"சார்லஸ்","charless":"சார்லஸ்","chellaiyan":"செல்லையன்","chelsy":"செல்சி","chettiyar":"செட்டியார்","cheyyur":"செய்யூர்","chitra":"சித்ரா","chris":"கிறிஸ்","chrish":"கிறிஷ்","christhu":"கிறிஸ்து","christiano":"கிறிஸ்டியானோ","christina":"கிறிஸ்டினா","christinal":"கிறிஸ்டினல்","christopher":"கிறிஸ்டோபர்","clara":"கிளாரா","clemencia":"கிளெமென்சியா","colony":"காலனி","dafny":"டாப்னி","daisy":"டெய்சி","daniel":"டேனியல்","darshini":"தர்ஷினி","dass":"தாஸ்","david":"டேவிட்","dayalan":"தயாளன்","deborah":"தெபோராள்","deena":"தீனா","deepak":"தீபக்","deivanayagam":"தெய்வநாயகம்","denam":"தனம்","dev":"தேவ்","deva":"தேவா","devadass":"தேவதாஸ்","devan":"தேவன்","devandran":"தேவேந்திரன்","devanesan":"தேவநேசன்","devaperumal":"தேவபெருமாள்","devaraj":"தேவராஜ்","devasahayam":"தேவசகாயம்","devasambath":"தேவசம்பத்","devendiran":"தேவேந்திரன்","devi":"தேவி","devina":"டெவினா","dhana":"தனா","dhanapal":"தனபால்","dhass":"தாஸ்","dhilip":"திலீப்","dhinesh":"தினேஷ்","doss":"தாஸ்","duraibabu":"துரைபாபு","duraisamy":"துரைசாமி","dwight":"டுவைட்","easa":"ஈசா","ebenesar":"எபிநேசர்","ebenezer":"எபிநேசர்","ecr":"இ.சி.ஆர்","eden":"ஏதேன்","edison":"எடிசன்","edwin":"எட்வின்","egambaram":"ஏகாம்பரம்","ekambaram":"ஏகாம்பரம்","elango":"இளங்கோ","elina":"எலினா","eliza":"எலிசா","elizabeth":"எலிசபெத்","elora":"எலோரா","elumalai":"ஏழுமலை","emil":"எமில்","emima":"எமிமா","emimal":"எமிமாள்","emmanuel":"இம்மானுவேல்","epsiba":"எப்சிபா","eshwaraiah":"ஈஸ்வரய்யா","esther":"எஸ்தர்","ethan":"ஈதன்","evangeline":"இவாஞ்சலின்","evanjelin":"இவாஞ்சலின்","ezhumalai":"ஏழுமலை","ezra":"எஸ்றா","felina":"ஃபெலினா","felix":"ஃபெலிக்ஸ்","ferida":"ஃபெரிடா","francis":"பிரான்சிஸ்","franklin":"பிராங்க்ளின்","fredrick":"பிரெட்ரிக்","freeda":"ஃப்ரீடா","gana":"ஞான","ganadass":"ஞானதாஸ்","gandhi":"காந்தி","gannaa":"கன்னா","geoffrey":"ஜெஃப்ரி","george":"ஜார்ஜ்","gideon":"கிதியோன்","gift":"கிஃப்ட்","giselle":"ஜிசெல்","gladson":"கிளாட்சன்","glady":"கிளாடி","glory":"குளோரி","gnanam":"ஞானம்","godson":"காட்சன்","gomathi":"கோமதி","govindaraj":"கோவிந்தராஜ்","grace":"கிரேஸ்","gracy":"கிரேசி","gurunathan":"குருநாதன்","hadassah":"ஹதஸ்ஸா","haniffar":"ஹனிஃபர்","hannah":"ஹன்னா","hari":"ஹரி","haridass":"ஹரிதாஸ்","harry":"ஹாரி","helan":"ஹெலன்","hellan":"ஹெலன்","hellen":"ஹெலன்","hema":"ஹேமா","hena":"ஹேனா","hendry":"ஹென்றி","henry":"ஹென்றி","henryjoseph":"ஹென்றிஜோசப்","hepsi":"ஹெப்சி","imani":"இமானி","immanuel":"இம்மானுவேல்","immanuvel":"இம்மானுவேல்","immmanuel":"இம்மானுவேல்","inba":"இன்ப","inbaraj":"இன்பராஜ்","indian":"இந்தியன்","indira":"இந்திரா","isaac":"ஐசக்","ivin":"ஐவின்","iyyakannu":"ஐயாக்கண்ணு","jaba":"ஜெபா","jabakani":"ஜெபகனி","jabaraj":"ஜெபராஜ்","jabesh":"ஜாபேஷ்","jacintha":"ஜெசிந்தா","jack":"ஜாக்","jacklin":"ஜாக்லின்","jackson":"ஜாக்சன்","jacob":"ஜேக்கப்","jacqualine":"ஜாக்குலின்","jacqueline":"ஜாக்குலின்","jadon":"ஜேடன்","jain":"ஜெயின்","jaisingh":"ஜெய்சிங்","james":"ஜேம்ஸ்","jamesh":"ஜேம்ஸ்","janani":"ஜனனி","jancy":"ஜான்சி","janesha":"ஜனேஷா","janet":"ஜேனட்","jared":"ஜாரெட்","jasapal":"ஜசபால்","jaslyn":"ஜாஸ்லின்","jasmine":"ஜாஸ்மின்","jason":"ஜேசன்","jayakumar":"ஜெயக்குமார்","jayapaul":"ஜெயபால்","jayavel":"ஜெயவேல்","jeba":"ஜெபா","jebakumari":"ஜெபகுமாரி","jebamani":"ஜெபமணி","jeeva":"ஜீவா","jeevitha":"ஜீவிதா","jeffeeta":"ஜெஃபீட்டா","jemimal":"ஜெமிமாள்","jenefer":"ஜெனிஃபர்","jenifer":"ஜெனிஃபர்","jennifer":"ஜெனிஃபர்","jerald":"ஜெரால்ட்","jeremiah":"ஜெரேமியா","jerin":"ஜெரின்","jerlin":"ஜெர்லின்","jerrard":"ஜெரார்ட்","jerusha":"ஜெருஷா","jesintha":"ஜெசிந்தா","jessi":"ஜெஸ்ஸி","jessica":"ஜெசிக்கா","jesudas":"ஏசுதாஸ்","joanna":"ஜோவானா","joel":"ஜோயல்","joesph":"ஜோசப்","johana":"ஜோஹானா","john":"ஜான்","johnson":"ஜான்சன்","johnwessly":"ஜான்வெஸ்லி","jonathan":"ஜோனத்தான்","joseph":"ஜோசப்","joshua":"ஜோஷ்வா","joshuva":"ஜோஷ்வா","joshva":"ஜோஷ்வா","jospeh":"ஜோசப்","jothi":"ஜோதி","joyal":"ஜோயல்","joyslin":"ஜாய்ஸ்லின்","julie":"ஜூலி","juliet":"ஜூலியட்","justin":"ஜஸ்டின்","kaithiyappan":"கைத்தியப்பன்","kalai":"கலை","kallikuppam":"கள்ளிக்குப்பம்","kalyanapuram":"கல்யாணபுரம்","kalyani":"கல்யாணி","kamaraj":"காமராஜ்","kanagaraj":"கனகராஜ்","kannan":"கண்ணன்","kannapalayam":"கண்ணபாளையம்","karolin":"கரோலின்","karthik":"கார்த்திக்","karunya":"காருண்யா","karuppan":"கருப்பன்","kasinathan":"காசிநாதன்","katrina":"கத்ரீனா","kaviarasan":"கவியரசன்","kavin":"கவின்","kavitha":"கவிதா","keerthi":"கீர்த்தி","keerthika":"கீர்த்திகா","kelyn":"கெலின்","keren":"கேரன்","kevin":"கெவின்","kezia":"கெசியா","kingsley":"கிங்ஸ்லி","kirishnan":"கிருஷ்ணன்","kirubavathi":"கிருபாவதி","kishore":"கிஷோர்","koci":"கோசி","kondaiya":"கொண்டையா","kotaiah":"கோட்டையா","kotti":"கொட்டி","kr":"கே.ஆர்","krishna":"கிருஷ்ணா","krishnan":"கிருஷ்ணன்","krishnapuram":"கிருஷ்ணாபுரம்","kumar":"குமார்","kumari":"குமாரி","kuppusamy":"குப்புசாமி","kuppuswamy":"குப்புசாமி","kupusamy":"குப்புசாமி","lakshmi":"லட்சுமி","lancy":"லான்சி","larence":"லாரன்ஸ்","late":"காலஞ்சென்ற","lawrence":"லாரன்ஸ்","lazar":"லாசர்","leena":"லீனா","lem":"லெம்","leninwesly":"லெனின்வெஸ்லி","lidiya":"லிடியா","lilly":"லில்லி","lindsay":"லிண்ட்சே","linea":"லீனியா","lingam":"லிங்கம்","loganthan":"லோகநாதன்","lourdusamy":"லூர்துசாமி","lurthudhas":"லூர்துதாஸ்","luther":"லூத்தர்","madhanankuppam":"மதனன்குப்பம்","madhavaram":"மாதவரம்","magaret":"மார்கரெட்","magillian":"மகிலியன்","mahalingam":"மகாலிங்கம்","maharani":"மகாராணி","mahendran":"மகேந்திரன்","malar":"மலர்","malarvizhi":"மலர்விழி","malathi":"மாலதி","manaase":"மனாசே","mani":"மணி","manickaraj":"மாணிக்கராஜ்","manoranjan":"மனோரஞ்சன்","margaret":"மார்கரெட்","margratte":"மார்கரெட்","margret":"மார்கரெட்","mari":"மரி","marinuthu":"மரிமுத்து","mariya":"மரியா","martin":"மார்டின்","mary":"மேரி","masilamani":"மாசிலாமணி","me":"எம்.இ","meena":"மீனா","melina":"மெலினா","melki":"மெல்கி","mellina":"மெலினா","memena":"மெமினா","menaka":"மேனகா","mercy":"மெர்சி","meri":"மேரி","merlin":"மெர்லின்","metilda":"மெட்டில்டா","micheal":"மைக்கேல்","miraclin":"மிராக்லின்","miruthulla":"மிருதுளா","mithilesh":"மிதிலேஷ்","mkb":"எம்.கே.பி","mogappair":"முகப்பேர்","mohan":"மோகன்","mohana":"மோகனா","mohandoss":"மோகன்தாஸ்","monah":"மோனா","monica":"மோனிகா","moorthy":"மூர்த்தி","morris":"மோரிஸ்","moses":"மோசஸ்","mukesh":"முகேஷ்","munusamy":"முனுசாமி","munuswami":"முனுசாமி","munuswamy":"முனுசாமி","mura":"முரா","murahari":"முராரி","murugan":"முருகன்","murugesan":"முருகேசன்","muthu":"முத்து","nadesan":"நடேசன்","nagar":"நகர்","nagomi":"நகோமி","nambirajan":"நம்பிராஜன்","nancy":"நான்சி","nandha":"நந்தா","nanthan":"நந்தன்","natarajan":"நடராஜன்","nathan":"நாதன்","neelakandan":"நீலகண்டன்","nelil":"நெலில்","nesalin":"நேசலின்","nesan":"நேசன்","nisha":"நிஷா","nithish":"நித்திஷ்","noah":"நோவா","obeth":"ஓபேத்","onasim":"ஒநேசிம்","oragadam":"ஒரகடம்","osborne":"ஆஸ்போர்ன்","othikadu":"ஒதிக்காடு","oyyaram":"ஒய்யாரம்","palani":"பழனி","pandiyaraj":"பாண்டியராஜ்","pari":"பாரி","parthiban":"பார்த்திபன்","pattabiram":"பட்டாபிராம்","paul":"பால்","paulasir":"பவுலாசீர்","pauldhas":"பால்தாஸ்","paulson":"பால்சன்","pavithra":"பவித்ரா","peddakotaiah":"பெத்தகோட்டையா","pellosi":"பெல்லோசி","periya":"பெரிய","perumal":"பெருமாள்","perummal":"பெருமாள்","peter":"பீட்டர்","philip":"பிலிப்","ponnusamy":"பொன்னுசாமி","ponroja":"பொன்ரோஜா","poonamallee":"பூந்தமல்லி","poongodi":"பூங்கொடி","prabhu":"பிரபு","pradeep":"பிரதீப்","praisewin":"பிரைஸ்வின்","praisy":"பிரைசி","prakasam":"பிரகாசம்","preethi":"ப்ரீத்தி","pricevin":"பிரைஸ்வின்","pricilla":"பிரிசில்லா","prince":"பிரின்ஸ்","princy":"பிரின்சி","priscilla":"பிரிசில்லா","priya":"பிரியா","priyadharshini":"பிரியதர்ஷினி","pudur":"புதூர்","punniyakoti":"புண்ணியகோடி","purushothaman":"புருஷோத்தமன்","pushpam":"புஷ்பம்","puzhal":"புழல்","queen":"குயின்","raghu":"ரகு","raj":"ராஜ்","raja":"ராஜா","rajagopal":"ராஜகோபால்","rajan":"ராஜன்","rajarathinam":"ராஜரத்தினம்","rajendran":"ராஜேந்திரன்","rajesh":"ராஜேஷ்","rajeshwaran":"ராஜேஸ்வரன்","rajeshwari":"ராஜேஸ்வரி","rajkumar":"ராஜ்குமார்","ram":"ராம்","ramachandran":"ராமச்சந்திரன்","ramani":"ரமணி","ramapuram":"ராமாபுரம்","ramaswamy":"ராமசாமி","ramesh":"ரமேஷ்","ramya":"ரம்யா","rangaraj":"ரங்கராஜ்","rani":"ராணி","ranjani":"ரஞ்சனி","ranjendran":"ராஜேந்திரன்","rathinam":"ரத்தினம்","ravikumar":"ரவிக்குமார்","rebeccah":"ரெபேக்கா","rebekkal":"ரெபேக்காள்","reena":"ரீனா","reheboth":"ரெகொபோத்","reichel":"ரேச்சல்","rekha":"ரேகா","richard":"ரிச்சர்ட்","rishwin":"ரிஷ்வின்","rithish":"ரித்திஷ்","robert":"ராபர்ட்","robinson":"ராபின்சன்","roselin":"ரோஸ்லின்","rosy":"ரோஸி","ruben":"ரூபன்","ruby":"ரூபி","rufus":"ரூஃபஸ்","rukmani":"ருக்மணி","ruth":"ரூத்","sahadevan":"சகாதேவன்","sahadeven":"சகாதேவன்","sakthivel":"சக்திவேல்","salomon":"சாலமோன்","sam":"சாம்","samapatham":"சமாபதம்","sambath":"சம்பத்","sami":"சாமி","sampath":"சம்பத்","samraj":"சாம்ராஜ்","samson":"சாம்சன்","samuel":"சாமுவேல்","samuvel":"சாமுவேல்","sandhiya":"சந்தியா","sangeetha":"சங்கீதா","sankar":"சங்கர்","santhanam":"சந்தானம்","santhosam":"சந்தோசம்","santhosh":"சந்தோஷ்","saral":"சாரல்","saravanan":"சரவணன்","sarun":"சருண்","sasi":"சசி","sathish":"சதீஷ்","sathrock":"சாத்ராக்","sathya":"சத்யா","selvakumar":"செல்வகுமார்","selvam":"செல்வம்","selvan":"செல்வன்","selvarani":"செல்வராணி","selvi":"செல்வி","selvin":"செல்வின்","shalini":"ஷாலினி","shanmugam":"சண்முகம்","shanmugapuram":"சண்முகபுரம்","shanmugham":"சண்முகம்","shantha":"சாந்தா","shanthakumar":"சாந்தகுமார்","shanthi":"சாந்தி","sharon":"ஷாரோன்","sheeba":"ஷீபா","sheela":"ஷீலா","sherilin":"ஷெரிலின்","sherlyn":"ஷெர்லின்","shiamala":"ஷியாமளா","shriwas":"ஸ்ரீவாஸ்","simson":"சிம்சன்","singh":"சிங்","sipora":"சிப்போரா","sipporal":"சிப்போராள்","siron":"சிரோன்","sivananda":"சிவானந்தா","sivapriya":"சிவப்பிரியா","smith":"ஸ்மித்","solomon":"சாலமோன்","soma":"சோமா","somasundaram":"சோமசுந்தரம்","sorna":"சொர்ணா","sornaraj":"சொர்ணராஜ்","sowmiya":"சௌமியா","spurgeon":"ஸ்பர்ஜன்","srinivasan":"ஸ்ரீனிவாசன்","srithar":"ஸ்ரீதர்","staines":"ஸ்டெயின்ஸ்","stalin":"ஸ்டாலின்","stella":"ஸ்டெல்லா","stephan":"ஸ்டீபன்","stephen":"ஸ்டீபன்","stuart":"ஸ்டூவர்ட்","subramani":"சுப்பிரமணி","suburayan":"சுப்புராயன்","sudha":"சுதா","suganthi":"சுகந்தி","sugumaran":"சுகுமாரன்","sujatha":"சுஜாதா","sujitha":"சுஜிதா","sumathi":"சுமதி","sumathy":"சுமதி","sunder":"சுந்தர்","suntharam":"சுந்தரம்","suresh":"சுரேஷ்","surya":"சூர்யா","susai":"சூசை","susairaj":"சூசைராஜ்","susila":"சுசிலா","takshavi":"தக்ஷவி","tamil":"தமிழ்","tamilselvan":"தமிழ்செல்வன்","tamilselvi":"தமிழ்செல்வி","tavish":"தவிஷ்","teachers":"டீச்சர்ஸ்","thabithal":"தபித்தாள்","thankaiyan":"தங்கையன்","thara":"தாரா","theodar":"தியோடர்","thirumullaivoyal":"திருமுல்லைவாயல்","thiruninravur":"திருநின்றவூர்","thirupal":"திருப்பால்","thiruvalluvar":"திருவள்ளுவர்","thiruvengada":"திருவேங்கட","thomas":"தாமஸ்","unice":"யூனிஸ்","usha":"உஷா","vadivel":"வடிவேல்","vaithi":"வைத்தி","vallikannan":"வள்ளிக்கண்ணன்","vani":"வாணி","vasanthi":"வசந்தி","vasu":"வாசு","vedamuthu":"வேதமுத்து","velankanni":"வேளாங்கண்ணி","velayutham":"வேலாயுதம்","vellaisamy":"வெள்ளைச்சாமி","venkat":"வெங்கட்","venkatapuram":"வெங்கடாபுரம்","veppampattu":"வேப்பம்பட்டு","victor":"விக்டர்","victoria":"விக்டோரியா","vijaya":"விஜயா","vijayakumar":"விஜயகுமார்","vijayalakshmipuram":"விஜயலட்சுமிபுரம்","vimalraj":"விமல்ராஜ்","vinayagapuram":"விநாயகபுரம்","vinayam":"வினயம்","vincent":"வின்சென்ட்","vincy":"வின்சி","vinoth":"வினோத்","vinothkumar":"வினோத்குமார்","vishwanathan":"விஸ்வநாதன்","viswanathan":"விஸ்வநாதன்","viswasakumar":"விசுவாசகுமார்","wesley":"வெஸ்லி","weslin":"வெஸ்லின்","wesly":"வெஸ்லி","williams":"வில்லியம்ஸ்","yelumalai":"ஏழுமலை","yesaiah":"ஏசாயா","yoganathan":"யோகநாதன்","zeegan":"சீகன்","visuvasam":"விசுவாசம்"};
+const TA_INIT={a:"ஏ",b:"பி",c:"சி",d:"டி",e:"இ",f:"எஃப்",g:"ஜி",h:"ஹெச்",i:"ஐ",j:"ஜே",k:"கே",l:"எல்",m:"எம்",n:"என்",o:"ஓ",p:"பி",q:"க்யூ",r:"ஆர்",s:"எஸ்",t:"டி",u:"யு",v:"வி",w:"டபிள்யு",x:"எக்ஸ்",y:"ஒய்",z:"இசட்"};
+const TA_MON=["ஜன","பிப்","மார்","ஏப்","மே","ஜூன்","ஜூலை","ஆக","செப்","அக்","நவ","டிச"];
+const TV=[["aa","ா","ஆ"],["ee","ீ","ஈ"],["oo","ூ","ஊ"],["ai","ை","ஐ"],["au","ௌ","ஔ"],["ay","ே","ஏ"],["a","","அ"],["i","ி","இ"],["u","ு","உ"],["e","ெ","எ"],["o","ொ","ஒ"],["y","ி","இ"]];
+const TC=[["ksh","க்ஷ"],["sh","ஷ"],["ch","ச"],["th","த"],["dh","த"],["ph","ஃப"],["gh","க"],["kh","க"],["bh","ப"],["zh","ழ"],["nj","ஞ"],["ng","ங"],["k","க"],["g","க"],["c","க"],["j","ஜ"],["t","ட"],["d","ட"],["n","ன"],["p","ப"],["b","ப"],["m","ம"],["y","ய"],["r","ர"],["l","ல"],["v","வ"],["w","வ"],["s","ச"],["h","ஹ"],["f","ஃப"],["z","ஜ"],["x","க்ஸ"],["q","க"]];
+// Rough sound-based spelling for names not in the word list (you can correct it per person)
+function phonetic(w){
+  let out="",i=0;
+  const vowelAt=j=>{for(const v of TV)if(w.startsWith(v[0],j)){if(v[0]==="y"&&/[aeiou]/.test(w[j+1]||""))return null;return v}return null};
+  while(i<w.length){
+    let c=null;for(const x of TC)if(w.startsWith(x[0],i)){c=x;break}
+    if(c&&c[0]==="y"&&i>0&&!/[aeiou]/.test(w[i+1]||""))c=null;
+    if(c){
+      i+=c[0].length;let ch=c[1];
+      if(ch==="ன"&&out==="")ch="ந";
+      if(c[0]==="c"&&/[eiy]/.test(w[i]||""))ch="ச";
+      if(c[0]==="s"&&out==="")ch="ச";
+      const v=vowelAt(i);
+      if(v){i+=v[0].length;out+=ch+(v[0]==="a"&&i>=w.length?"ா":v[1])}else out+=ch+"்";
+    } else {const v=vowelAt(i);if(v){i+=v[0].length;out+=v[2]}else i++}
+  }
+  return out;
+}
+function taWord(w){const l=w.toLowerCase();if(l.length===1)return TA_INIT[l]||w;return TA_WORDS[l]||phonetic(l)}
+function ta(s){return String(s||"").replace(/[A-Za-z]+/g,taWord)}
+const tamil=()=>S.lang==="ta";
+function nameOf(p,tm){return tm?(p.nameTa||ta(p.name)):p.name}
+function fatherOf(p,tm){return tm?(p.fatherTa||ta(p.father)):p.father}
+function spouseOf(p,tm){return tm?(p.spouseTa||ta(p.spouse)):p.spouse}
+function areaOfP(p,tm){return tm?(p.areaTa||ta(p.area)):p.area}
+function relOf(p,tm){
+  if(p.g==="F"&&p.spouse) return (tm?"க/பெ ":"W/O ")+spouseOf(p,tm);
+  if(p.father) return (tm?"த/பெ ":(p.g==="F"?"D/O ":"S/O "))+fatherOf(p,tm);
   return "";
 }
-function detail(p){return [relOf(p),p.area].filter(Boolean).join(", ")}
+function detail(p,tm){return [relOf(p,tm),areaOfP(p,tm)].filter(Boolean).join(", ")}
+const STATUS={"":"Active",inactive:"Inactive",deceased:"Deceased",left:"Left church"};
+function telOf(s){
+  const first=String(s||"").replace(/^'/,"").split(/[\/,;]|\bor\b/i)[0];
+  const d=first.replace(/[^\d+]/g,"");
+  if(!d)return "";
+  if(/^[6-9]\d{9}$/.test(d))return "+91"+d;
+  if(/^0[6-9]\d{9}$/.test(d))return "+91"+d.slice(1);
+  if(/^91[6-9]\d{9}$/.test(d))return "+"+d;
+  return d;
+}
+function phoneText(s){const t=telOf(s);return /^\+91\d{10}$/.test(t)?t.slice(3,8)+" "+t.slice(8):String(s||"").replace(/^'/,"")}
+const PHONE_SVG='<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></svg>';
+function callLink(p){const t=p&&telOf(p.phone);return t?'<a class="call" href="tel:'+esc(t)+'" aria-label="Call '+esc(p.name)+'">'+PHONE_SVG+'</a>':""}
 function index(){
   byB={};byW={};byId={};
-  members.forEach(p=>{byId[p.id]=p;if(validDM(p.bd,p.bm)){const k=p.bm+"-"+p.bd;(byB[k]=byB[k]||[]).push(p)}});
+  members.forEach(p=>{byId[p.id]=p;if(!p.status&&validDM(p.bd,p.bm)){const k=p.bm+"-"+p.bd;(byB[k]=byB[k]||[]).push(p)}});
   // weddings: merge husband+wife entries that share a date and name each other
   const W=members.filter(p=>validDM(p.wd,p.wm));
   const par=W.map((_,i)=>i), find=i=>par[i]===i?i:(par[i]=find(par[i]));
@@ -322,24 +430,31 @@ function index(){
     if((A.spouse&&sim(A.spouse,B.name)>=.85)||(B.spouse&&sim(B.spouse,A.name)>=.85)) par[find(i)]=find(j);
   }
   const groups={};W.forEach((p,i)=>{const r=find(i);(groups[r]=groups[r]||[]).push(p)});
-  weddings=Object.values(groups).map(ps=>{
+  // a couple drops off the wedding list if either of them is marked inactive, deceased or left
+  weddings=Object.values(groups).filter(ps=>ps.every(p=>!p.status)).map(ps=>{
     const m=ps.find(p=>p.g==="M"), f=ps.find(p=>p.g==="F");
-    let label;
-    if(m&&f) label=m.name+" & "+f.name;
-    else{const p=ps[0];label=p.spouse?(p.g==="F"?p.spouse+" & "+p.name:p.name+" & "+p.spouse):p.name}
-    const y=Math.min(...ps.map(p=>p.wy||9999));
-    return {label,d:ps[0].wd,m:ps[0].wm,y:y===9999?0:y,ids:ps.map(p=>p.id),area:(m||ps[0]).area||(f&&f.area)||""};
+    const w={hm:m&&f?m:null,wf:m&&f?f:null,p:ps[0],d:ps[0].wd,m:ps[0].wm,ids:ps.map(p=>p.id)};
+    const y=Math.min(...ps.map(p=>p.wy||9999));w.y=y===9999?0:y;
+    w.label=wLabel(w,false);
+    return w;
   });
   weddings.forEach(w=>{const k=w.m+"-"+w.d;(byW[k]=byW[k]||[]).push(w)});
   const areas=[...new Set(members.map(p=>p.area).filter(Boolean))].sort();
   $("areaList").innerHTML=areas.map(a=>'<option value="'+esc(a)+'">').join("");
 }
 
+function wLabel(w,tm){
+  if(w.hm&&w.wf) return nameOf(w.hm,tm)+" & "+nameOf(w.wf,tm);
+  const p=w.p;
+  return p.spouse?(p.g==="F"?spouseOf(p,tm)+" & "+nameOf(p,tm):nameOf(p,tm)+" & "+spouseOf(p,tm)):nameOf(p,tm);
+}
+function wArea(w,tm){const a=w.hm||w.p;return areaOfP(a,tm)||(w.wf?areaOfP(w.wf,tm):"")}
+
 /* ---------- state ---------- */
 const S={
   mode:"day", anchor:noon(new Date()),
   sort:lsGet("bd.sort","date"), weekStart:lsGet("bd.ws",0), incAge:false,
-  showB:lsGet("bd.showB",true), showW:lsGet("bd.showW",true)
+  showB:lsGet("bd.showB",true), showW:lsGet("bd.showW",true), lang:lsGet("bd.lang","en")
 };
 let cur={b:[],w:[]};
 
@@ -387,10 +502,11 @@ function relative(){
 }
 
 /* ---------- message ---------- */
+function dmL(d,tm){return String(d.getDate()).padStart(2,"0")+" "+(tm?TA_MON:MON)[d.getMonth()]}
 function buildMessage(){
-  const b=S.showB?cur.b:[],w=S.showW?cur.w:[],both=b.length&&w.length,parts=[];
-  if(b.length)parts.push((both?"*Birthdays*\n":"")+b.map(o=>{const d=detail(o.it);return dm(o.date)+" – "+o.it.name+(d?" ("+d+")":"")+(S.incAge&&o.n!=null?" – "+o.n+" yrs":"")}).join("\n"));
-  if(w.length)parts.push((both?"*Wedding Days*\n":"")+w.map(o=>dm(o.date)+" – "+o.it.label+(o.it.area?" ("+o.it.area+")":"")+(S.incAge&&o.n!=null?" – "+o.n+" yrs":"")).join("\n"));
+  const tm=tamil(),b=S.showB?cur.b:[],w=S.showW?cur.w:[],both=b.length&&w.length,parts=[];
+  if(b.length)parts.push((both?(tm?"*பிறந்தநாள்*\n":"*Birthdays*\n"):"")+b.map(o=>{const d=detail(o.it,tm);return dmL(o.date,tm)+" – "+nameOf(o.it,tm)+(d?" ("+d+")":"")}).join("\n"));
+  if(w.length)parts.push((both?(tm?"*திருமண நாள்*\n":"*Wedding Days*\n"):"")+w.map(o=>{const a=wArea(o.it,tm);return dmL(o.date,tm)+" – "+wLabel(o.it,tm)+(a?" ("+a+")":"")}).join("\n"));
   return parts.join("\n\n");
 }
 
@@ -402,6 +518,7 @@ function render(){
   $("rel").textContent=relative()||"\u00a0";$("label").textContent=rangeLabel();
   cur.b=sortList(occ(byB,p=>p.by),o=>o.it.name);
   cur.w=sortList(occ(byW,w=>w.y),o=>o.it.label);
+  $("tLang").setAttribute("aria-pressed",tamil());lsSet("bd.lang",S.lang);
   $("tBday").textContent="Birthdays "+cur.b.length;$("tBday").setAttribute("aria-pressed",S.showB);
   $("tWed").textContent="Wedding days "+cur.w.length;$("tWed").setAttribute("aria-pressed",S.showW);
   $("todayBtn").hidden=S.mode==="day"&&same(S.anchor,noon(new Date()));
@@ -418,7 +535,9 @@ function render(){
       html='<div class="empty"><b>No birthdays or wedding days '+what+'</b>Try Week or Month, or use the arrows.</div>'}
   }
   $("list").innerHTML=html;
-  $("editHint").textContent=canEdit&&(nb+nw)?"Tap a name to edit it.":"";
+  $("editHint").textContent=(nb+nw)?"Tap a name to see full details.":"";
+  if($("dir").open)renderDir();
+  if($("view").open){viewIds=viewIds.filter(id=>byId[id]);if(viewIds.length)$("viewBody").innerHTML=viewIds.map(id=>recordCard(byId[id])).join("");else $("view").close()}
     const off=!(nb+nw);["copyNames","copyMsg"].forEach(id=>$(id).setAttribute("aria-disabled",off));
   lsSet("bd.sort",S.sort);lsSet("bd.ws",S.weekStart);lsSet("bd.showB",S.showB);lsSet("bd.showW",S.showW);
   function section(title,list,cls,rowFn){
@@ -431,17 +550,79 @@ function render(){
     return h+'</section>';
   }
 }
-function rowWrap(inner,attrs){return '<li>'+(canEdit?'<button type="button" class="rowbtn" '+attrs+'>'+inner+'</button>':'<div class="rowbtn static">'+inner+'</div>')+'</li>'}
+function rowWrap(inner,attrs,after){return '<li class="li"><button type="button" class="rowbtn" '+attrs+'>'+inner+'</button>'+(after||"")+'</li>'}
+function nameHTML(main,en){return esc(main)+(en?'<span class="en">'+esc(en)+'</span>':"")}
 function rowB(o){
-  const p=o.it,d=detail(p),showDate=S.sort!=="date"&&S.mode!=="day";
-  const sub=[showDate?dm(o.date):"",d].filter(Boolean).join(", ");
-  return rowWrap('<span class="nm">'+esc(p.name)+(sub?'<span class="sub">'+esc(sub)+'</span>':"")+'</span>'+(o.n!=null?'<span class="age">turns <b>'+o.n+'</b></span>':""),'data-id="'+esc(p.id)+'"');
+  const tm=tamil(),p=o.it,d=detail(p,tm),showDate=S.sort!=="date"&&S.mode!=="day";
+  const sub=[showDate?dmL(o.date,tm):"",d].filter(Boolean).join(", ");
+  return rowWrap('<span class="nm" '+(tm?'lang="ta"':'')+'>'+nameHTML(nameOf(p,tm),tm?p.name:"")+(sub?'<span class="sub">'+esc(sub)+'</span>':"")+'</span>'+(o.n!=null?'<span class="age">turns <b>'+o.n+'</b></span>':""),'data-id="'+esc(p.id)+'"',callLink(p));
 }
 function rowW(o){
-  const w=o.it,showDate=S.sort!=="date"&&S.mode!=="day";
-  const sub=[showDate?dm(o.date):"",w.area].filter(Boolean).join(", ");
-  return rowWrap('<span class="nm">'+esc(w.label)+(sub?'<span class="sub">'+esc(sub)+'</span>':"")+'</span>'+(o.n!=null?'<span class="age"><b>'+o.n+'</b> yrs</span>':""),'data-ids="'+esc(w.ids.join(","))+'"');
+  const tm=tamil(),w=o.it,a=wArea(w,tm),showDate=S.sort!=="date"&&S.mode!=="day";
+  const sub=[showDate?dmL(o.date,tm):"",a].filter(Boolean).join(", ");
+  const caller=[w.hm,w.wf,w.p].find(p=>p&&telOf(p.phone));
+  return rowWrap('<span class="nm" '+(tm?'lang="ta"':'')+'>'+nameHTML(wLabel(w,tm),tm?w.label:"")+(sub?'<span class="sub">'+esc(sub)+'</span>':"")+'</span>'+(o.n!=null?'<span class="age"><b>'+o.n+'</b> yrs</span>':""),'data-ids="'+esc(w.ids.join(","))+'"',callLink(caller));
 }
+
+/* ---------- full record ---------- */
+let viewIds=[];
+function longDate(d,m,y){return d+" "+MONL[m-1]+(y?" "+y:"")}
+function yearsSince(d,m,y){if(!y)return null;const t=new Date();let n=t.getFullYear()-y;if(t.getMonth()+1<m||(t.getMonth()+1===m&&t.getDate()<d))n--;return n>=0?n:null}
+function recordCard(p){
+  const rows=[];
+  const add=(k,v,lang)=>{if(v)rows.push('<dt>'+k+'</dt><dd'+(lang?' lang="ta"':'')+'>'+v+'</dd>')};
+  add("Status",'<span class="badge '+(p.status||"")+'" style="margin:0">'+STATUS[p.status||""]+'</span>');
+  add("Gender",p.g==="F"?"Female":"Male");
+  if(validDM(p.bd,p.bm)){const a=yearsSince(p.bd,p.bm,p.by);add("Birthday",esc(longDate(p.bd,p.bm,p.by))+(a!=null&&!p.status?' <span class="sub">(age '+a+')</span>':''))}
+  if(p.father)add("Father",esc(p.father)+'<br><span class="sub" lang="ta">'+esc(fatherOf(p,true))+'</span>');
+  if(p.spouse)add(p.g==="F"?"Husband":"Wife",esc(p.spouse)+'<br><span class="sub" lang="ta">'+esc(spouseOf(p,true))+'</span>');
+  if(validDM(p.wd,p.wm)){const y=yearsSince(p.wd,p.wm,p.wy);add("Wedding",esc(longDate(p.wd,p.wm,p.wy))+(y!=null?' <span class="sub">('+y+' years)</span>':''))}
+  if(p.area)add("Area",esc(p.area)+'<br><span class="sub" lang="ta">'+esc(areaOfP(p,true))+'</span>');
+  if(p.phone)add("Phone",esc(phoneText(p.phone)));
+  add("In the list as",esc(detail(p)||"—")+'<br><span class="sub" lang="ta">'+esc(detail(p,true)||"")+'</span>');
+  const tel=telOf(p.phone);
+  const acts=(tel?'<a class="btn callbtn" href="tel:'+esc(tel)+'">'+PHONE_SVG+'Call</a><button class="btn" type="button" data-copyph="'+esc(p.id)+'">Copy number</button>':'')+
+    (canEdit?'<button class="btn primary" type="button" data-edit="'+esc(p.id)+'">Edit</button>':'');
+  return '<section class="rec"><h4>'+esc(p.name)+'</h4><p class="tn" lang="ta">'+esc(nameOf(p,true))+'</p><dl>'+rows.join("")+'</dl>'+(acts?'<div class="acts">'+acts+'</div>':'')+'</section>';
+}
+function openView(ids){
+  viewIds=ids.filter(id=>byId[id]);if(!viewIds.length)return;
+  $("viewTitle").textContent=viewIds.length>1?"Wedding day":"Details";
+  $("viewBody").innerHTML=viewIds.map(id=>recordCard(byId[id])).join("");
+  if(!$("view").open)$("view").showModal();
+}
+$("viewBody").addEventListener("click",e=>{
+  const ed=e.target.closest("[data-edit]");
+  if(ed){const p=byId[ed.dataset.edit];$("view").close();if(p)openEditor(p);return}
+  const cp=e.target.closest("[data-copyph]");
+  if(cp){const p=byId[cp.dataset.copyph];if(p)copy(phoneText(p.phone).replace(/\s/g,""),"Number copied")}
+});
+
+/* ---------- all members ---------- */
+let dirFilter="active";
+function renderDir(){
+  const tm=tamil(),q=$("dirQ").value.trim().toLowerCase(),qd=q.replace(/\D/g,"");
+  document.querySelectorAll("#dirF [data-f]").forEach(b=>b.setAttribute("aria-pressed",b.dataset.f===dirFilter));
+  const list=members.filter(p=>{
+    if(dirFilter==="active"&&p.status)return false;
+    if(dirFilter!=="active"&&dirFilter!=="all"&&p.status!==dirFilter)return false;
+    if(!q)return true;
+    if(qd.length>=3&&String(p.phone).replace(/\D/g,"").includes(qd))return true;
+    return [p.name,p.area,p.father,p.spouse,nameOf(p,true)].some(x=>String(x||"").toLowerCase().includes(q));
+  }).sort((a,b)=>a.name.localeCompare(b.name));
+  $("dirCount").textContent=list.length+(list.length===1?" person":" people");
+  $("dirList").innerHTML=list.map(p=>{
+    const bits=[detail(p,tm)];
+    if(validDM(p.bd,p.bm))bits.push("Birthday "+p.bd+" "+MON[p.bm-1]);
+    const ph=p.phone?'<span class="ph">'+esc(phoneText(p.phone))+'</span>':"";
+    const badge=p.status?' <span class="badge '+p.status+'">'+STATUS[p.status]+'</span>':"";
+    return rowWrap('<span class="nm" '+(tm?'lang="ta"':'')+'>'+nameHTML(nameOf(p,tm),tm?p.name:"")+badge+'<span class="sub">'+esc(bits.filter(Boolean).join(", "))+'</span>'+ph+'</span>','data-id="'+esc(p.id)+'"',callLink(p));
+  }).join("")||'<li class="empty">No one matches.</li>';
+}
+$("dirBtn").onclick=()=>{$("dirQ").value="";renderDir();$("dir").showModal()};
+$("dirQ").addEventListener("input",renderDir);
+$("dirF").addEventListener("click",e=>{const b=e.target.closest("[data-f]");if(!b)return;dirFilter=b.dataset.f;renderDir()});
+$("dirList").addEventListener("click",e=>{if(e.target.closest("a"))return;const b=e.target.closest("button.rowbtn[data-id]");if(b)openView([b.dataset.id])});
 
 /* ---------- editing ---------- */
 function fillDM(dSel,mSel){
@@ -456,13 +637,17 @@ function formRec(){
     bd:+$("bD").value,bm:+$("bM").value,by:+$("bY").value||0,
     wd:+$("wD").value,wm:+$("wM").value,wy:+$("wY").value||0,
     father:$("fFather").value.replace(/\s+/g," ").trim(),spouse:$("fSpouse").value.replace(/\s+/g," ").trim(),
-    area:$("fArea").value.replace(/\s+/g," ").trim()};
+    area:$("fArea").value.replace(/\s+/g," ").trim(),
+    phone:$("fPhone").value.replace(/\s+/g," ").trim(),status:$("fStatus").value,
+    nameTa:$("fNameTa").value.trim(),fatherTa:$("fFatherTa").value.trim(),spouseTa:$("fSpouseTa").value.trim(),areaTa:$("fAreaTa").value.trim()};
 }
 function updatePreview(){
   const r=formRec();
   $("spLbl").textContent=r.g==="F"?"Husband's name":r.g==="M"?"Wife's name":"Husband's / wife's name";
-  const d=detail(r);
-  $("pv").textContent=(validDM(r.bd,r.bm)?String(r.bd).padStart(2,"0")+" "+MON[r.bm-1]:"DD Mon")+" – "+(r.name||"Name")+(d?" ("+d+")":"");
+  const d=detail(r),dt=detail(r,true),day=validDM(r.bd,r.bm);
+  $("pv").textContent=(day?String(r.bd).padStart(2,"0")+" "+MON[r.bm-1]:"DD Mon")+" – "+(r.name||"Name")+(d?" ("+d+")":"");
+  $("pvTa").textContent=(day?String(r.bd).padStart(2,"0")+" "+TA_MON[r.bm-1]:"")+" – "+(nameOf(r,true)||"")+(dt?" ("+dt+")":"");
+  $("fNameTa").placeholder=ta(r.name);$("fFatherTa").placeholder=ta(r.father);$("fSpouseTa").placeholder=ta(r.spouse);$("fAreaTa").placeholder=ta(r.area);
 }
 function openEditor(p){
   editId=p?p.id:null; delArmed=false;
@@ -472,11 +657,14 @@ function openEditor(p){
   $("bD").value=p?p.bd||0:0;$("bM").value=p?p.bm||0:0;$("bY").value=p&&p.by?p.by:"";
   $("wD").value=p?p.wd||0:0;$("wM").value=p?p.wm||0:0;$("wY").value=p&&p.wy?p.wy:"";
   $("fFather").value=p?p.father:"";$("fSpouse").value=p?p.spouse:"";$("fArea").value=p?p.area:"";
+  $("fPhone").value=p?String(p.phone||"").replace(/^'/,""):"";$("fStatus").value=p?p.status||"":"";
+  $("fNameTa").value=p?p.nameTa||"":"";$("fFatherTa").value=p?p.fatherTa||"":"";$("fSpouseTa").value=p?p.spouseTa||"":"";$("fAreaTa").value=p?p.areaTa||"":"";
+  $("taBox").open=!!(p&&(p.nameTa||p.fatherTa||p.spouseTa||p.areaTa));
   $("delBtn").hidden=!p;$("delBtn").textContent="Delete";$("fErr").textContent="";
   updatePreview();$("ed").showModal();
   if(!p) setTimeout(()=>$("fName").focus(),50);
 }
-["fName","fFather","fSpouse","fArea","bD","bM"].forEach(id=>$(id).addEventListener("input",updatePreview));
+["fName","fFather","fSpouse","fArea","bD","bM","fNameTa","fFatherTa","fSpouseTa","fAreaTa"].forEach(id=>$(id).addEventListener("input",updatePreview));
 document.querySelectorAll('input[name=g]').forEach(r=>r.addEventListener("change",updatePreview));
 $("saveBtn").onclick=async()=>{
   const r=formRec(),err=$("fErr");
@@ -492,7 +680,7 @@ $("saveBtn").onclick=async()=>{
   try{
     accept(await api("save",{member:Object.assign({id:editId||""},r)}));
     $("ed").close();toast(editId?"Saved":"Added "+r.name);
-    if(!editId){S.anchor=noon(new Date(new Date().getFullYear(),r.bm-1,r.bd));render()}
+    if(!editId&&!$("dir").open){S.anchor=noon(new Date(new Date().getFullYear(),r.bm-1,r.bd));render()}
   }catch(e){err.textContent=ERR[e.code]||("Couldn't save: "+e.message)}
   $("saveBtn").disabled=false;$("saveBtn").textContent="Save";
 };
@@ -504,13 +692,9 @@ $("delBtn").onclick=async()=>{
   $("delBtn").disabled=false;
 };
 $("list").addEventListener("click",e=>{
-  if(!canEdit)return;
   const b=e.target.closest("button.rowbtn");if(!b)return;
-  if(b.dataset.id){const p=byId[b.dataset.id];if(p)openEditor(p);return}
-  const ids=(b.dataset.ids||"").split(",").filter(id=>byId[id]);
-  if(ids.length===1){openEditor(byId[ids[0]]);return}
-  $("pickList").innerHTML=ids.map(id=>'<button class="btn" type="button" data-pick="'+esc(id)+'">'+esc(byId[id].name)+'</button>').join("");
-  $("pick").showModal();
+  if(b.dataset.id){openView([b.dataset.id]);return}
+  openView((b.dataset.ids||"").split(","));
 });
 $("pickList").addEventListener("click",e=>{const b=e.target.closest("[data-pick]");if(!b)return;$("pick").close();openEditor(byId[b.dataset.pick])});
 $("addBtn").onclick=()=>openEditor(null);
@@ -555,15 +739,22 @@ function parseWorkbook(wb){
       if(name<0) name=hdr.findIndex(v=>/name/.test(v)&&!/father|spouse|mother|husband|wife|guardian|parent/.test(v));
       if(dob<0||name<0) continue;
       const fa=find(/father/),sp=find(/spouse|husband|wife/),ar=find(/^area$|locality/),ad=find(/address/),
-            oc=find(/occupation|profession/),wed=find(/wedding|marriage|anniversary/),gen=find(/^(gender|sex)$/),st=find(/^status$/);
+            oc=find(/occupation|profession/),wed=find(/wedding|marriage|anniversary/),gen=find(/^(gender|sex)$/),st=find(/^status$/),
+            ph=hdr.findIndex(v=>/phone|mobile|telephone|contact/.test(v)&&!/whatsapp|tamil/.test(v)),wa=find(/whatsapp/),
+            nTa=find(/^name \(tamil\)$/),fTa=hdr.findIndex(v=>/father/.test(v)&&/tamil/.test(v)),sTa=hdr.findIndex(v=>/husband|wife|spouse/.test(v)&&/tamil/.test(v)),aTa=find(/^area \(tamil\)$/);
+      const cellStr=v=>v==null?"":(typeof v==="number"?String(Math.round(v)):String(v)).trim();
       const out=[];
       for(const r of rows.slice(h+1)){
         if(!r||!r[name]) continue;
-        const s=st>=0?String(r[st]??"").trim():""; if(s&&s!=="0") continue;
+        const s=st>=0?String(r[st]??"").trim().toLowerCase():"";
+        if(/^dup/.test(s)) continue;   // rows marked as duplicates are left out
+        const status=!s||s==="0"||s==="active"?"":/^(deceas|late|died)/.test(s)?"deceased":/^(left|transfer|moved|not )/.test(s)?"left":"inactive";
         const b=readDate(r,dob),w=readDate(r,wed);
         const useArea=ar>=0&&r[ar];
         out.push({name:r[name],father:fa>=0?r[fa]:"",spRaw:sp>=0?String(r[sp]??""):"",area:areaOf(useArea?r[ar]:(ad>=0?r[ad]:""),!!useArea),
-          bd:b[0],bm:b[1],by:b[2],wd:w[0],wm:w[1],wy:w[2],gen:gen>=0?String(r[gen]??""):"",occ:oc>=0?String(r[oc]??"").toLowerCase():""});
+          bd:b[0],bm:b[1],by:b[2],wd:w[0],wm:w[1],wy:w[2],gen:gen>=0?String(r[gen]??""):"",occ:oc>=0?String(r[oc]??"").toLowerCase():"",
+          phone:cellStr(ph>=0?r[ph]:"")||cellStr(wa>=0?r[wa]:""),status,
+          nameTa:cellStr(nTa>=0?r[nTa]:""),fatherTa:cellStr(fTa>=0?r[fTa]:""),spouseTa:cellStr(sTa>=0?r[sTa]:""),areaTa:cellStr(aTa>=0?r[aTa]:"")});
       }
       if(out.length) return out;
     }
@@ -586,7 +777,8 @@ function sheetToRecords(raw,hints){
       else if(/\(wife\)/i.test(r.spRaw)||/^mr\b/i.test(String(r.name))) g="M";
     }
     const wv=validDM(r.wd,r.wm);
-    P.push({key,name,g,father:/[a-z]{2,}/i.test(fa)?fa:"",spouse,area:r.area||"",bd:r.bd,bm:r.bm,by:r.by||0,wd:wv?r.wd:0,wm:wv?r.wm:0,wy:wv?(r.wy||0):0});
+    P.push({key,name,g,father:/[a-z]{2,}/i.test(fa)?fa:"",spouse,area:r.area||"",bd:r.bd,bm:r.bm,by:r.by||0,wd:wv?r.wd:0,wm:wv?r.wm:0,wy:wv?(r.wy||0):0,
+      phone:r.phone||"",status:r.status||"",nameTa:r.nameTa||"",fatherTa:r.fatherTa||"",spouseTa:r.spouseTa||"",areaTa:r.areaTa||""});
   }
   // find couples
   const partner=P.map(()=>null);
@@ -609,7 +801,8 @@ function sheetToRecords(raw,hints){
       const fem=P.some(x=>x!==p&&x.g==="F"&&x.area===p.area&&sim(x.name,p.spouse)>=.9);
       if(!(p.g==="F"&&fem)) spouse=p.spouse;
     }
-    return {name:p.name,g:p.g,bd:p.bd,bm:p.bm,by:p.by,wd:p.wd,wm:p.wm,wy:p.wy,father:p.father,spouse,area:p.area};
+    return {name:p.name,g:p.g,bd:p.bd,bm:p.bm,by:p.by,wd:p.wd,wm:p.wm,wy:p.wy,father:p.father,spouse,area:p.area,
+      phone:p.phone,status:p.status,nameTa:p.nameTa,fatherTa:p.fatherTa,spouseTa:p.spouseTa,areaTa:p.areaTa};
   });
 }
 
@@ -625,38 +818,65 @@ $("file").onchange=async e=>{
   const hints={};members.forEach(p=>hints[keyOf(p.name,p.bd,p.bm)]=p.g);
   const recs=sheetToRecords(raw,hints);
   if(!recs.length){toast("No rows with a name and birthday found.");return}
+  // match sheet rows to people already in the app: same name and birthday, or a close spelling of the name with the same birthday
   const have={};members.forEach(p=>have[keyOf(p.name,p.bd,p.bm)]=p);
-  const inSheet=new Set(recs.map(r=>keyOf(r.name,r.bd,r.bm)));
-  const fresh=recs.filter(r=>!have[keyOf(r.name,r.bd,r.bm)]);
-  const missing=members.filter(p=>!inSheet.has(keyOf(p.name,p.bd,p.bm)));
-  pending={file:f.name,recs,fresh,missing,have};
+  const sameNameish=(a,b)=>{const ta_=toks(a),tb=toks(b);if(!ta_.length||!tb.length)return false;const [x,y]=ta_.length<=tb.length?[ta_,tb]:[tb,ta_];return x.every(w=>y.some(v=>1-lev(w,v)/Math.max(w.length,v.length)>=.8))};
+  const used=new Set();
+  const matchOf=r=>{
+    let ex=have[keyOf(r.name,r.bd,r.bm)];
+    if(!ex)ex=members.find(p=>p.bd===r.bd&&p.bm===r.bm&&(!p.by||!r.by||p.by===r.by)&&sameNameish(p.name,r.name));
+    if(ex)used.add(ex.id);return ex||null;
+  };
+  const FILL=["phone","father","spouse","area","nameTa","fatherTa","spouseTa","areaTa"];
+  const matched=[],fresh=[],fills=[];
+  for(const r of recs){
+    const ex=matchOf(r);
+    if(!ex){fresh.push(r);continue}
+    matched.push([r,ex]);
+    const patch={};
+    FILL.forEach(f=>{if(!ex[f]&&r[f])patch[f]=r[f]});
+    if(!ex.by&&r.by)patch.by=r.by;
+    if(!ex.wd&&r.wd){patch.wd=r.wd;patch.wm=r.wm;if(r.wy)patch.wy=r.wy}
+    if(!ex.status&&r.status)patch.status=r.status;
+    if(Object.keys(patch).length)fills.push(Object.assign({id:ex.id},patch));
+  }
+  const matchedIds=new Set(matched.map(m=>m[1].id));
+  const missing=members.filter(p=>!matchedIds.has(p.id));
+  pending={file:f.name,recs,fresh,missing,matched,fills};
   $("impFile").textContent=f.name;
-  $("impSummary").innerHTML='<li><b>'+recs.length+'</b> people in the sheet</li><li><b>'+fresh.length+'</b> new, not in the app yet</li><li><b>'+(recs.length-fresh.length)+'</b> already in the app</li>'+(members.length?'<li><b>'+missing.length+'</b> in the app but not in this sheet</li>':'');
+  const withPhone=fills.filter(x=>x.phone).length,withStatus=fresh.filter(r=>r.status).length+fills.filter(x=>x.status).length;
+  $("impSummary").innerHTML='<li><b>'+recs.length+'</b> people in the sheet</li><li><b>'+fresh.length+'</b> new, not in the app yet'+(withStatus?' ('+withStatus+' marked inactive, deceased or left)':'')+'</li><li><b>'+fills.length+'</b> already in the app will get missing details'+(withPhone?' ('+withPhone+' phone numbers)':'')+'</li>'+(members.length?'<li><b>'+missing.length+'</b> in the app but not in this sheet</li>':'');
   $("impNote").textContent="Changes are saved to your Google Sheet, so everyone sees them.";
-  $("impAdd").textContent=fresh.length?"Add the "+fresh.length+" new "+(fresh.length===1?"person":"people"):"No new people to add";
-  $("impAdd").disabled=!fresh.length;
+  $("impAdd").textContent=(fresh.length||fills.length)?"Add "+fresh.length+" new and fill in "+fills.length:"Nothing new to add";
+  $("impAdd").disabled=!(fresh.length||fills.length);
   $("impProg").textContent="";["impAdd","impReplace"].forEach(id=>$(id).hidden=false);
   $("imp").showModal();
 };
+function chunk(list){const out=[];let cur=[],len=0;for(const m of list){const n=encodeURIComponent(JSON.stringify(m)).length+3;if(cur.length&&len+n>4500){out.push(cur);cur=[];len=0}cur.push(m);len+=n}if(cur.length)out.push(cur);return out}
 async function applyImport(mode){
   const p=pending;if(!p)return;
   ["impAdd","impReplace"].forEach(id=>$(id).disabled=true);
-  const list=mode==="replace"?p.recs.map(r=>{const ex=p.have[keyOf(r.name,r.bd,r.bm)];return Object.assign({id:ex?ex.id:""},r)}):p.fresh;
-  // send in small groups so each link stays short
-  const chunks=[];let cur=[],len=0;
-  for(const m of list){const n=encodeURIComponent(JSON.stringify(m)).length+3;if(cur.length&&len+n>4500){chunks.push(cur);cur=[];len=0}cur.push(m);len+=n}
-  if(cur.length||!chunks.length)chunks.push(cur);
-  let saved=0;
+  // each step: [action, extra data, how many people]
+  const steps=[];
+  if(mode==="replace"){
+    const idOf=new Map(p.matched.map(([r,ex])=>[r,ex.id]));
+    const list=p.recs.map(r=>Object.assign({id:idOf.get(r)||""},r));
+    chunk(list).forEach((c,i)=>steps.push(["import",{mode:i===0?"replace":"add",members:c},c.length]));
+  } else {
+    chunk(p.fills).forEach(c=>steps.push(["patch",{members:c},c.length]));
+    chunk(p.fresh).forEach(c=>steps.push(["import",{mode:"add",members:c},c.length]));
+  }
+  const total=steps.reduce((a,s)=>a+s[2],0);let saved=0;
   try{
-    for(let i=0;i<chunks.length;i++){
-      $("impProg").textContent="Saving "+saved+" of "+list.length+"…";
-      const last=i===chunks.length-1;
-      const j=await api("import",{mode:(mode==="replace"&&i===0)?"replace":"add",members:chunks[i]},!last);
-      saved+=chunks[i].length;
+    for(let i=0;i<steps.length;i++){
+      $("impProg").textContent="Saving "+saved+" of "+total+"…";
+      const last=i===steps.length-1;
+      const j=await api(steps[i][0],steps[i][1],!last);
+      saved+=steps[i][2];
       if(last)accept(j);
     }
-    $("imp").close();toast(mode==="replace"?"List replaced with "+p.file:"Added "+p.fresh.length+" new "+(p.fresh.length===1?"person":"people"));
-  }catch(e){$("impProg").textContent=(ERR[e.code]||("Couldn't save: "+e.message))+(saved?" "+saved+" of "+list.length+" were saved. Load the sheet again to finish.":"");refresh(true)}
+    $("imp").close();toast(mode==="replace"?"List replaced with "+p.file:"Added "+p.fresh.length+", filled in "+p.fills.length);
+  }catch(e){$("impProg").textContent=(ERR[e.code]||("Couldn't save: "+e.message))+(saved?" "+saved+" of "+total+" were saved. Load the sheet again to finish.":"");refresh(true)}
   ["impAdd","impReplace"].forEach(id=>$(id).disabled=false);pending=null;
 }
 $("impAdd").onclick=()=>applyImport("add");
@@ -681,8 +901,9 @@ $("jump").onchange=e=>{if(e.target.value){const [y,m,d]=e.target.value.split("-"
 $("sort").onchange=e=>{S.sort=e.target.value;render()};
 $("weekStart").onchange=e=>{S.weekStart=+e.target.value;render()};
 $("tBday").onclick=()=>{S.showB=!S.showB;render()};
+$("tLang").onclick=()=>{S.lang=tamil()?"en":"ta";render()};
 $("tWed").onclick=()=>{S.showW=!S.showW;render()};
-$("copyNames").onclick=()=>{const n=[...(S.showB?cur.b.map(o=>o.it.name):[]),...(S.showW?cur.w.map(o=>o.it.label):[])];copy(n.join("\n"),"Copied "+n.length+(n.length===1?" name":" names"))};
+$("copyNames").onclick=()=>{const tm=tamil();const n=[...(S.showB?cur.b.map(o=>nameOf(o.it,tm)):[]),...(S.showW?cur.w.map(o=>wLabel(o.it,tm)):[])];copy(n.join("\n"),"Copied "+n.length+(n.length===1?" name":" names"))};
 $("copyMsg").onclick=()=>copy(buildMessage(),"List copied");
 // swipe left/right on the list to move dates
 let sx=null,sy=null;
@@ -697,7 +918,7 @@ function setStatus(t){$("status").textContent=t}
 const API=((window.APP_CONFIG&&window.APP_CONFIG.apiUrl)||"").trim();
 const API_OK=/^https:\/\/script\.google\.com\/.+\/exec$/.test(API);
 const ERR={bad_pin:"That PIN isn't right.",locked:"Too many wrong tries. Wait 15 minutes and try again.",pins_not_set:"The PINs in the Google script haven't been changed yet. Set them, then deploy again.",view_only:"This PIN can only view the list.",network:"Can't reach the list. Check your internet and try again."};
-const APP_VERSION="v3";
+const APP_VERSION="v5";
 // Three ways to reach the Google script. Browsers differ in what they allow, so the app tries each
 // and remembers the one that works on this phone.
 let cbN=0;
@@ -753,7 +974,10 @@ async function api(action,extra,quiet){
   return j;
 }
 function cleanList(list){
-  return (list||[]).map(p=>{const o={id:String(p.id||""),name:String(p.name||""),g:p.g==="F"?"F":"M",father:String(p.father||""),spouse:String(p.spouse||""),area:String(p.area||"")};
+  return (list||[]).map(p=>{
+    const o={id:String(p.id||""),name:String(p.name||""),g:p.g==="F"?"F":"M",status:["inactive","deceased","left"].includes(p.status)?p.status:""};
+    ["father","spouse","area","phone","nameTa","fatherTa","spouseTa","areaTa"].forEach(k=>o[k]=String(p[k]==null?"":p[k]).replace(/^'/,"").trim());
+    if(/^(single|unmarried|nil|none|na|n\/a|-+)$/i.test(o.spouse))o.spouse="";
     ["bd","bm","by","wd","wm","wy"].forEach(k=>o[k]=+p[k]||0);return o});
 }
 function accept(j){
