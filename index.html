@@ -9,7 +9,7 @@
 <title>Birthdays &amp; Wedding Days</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Noto+Sans+Tamil:wght@400;600;700;800&display=swap" rel="stylesheet">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" href="icon-192.png">
 <link rel="apple-touch-icon" href="icon-192.png">
@@ -79,6 +79,88 @@ details.ta summary{cursor:pointer;padding:8px 0;font-size:.88rem;font-weight:600
 .logi b{font-weight:700}
 .logi .sub{display:block}
 .custom{color:var(--gold);font-size:.72rem;font-weight:700;margin-left:4px}
+.badgecount{position:absolute;top:-4px;right:-4px;min-width:18px;height:18px;border-radius:9px;background:#C0392B;color:#fff;font-size:.68rem;font-weight:700;display:grid;place-items:center;padding:0 4px}
+#moreBtn{position:relative}
+.tag{display:inline-block;font-size:.68rem;font-weight:700;padding:1px 7px;border-radius:999px;margin-right:6px;vertical-align:1px;background:var(--line);color:var(--ink)}
+.tag.new{background:#DDF2E5;color:#135C33}.tag.change{background:#E4E5FA;color:#2A2E8C}.tag.public{background:#FFF1CC;color:#6B4E10}.tag.presenter{background:#F7DDE9;color:#7A1F4B}
+.tag.Approved{background:#DDF2E5;color:#135C33}.tag.Rejected{background:#F9DEDC;color:#8C1D18}.tag.Pending{background:#FFF1CC;color:#6B4E10}
+.difft{width:100%;border-collapse:collapse;font-size:.88rem;margin-top:8px}
+.difft th,.difft td{text-align:left;padding:6px 4px;border-bottom:1px solid var(--line);vertical-align:top}
+.difft th{color:var(--muted);font-weight:600;width:32%}
+.difft .old{color:var(--muted);text-decoration:line-through}
+.difft .newv{font-weight:600}
+.warnbox{background:#FFF1CC;color:#5A4108;border-radius:10px;padding:10px 12px;font-size:.86rem;margin:10px 0}
+.opts label{display:flex;gap:8px;align-items:flex-start;margin:8px 0;font-size:.9rem;color:var(--ink)}
+.revfoot{flex-wrap:wrap}
+.notebox{margin-top:12px}
+.notebox textarea{min-height:70px}
+dialog.wide{max-width:1100px}
+@media (min-width:600px){dialog.wide{width:calc(100vw - 48px)}}
+.presgrid{display:grid;gap:16px}
+@media (min-width:860px){.presgrid{grid-template-columns:1fr 300px}}
+.previewbox{position:relative;width:100%;aspect-ratio:16/9;border-radius:10px;overflow:hidden;background:#0B1026;border:1px solid var(--line)}
+.previewbox iframe{position:absolute;inset:0;width:100%;height:100%;border:0;pointer-events:none}
+.presnav{display:flex;align-items:center;gap:10px;margin-top:10px}
+.presnav .btn{flex:1}
+.ppage{min-width:90px;text-align:center;font-weight:700}
+.center{text-align:center}
+.presside{display:grid;gap:10px;align-content:start}
+.btn.big{min-height:52px;font-size:1rem}
+.seg2{display:grid;grid-auto-flow:column;grid-auto-columns:1fr;background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:3px;gap:3px}
+.seg2 button{border:0;background:transparent;padding:8px 0;border-radius:8px;font-weight:600;color:var(--muted);cursor:pointer}
+.seg2 button[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
+.prange{display:flex;align-items:center;gap:8px;justify-content:space-between}
+.prange b{text-align:center;flex:1}
+.arrow.sm{height:36px;width:36px}
+.dmy.two{grid-template-columns:1fr 1.3fr}
+/* public form */
+.join{min-height:100vh;min-height:100dvh;padding:16px}
+.jwrap{max-width:620px;margin:0 auto}
+.jhead{text-align:center;margin-bottom:12px}
+.jhead h1{font-size:1.5rem;margin:6px 0 2px}
+.jhead h2{display:block;font-family:var(--display);font-size:1.15rem;margin:14px 0 6px}
+.jhead p{margin:0;color:var(--muted);font-size:.88rem}
+.jlogo{width:56px;height:56px;border-radius:14px}
+.jcard{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:4px 14px 14px;margin-bottom:12px}
+.jcard h3{font-family:var(--display);font-size:1.05rem;margin:12px 0 0;display:flex;justify-content:space-between;align-items:center}
+.jcard label,.jcard .lbl{display:block;font-size:.8rem;color:var(--muted);margin:10px 0 4px}
+.jcard input[type=text],.jcard input[type=tel],.jcard input[type=number],.jcard select{width:100%;border:1px solid var(--line);border-radius:10px;background:var(--bg);padding:9px 10px;font-size:16px}
+.jcard .req::after{content:" *";color:#C0392B}
+.jcard .ex{font-size:.76rem;color:var(--muted);margin-top:3px}
+.jcard .linkbtn.rm{color:#B42318}
+.consent{display:flex;gap:10px;align-items:flex-start;font-size:.84rem;margin:16px 0 4px;line-height:1.45}
+.consent input{margin-top:4px;flex:none;width:18px;height:18px}
+.hpot{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+#jSubmit{width:100%;margin-top:8px}
+#jAdd{width:100%}
+.jdone{text-align:center;padding:40px 10px}
+/* projected screen */
+.display{position:fixed;inset:0;background:#05081A;overflow:hidden;cursor:default}
+.stage{position:absolute;left:50%;top:50%;width:1920px;height:1080px;transform-origin:center center;
+  background:radial-gradient(1200px 700px at 15% 0%,#1F2758 0%,transparent 60%),linear-gradient(160deg,#0D1233 0%,#070A1C 100%);
+  color:#F3F4FB;font-family:"Noto Sans Tamil","Nirmala UI",var(--body);padding:70px 110px;box-sizing:border-box;display:flex;flex-direction:column}
+.stage.blank{background:#000}
+.stage.blank>*{display:none}
+.sl-head{display:flex;align-items:baseline;justify-content:space-between;gap:40px;border-bottom:3px solid rgba(242,190,58,.35);padding-bottom:22px;margin-bottom:26px}
+.sl-title{font-size:76px;font-weight:800;color:#F2BE3A;line-height:1.1}
+.wed .sl-title{color:#F49BC1}.wed .sl-head{border-color:rgba(244,155,193,.35)}
+.sl-range{font-size:40px;color:#B8BFE0;white-space:nowrap}
+.sl-rows{flex:1;display:flex;flex-direction:column;gap:14px}
+.sl-row{display:flex;align-items:center;gap:36px;height:104px}
+.sl-day{flex:none;width:190px;height:96px;border-radius:18px;background:rgba(242,190,58,.14);color:#F2BE3A;display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1.05}
+.wed .sl-day{background:rgba(244,155,193,.14);color:#F49BC1}
+.sl-day b{font-size:46px}.sl-day span{font-size:24px;font-weight:600}
+.sl-txt{min-width:0;flex:1}
+.sl-name{font-size:56px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.25}
+.sl-sub{font-size:31px;color:#B8BFE0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.3}
+.sl-foot{display:flex;justify-content:flex-end;font-size:30px;color:#7F88B8;margin-top:10px}
+.sl-empty{flex:1;display:grid;place-items:center;font-size:60px;color:#B8BFE0;text-align:center}
+.sl-mark{color:#F2BE3A;font-size:40px;vertical-align:super}
+.fshint{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:rgba(255,255,255,.12);color:#fff;padding:10px 18px;border-radius:999px;font:15px var(--body)}
+
+.jcard .seg label{display:flex;margin:0;font-size:.9rem;color:var(--ink)}
+.jcard label>input,.jcard label>select{margin-top:4px}
+
 .spin svg{animation:spin 1s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}
 @media (prefers-reduced-motion:reduce){.spin svg{animation:none}}
 body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.45 var(--body);-webkit-font-smoothing:antialiased;padding-bottom:calc(80px + env(safe-area-inset-bottom,0px));overflow-x:hidden}
@@ -191,6 +273,41 @@ dialog input[type=text],dialog input[type=number],dialog select{width:100%;borde
 </style>
 </head>
 <body>
+<!-- public form: …/birthdays/#join -->
+<section id="join" class="join" hidden>
+  <div class="jwrap">
+    <header class="jhead">
+      <img src="icon-192.png" alt="" class="jlogo">
+      <h1>Bethesda Prayer House</h1>
+      <p>13/58, MTH Road, Thiruvalluvar Nagar, Ambattur, Chennai - 53</p>
+      <h2>Member details form <span lang="ta">/ உறுப்பினர் விவரப் படிவம்</span></h2>
+      <p class="sub">Please fill in your details so we can remember your birthday and wedding day in prayer. You can add your whole family in one go.<br><span lang="ta">உங்கள் பிறந்தநாள், திருமண நாளில் ஜெபத்தில் நினைவுகூர உங்கள் விவரங்களை நிரப்பவும். உங்கள் குடும்பத்தினர் அனைவரையும் ஒரே முறையில் சேர்க்கலாம்.</span></p>
+    </header>
+    <form id="jForm" novalidate>
+      <div id="jPeople"></div>
+      <button class="btn" id="jAdd" type="button">+ Add a family member / குடும்ப உறுப்பினரைச் சேர்</button>
+      <div class="hpot" aria-hidden="true"><label>Leave this empty<input id="jHp" type="text" tabindex="-1" autocomplete="off"></label></div>
+      <label class="consent"><input type="checkbox" id="jConsent">
+        <span>I agree that Bethesda Prayer House may keep these details to remember birthdays and wedding days, and to contact us about church activities. Only church staff can see them, and I can ask for them to be corrected or removed at any time. For anyone under 18, I am their parent or guardian.<br>
+        <span lang="ta">பிறந்தநாள், திருமண நாள்களை நினைவுகூரவும், சபை நிகழ்வுகள் குறித்து எங்களைத் தொடர்புகொள்ளவும் இந்த விவரங்களை பெதஸ்தா ஜெப வீடு வைத்துக்கொள்ள நான் சம்மதிக்கிறேன். சபைப் பணியாளர்கள் மட்டுமே இவற்றைப் பார்க்க முடியும்; எப்போது வேண்டுமானாலும் இவற்றைத் திருத்தவோ நீக்கவோ கேட்கலாம். 18 வயதுக்குட்பட்டவர்களுக்கு நானே பெற்றோர் அல்லது பாதுகாவலர்.</span></span>
+      </label>
+      <p class="err" id="jErr" role="alert"></p>
+      <button class="btn primary big" id="jSubmit" type="submit">Submit / சமர்ப்பி</button>
+    </form>
+    <div id="jDone" class="jdone" hidden>
+      <h2 style="display:block">Thank you! / நன்றி!</h2>
+      <p>Your details have been sent. They'll be added after the church office checks them.<br><span lang="ta">உங்கள் விவரங்கள் அனுப்பப்பட்டன. சபை அலுவலகம் சரிபார்த்த பிறகு சேர்க்கப்படும்.</span></p>
+      <button class="btn" id="jAgain" type="button">Fill in another form</button>
+    </div>
+  </div>
+</section>
+
+<!-- projected screen: …/birthdays/#display -->
+<section id="display" class="display" hidden>
+  <div class="stage" id="stage"></div>
+  <div class="fshint" id="fsHint">Click anywhere for full screen (or press F11)</div>
+</section>
+
 <section class="gate" id="gate" hidden>
   <div class="card">
     <img class="logo" src="icon-192.png" alt="">
@@ -217,7 +334,7 @@ dialog input[type=text],dialog input[type=number],dialog select{width:100%;borde
     <button class="icon solid" id="addBtn" type="button" aria-label="Add a member" title="Add a member" hidden>
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button>
   </div>
-  <div class="statusrow"><div class="status" id="status" role="status"></div><button class="linkbtn" id="installBtn" type="button" hidden>Install app</button></div>
+  <div class="statusrow"><div class="status" id="status" role="status"></div><button class="linkbtn" id="presentBtn" type="button" hidden>Present</button><button class="linkbtn" id="installBtn" type="button" hidden>Install app</button></div>
   <input type="file" id="file" accept=".xlsx,.xls,.csv" class="sr" aria-label="Choose a spreadsheet">
 
   <div class="modes" role="group" aria-label="Range">
@@ -291,7 +408,7 @@ dialog input[type=text],dialog input[type=number],dialog select{width:100%;borde
     <select id="fStatus"><option value="">Active</option><option value="inactive">Inactive</option><option value="deceased">Deceased</option><option value="left">Left the church</option></select>
     <details class="ta" id="taBox">
       <summary>Tamil spelling</summary>
-      <p class="sub">Filled in automatically. Type here only to correct it.</p>
+      <p class="sub">Shows the current Tamil spelling. Change just the part that's wrong.</p>
       <label for="fNameTa">Name in Tamil</label><input id="fNameTa" type="text" lang="ta" autocomplete="off">
       <label for="fFatherTa">Father's name in Tamil</label><input id="fFatherTa" type="text" lang="ta" autocomplete="off">
       <label for="fSpouseTa">Husband's / wife's name in Tamil</label><input id="fSpouseTa" type="text" lang="ta" autocomplete="off">
@@ -323,6 +440,8 @@ dialog input[type=text],dialog input[type=number],dialog select{width:100%;borde
 <dialog id="more" aria-labelledby="moreTitle">
   <div class="dhead"><h3 id="moreTitle">More</h3><button class="icon" type="button" data-close aria-label="Close">✕</button></div>
   <div class="dbody"><div class="menu">
+    <button class="btn" id="mAppr" type="button">Approvals</button>
+    <button class="btn" id="mMine" type="button">My submissions</button>
     <button class="btn" id="mAreas" type="button">Area names</button>
     <button class="btn" id="mWords" type="button">Tamil spellings</button>
     <button class="btn" id="mLog" type="button">Change log</button>
@@ -344,7 +463,7 @@ dialog input[type=text],dialog input[type=number],dialog select{width:100%;borde
     <p class="sub" id="areaEdCount"></p>
     <label for="aName">Area name</label><input id="aName" type="text" autocomplete="off">
     <label for="aTa">Tamil spelling</label><input id="aTa" type="text" lang="ta" autocomplete="off">
-    <p class="sub">Leave the Tamil box empty to use the automatic spelling.</p>
+    <p class="sub">Change just the part of the Tamil spelling that's wrong.</p>
     <p class="err" id="aErr"></p>
   </div>
   <div class="dfoot"><span class="grow"></span><button class="btn primary" id="aSave" type="button">Save for everyone</button></div>
@@ -384,6 +503,88 @@ dialog input[type=text],dialog input[type=number],dialog select{width:100%;borde
     <p class="err" id="whoErr"></p>
   </div>
   <div class="dfoot"><span class="grow"></span><button class="btn primary" id="whoSave" type="button">Save</button></div>
+</dialog>
+
+<!-- approvals (admin) -->
+<dialog id="appr" aria-labelledby="apprTitle">
+  <div class="dhead"><h3 id="apprTitle">Approvals</h3><button class="icon" type="button" data-close aria-label="Close">✕</button></div>
+  <div class="dbody"><p class="sub" id="apprCount"></p><ul class="people" id="apprList"></ul></div>
+</dialog>
+<dialog id="rev" aria-labelledby="revTitle">
+  <div class="dhead"><h3 id="revTitle">Review</h3><button class="icon" type="button" data-close aria-label="Close">✕</button></div>
+  <div class="dbody" id="revBody"></div>
+  <div class="dfoot revfoot">
+    <button class="btn danger" id="revReject" type="button">Reject</button>
+    <span class="grow"></span>
+    <button class="btn" id="revEdit" type="button">Edit, then approve</button>
+    <button class="btn primary" id="revApprove" type="button">Approve</button>
+  </div>
+</dialog>
+
+<!-- my submissions (front desk, presenter) -->
+<dialog id="mineDlg" aria-labelledby="mineTitle">
+  <div class="dhead"><h3 id="mineTitle">My submissions</h3><button class="icon" type="button" data-close aria-label="Close">✕</button></div>
+  <div class="dbody"><p class="sub">Everything you send waits here until the admin approves it.</p><ul class="people" id="mineList"></ul></div>
+</dialog>
+
+<!-- presenter control -->
+<dialog id="pres" class="wide" aria-labelledby="presTitle">
+  <div class="dhead"><h3 id="presTitle">Present on screen</h3><button class="icon" type="button" data-close aria-label="Close">✕</button></div>
+  <div class="dbody presbody">
+    <div class="presgrid">
+      <div>
+        <div class="previewbox"><iframe id="presPreview" title="Preview of the projected screen" tabindex="-1"></iframe></div>
+        <div class="presnav">
+          <button class="btn" id="pPrev" type="button" aria-label="Previous page">‹ Prev</button>
+          <span id="pPage" class="ppage"></span>
+          <button class="btn primary" id="pNext" type="button" aria-label="Next page">Next ›</button>
+        </div>
+        <p class="sub center">Keys: → or Page Down for next, ← or Page Up for previous, B to blank the screen. A mouse click on the projector also moves to the next page.</p>
+      </div>
+      <div class="presside">
+        <button class="btn primary big" id="pOpen" type="button">Open on second screen</button>
+        <button class="btn" id="pAllow" type="button" hidden>Allow using the second screen</button>
+        <p class="sub" id="pScreenNote"></p>
+        <div class="seg2" role="group" aria-label="Range">
+          <button type="button" data-pm="day">Day</button><button type="button" data-pm="week">Week</button><button type="button" data-pm="month">Month</button>
+        </div>
+        <div class="prange"><button class="arrow sm" id="prPrev" type="button" aria-label="Earlier">‹</button><b id="prLabel"></b><button class="arrow sm" id="prNext" type="button" aria-label="Later">›</button></div>
+        <div class="seg2" role="group" aria-label="Language">
+          <button type="button" data-pl="ta">தமிழ்</button><button type="button" data-pl="en">English</button>
+        </div>
+        <button class="btn" id="pBlank" type="button">Blank the screen</button>
+        <button class="btn" id="pAdd" type="button">+ Add a name for today</button>
+        <ul class="people" id="pAdhoc"></ul>
+      </div>
+    </div>
+  </div>
+</dialog>
+
+<!-- ad hoc name -->
+<dialog id="adhocDlg" aria-labelledby="adhocTitle">
+  <div class="dhead"><h3 id="adhocTitle">Add a name</h3><button class="icon" type="button" data-close aria-label="Close">✕</button></div>
+  <div class="dbody">
+    <p class="sub">Shows on the screen right away. It's also sent to the admin to approve for the main list.</p>
+    <div class="seg" role="radiogroup" aria-label="Type">
+      <label><input type="radio" name="aht" value="b" checked> Birthday</label>
+      <label><input type="radio" name="aht" value="w"> Wedding day</label>
+    </div>
+    <div id="ahB">
+      <label for="ahName">Name</label><input id="ahName" type="text" autocomplete="off">
+      <span class="lbl">Gender</span>
+      <div class="seg" role="radiogroup" aria-label="Gender"><label><input type="radio" name="ahg" value="M"> Male</label><label><input type="radio" name="ahg" value="F"> Female</label></div>
+      <label for="ahFather">Father's name (optional)</label><input id="ahFather" type="text" autocomplete="off">
+    </div>
+    <div id="ahW" hidden>
+      <label for="ahHus">Husband's name</label><input id="ahHus" type="text" autocomplete="off">
+      <label for="ahWife">Wife's name</label><input id="ahWife" type="text" autocomplete="off">
+    </div>
+    <span class="lbl" id="ahDLbl">Date</span>
+    <div class="dmy two" role="group" aria-labelledby="ahDLbl"><select id="ahD" aria-label="Day"></select><select id="ahM" aria-label="Month"></select></div>
+    <label for="ahArea">Area (optional)</label><input id="ahArea" type="text" list="areaList" autocomplete="off">
+    <p class="err" id="ahErr"></p>
+  </div>
+  <div class="dfoot"><span class="grow"></span><button class="btn primary" id="ahSave" type="button">Add to screen</button></div>
 </dialog>
 
 <!-- all members -->
@@ -444,7 +645,7 @@ function validDM(d,m){return d>=1&&m>=1&&m<=12&&d<=[31,29,31,30,31,30,31,31,30,3
 
 /* ---------- data ---------- */
 let members=[];
-let canEdit=false, isAdmin=false, live=false, who=lsGet("bd.who",""), TA_OVR=lsGet("bd.words",{});
+let canEdit=false, isAdmin=false, canSubmit=false, canPresent=false, live=false, who=lsGet("bd.who",""), TA_OVR=lsGet("bd.words",{});
 let byB={}, byW={}, byId={}, weddings=[];
 
 /* ---------- Tamil ---------- */
@@ -617,6 +818,7 @@ function render(){
   $("list").innerHTML=html;
   $("editHint").textContent=(nb+nw)?"Tap a name to see full details.":"";
   if($("dir").open)renderDir();
+  if(typeof refreshPres==="function")refreshPres();
   if($("view").open){viewIds=viewIds.filter(id=>byId[id]);if(viewIds.length)$("viewBody").innerHTML=viewIds.map(id=>recordCard(byId[id])).join("");else $("view").close()}
     const off=!(nb+nw);["copyNames","copyMsg"].forEach(id=>$(id).setAttribute("aria-disabled",off));
   lsSet("bd.sort",S.sort);lsSet("bd.ws",S.weekStart);lsSet("bd.showB",S.showB);lsSet("bd.showW",S.showW);
@@ -662,7 +864,7 @@ function recordCard(p){
   add("In the list as",esc(detail(p)||"—")+'<br><span class="sub" lang="ta">'+esc(detail(p,true)||"")+'</span>');
   const tel=telOf(p.phone);
   const acts=(tel?'<a class="btn callbtn" href="tel:'+esc(tel)+'">'+PHONE_SVG+'Call</a><button class="btn" type="button" data-copyph="'+esc(p.id)+'">Copy number</button>':'')+
-    (canEdit?'<button class="btn primary" type="button" data-edit="'+esc(p.id)+'">Edit</button>':'');
+    (canEdit?'<button class="btn primary" type="button" data-edit="'+esc(p.id)+'">Edit</button>':canSubmit?'<button class="btn primary" type="button" data-edit="'+esc(p.id)+'">Suggest a change</button>':'');
   return '<section class="rec"><h4>'+esc(p.name)+'</h4><p class="tn" lang="ta">'+esc(nameOf(p,true))+'</p><dl>'+rows.join("")+'</dl>'+(acts?'<div class="acts">'+acts+'</div>':'')+'</section>';
 }
 function openView(ids){
@@ -712,6 +914,15 @@ function fillDM(dSel,mSel){
 fillDM($("bD"),$("bM"));fillDM($("wD"),$("wM"));
 let editId=null, delArmed=false;
 function gVal(){const r=document.querySelector('input[name=g]:checked');return r?r.value:""}
+// Tamil boxes start filled with the current spelling. If it's left the same as the automatic one, nothing
+// is stored, so later fixes to the word list still apply to this person.
+const TA_PAIRS=[["fNameTa","fName"],["fFatherTa","fFather"],["fSpouseTa","fSpouse"],["fAreaTa","fArea"]];
+function taKeep(taId,enId){const v=$(taId).value.replace(/\s+/g," ").trim();const auto=ta($(enId).value.replace(/\s+/g," ").trim());return v&&v!==auto?v:""}
+TA_PAIRS.forEach(([tId,eId])=>{
+  $(tId).addEventListener("input",()=>{$(tId).dataset.touched="1"});
+  // until you change a Tamil box yourself, it follows the English name as you type
+  $(eId).addEventListener("input",()=>{if(!$(tId).dataset.touched)$(tId).value=ta($(eId).value.trim())});
+});
 function formRec(){
   return {name:$("fName").value.replace(/\s+/g," ").trim(),g:gVal(),
     bd:+$("bD").value,bm:+$("bM").value,by:+$("bY").value||0,
@@ -719,7 +930,7 @@ function formRec(){
     father:$("fFather").value.replace(/\s+/g," ").trim(),spouse:$("fSpouse").value.replace(/\s+/g," ").trim(),
     area:$("fArea").value.replace(/\s+/g," ").trim(),
     phone:$("fPhone").value.replace(/\s+/g," ").trim(),status:$("fStatus").value,
-    nameTa:$("fNameTa").value.trim(),fatherTa:$("fFatherTa").value.trim(),spouseTa:$("fSpouseTa").value.trim(),areaTa:$("fAreaTa").value.trim()};
+    nameTa:taKeep("fNameTa","fName"),fatherTa:taKeep("fFatherTa","fFather"),spouseTa:taKeep("fSpouseTa","fSpouse"),areaTa:taKeep("fAreaTa","fArea")};
 }
 function updatePreview(){
   const r=formRec();
@@ -729,18 +940,23 @@ function updatePreview(){
   $("pvTa").textContent=(day?String(r.bd).padStart(2,"0")+" "+TA_MON[r.bm-1]:"")+" – "+(nameOf(r,true)||"")+(dt?" ("+dt+")":"");
   $("fNameTa").placeholder=ta(r.name);$("fFatherTa").placeholder=ta(r.father);$("fSpouseTa").placeholder=ta(r.spouse);$("fAreaTa").placeholder=ta(r.area);
 }
-function openEditor(p){
-  editId=p?p.id:null; delArmed=false;
-  $("edTitle").textContent=p?"Edit member":"Add a member";
+let edMode="direct",edCtx={};
+function openEditor(p,opt){
+  opt=opt||{};edMode=opt.mode||(canEdit?"direct":"submit");edCtx=opt;
+  editId=p&&p.id?p.id:null; delArmed=false;
+  $("edTitle").textContent=edMode==="approve"?"Edit, then approve":edMode==="submit"?(p?"Suggest a change":"Add a member"):(p?"Edit member":"Add a member");
+  $("saveBtn").textContent=edMode==="approve"?"Approve":edMode==="submit"?"Send for approval":"Save";
   $("fName").value=p?p.name:"";
   document.querySelectorAll('input[name=g]').forEach(r=>r.checked=p?r.value===p.g:false);
   $("bD").value=p?p.bd||0:0;$("bM").value=p?p.bm||0:0;$("bY").value=p&&p.by?p.by:"";
   $("wD").value=p?p.wd||0:0;$("wM").value=p?p.wm||0:0;$("wY").value=p&&p.wy?p.wy:"";
   $("fFather").value=p?p.father:"";$("fSpouse").value=p?p.spouse:"";$("fArea").value=p?p.area:"";
   $("fPhone").value=p?String(p.phone||"").replace(/^'/,""):"";$("fStatus").value=p?p.status||"":"";
-  $("fNameTa").value=p?p.nameTa||"":"";$("fFatherTa").value=p?p.fatherTa||"":"";$("fSpouseTa").value=p?p.spouseTa||"":"";$("fAreaTa").value=p?p.areaTa||"":"";
+  $("fNameTa").value=p?(p.nameTa||ta(p.name)):"";$("fFatherTa").value=p?(p.fatherTa||ta(p.father)):"";$("fSpouseTa").value=p?(p.spouseTa||ta(p.spouse)):"";$("fAreaTa").value=p?(p.areaTa||ta(p.area)):"";
+  TA_PAIRS.forEach(([tId])=>{$(tId).dataset.touched=""});
+  if(p){if(p.nameTa)$("fNameTa").dataset.touched="1";if(p.fatherTa)$("fFatherTa").dataset.touched="1";if(p.spouseTa)$("fSpouseTa").dataset.touched="1";if(p.areaTa)$("fAreaTa").dataset.touched="1"}
   $("taBox").open=!!(p&&(p.nameTa||p.fatherTa||p.spouseTa||p.areaTa));
-  $("delBtn").hidden=!p||!isAdmin;$("delBtn").textContent="Delete";$("fErr").textContent="";
+  $("delBtn").hidden=!p||!isAdmin||edMode!=="direct";$("delBtn").textContent="Delete";$("fErr").textContent="";
   updatePreview();$("ed").showModal();
   if(!p) setTimeout(()=>$("fName").focus(),50);
 }
@@ -756,13 +972,24 @@ $("saveBtn").onclick=async()=>{
   if(r.by&&(r.by<1900||r.by>thisYear)){err.textContent="Birth year should be between 1900 and "+thisYear+".";return}
   if(r.wy&&(r.wy<1900||r.wy>thisYear)){err.textContent="Wedding year should be between 1900 and "+thisYear+".";return}
   if(!validDM(r.wd,r.wm)){r.wd=0;r.wm=0;r.wy=0}
+  const label=$("saveBtn").textContent;
   $("saveBtn").disabled=true;$("saveBtn").textContent="Saving…";
+  if(edMode==="submit"){
+    try{await api("submit",{items:[{memberId:editId||"",before:editId?byId[editId]:null,member:r}]});$("ed").close();toast("Sent to the admin for approval")}
+    catch(e){err.textContent=ERR[e.code]||("Couldn't send: "+e.message)}
+    $("saveBtn").disabled=false;$("saveBtn").textContent=label;return;
+  }
+  if(edMode==="approve"){
+    try{accept(await api("approve",{ref:edCtx.ref,memberId:edCtx.target||"",member:r}));$("ed").close();afterDecision(edCtx.ref);toast("Approved")}
+    catch(e){err.textContent=ERR[e.code]||("Couldn't approve: "+e.message)}
+    $("saveBtn").disabled=false;$("saveBtn").textContent=label;return;
+  }
   try{
     accept(await api("save",{member:Object.assign({id:editId||""},r)}));
     $("ed").close();toast(editId?"Saved":"Added "+r.name);
     if(!editId&&!$("dir").open){S.anchor=noon(new Date(new Date().getFullYear(),r.bm-1,r.bd));render()}
   }catch(e){err.textContent=ERR[e.code]||("Couldn't save: "+e.message)}
-  $("saveBtn").disabled=false;$("saveBtn").textContent="Save";
+  $("saveBtn").disabled=false;$("saveBtn").textContent=label;
 };
 $("delBtn").onclick=async()=>{
   if(!editId)return;
@@ -998,8 +1225,8 @@ function setStatus(t){$("status").textContent=t}
 /* ---------- connection to the Google Sheet ---------- */
 const API=((window.APP_CONFIG&&window.APP_CONFIG.apiUrl)||"").trim();
 const API_OK=/^https:\/\/script\.google\.com\/.+\/exec$/.test(API);
-const ERR={admin_only:"Only the admin PIN can do this.",bad_pin:"That PIN isn't right.",locked:"Too many wrong tries. Wait 15 minutes and try again.",pins_not_set:"The PINs in the Google script haven't been changed yet. Set them, then deploy again.",view_only:"This PIN can't make changes.",network:"Can't reach the list. Check your internet and try again."};
-const APP_VERSION="v7";
+const ERR={not_allowed:"This PIN can't do that.",admin_only:"Only the admin PIN can do this.",bad_pin:"That PIN isn't right.",locked:"Too many wrong tries. Wait 15 minutes and try again.",pins_not_set:"The PINs in the Google script haven't been changed yet. Set them, then deploy again.",view_only:"This PIN can't make changes.",network:"Can't reach the list. Check your internet and try again."};
+const APP_VERSION="v9";
 // Three ways to reach the Google script. Browsers differ in what they allow, so the app tries each
 // and remembers the one that works on this phone.
 let cbN=0;
@@ -1065,20 +1292,24 @@ function cleanList(list){
 function accept(j){
   setRole(j.role);
   if(j.words){TA_OVR=j.words;lsSet("bd.words",TA_OVR)}
+  if(j.adhoc)ADHOC_SERVER=j.adhoc;
+  if(j.pendingCount!=null)pendingCount=j.pendingCount;
   members=cleanList(j.members);lsSet("bd.cache",members);lastSync=Date.now();lsSet("bd.synced",lastSync);
   live=true;index();render();roleUI();statusText();
 }
 function ago(t){if(!t)return "";const m=Math.round((Date.now()-t)/60000);if(m<1)return "just now";if(m<60)return m+" min ago";const d=new Date(t);return d.getDate()+" "+MON[d.getMonth()]+", "+String(d.getHours()).padStart(2,"0")+":"+String(d.getMinutes()).padStart(2,"0")}
-function setRole(r){role=r==="edit"?"admin":r;canEdit=role==="editor"||role==="admin";isAdmin=role==="admin";lsSet("bd.role",role)}
-const ROLE_NAME={view:"view only",editor:"editor",admin:"admin"};
+function setRole(r){role=r==="edit"?"admin":r;canEdit=role==="editor"||role==="admin";isAdmin=role==="admin";canSubmit=role==="frontdesk"||role==="presenter";canPresent=role==="presenter"||canEdit;lsSet("bd.role",role)}
+const ROLE_NAME={view:"view only",frontdesk:"front desk",presenter:"presenter",editor:"editor",admin:"admin"};
 function statusText(off){setStatus(members.length+" members"+(off?". Offline, showing the list from "+ago(lastSync):", updated "+ago(lastSync))+" ("+(ROLE_NAME[role]||"view only")+")")}
 function roleUI(){
-  $("addBtn").hidden=!canEdit;
-  ["mAreas","mWords","mWho"].forEach(id=>$(id).hidden=!canEdit);
-  ["mLog","loadBtn"].forEach(id=>$(id).hidden=!isAdmin);
+  $("addBtn").hidden=!(canEdit||canSubmit);
+  ["mAreas","mWords"].forEach(id=>$(id).hidden=!canEdit);
+  $("mWho").hidden=!(canEdit||canSubmit);$("mMine").hidden=!canSubmit;
+  ["mLog","loadBtn","mAppr"].forEach(id=>$(id).hidden=!isAdmin);
+  $("presentBtn").hidden=!canPresent;setBadge();
   $("mWho").textContent="Your name: "+(who||"not set");
   $("mRole").textContent="Signed in as "+(ROLE_NAME[role]||"view only")+". App "+APP_VERSION+".";
-  if(canEdit&&!who&&$("app").hidden===false&&!$("whoDlg").open)askWho();
+  if((canEdit||canSubmit)&&!who&&$("app").hidden===false&&!$("whoDlg").open)askWho();
 }
 let syncing=false;
 async function refresh(quiet){
@@ -1119,7 +1350,7 @@ window.addEventListener("online",()=>refresh(true));
 
 /* ---------- more menu ---------- */
 $("moreBtn").onclick=()=>{roleUI();$("more").showModal()};
-["mAreas","mWords","mLog","loadBtn","mWho","lockBtn"].forEach(id=>$(id).addEventListener("click",()=>$("more").close(),true));
+["mAppr","mMine","mAreas","mWords","mLog","loadBtn","mWho","lockBtn"].forEach(id=>$(id).addEventListener("click",()=>$("more").close(),true));
 function askWho(){$("whoIn").value=who||"";$("whoErr").textContent="";$("whoDlg").showModal();setTimeout(()=>$("whoIn").focus(),50)}
 $("mWho").onclick=askWho;
 $("whoSave").onclick=()=>{const v=$("whoIn").value.replace(/\s+/g," ").trim();if(!v){$("whoErr").textContent="Enter your name.";return}who=v;lsSet("bd.who",who);$("whoDlg").close();roleUI();toast("Thanks, "+who)};
@@ -1140,16 +1371,17 @@ $("areaList2").addEventListener("click",e=>{
   const b=e.target.closest("[data-area]");if(!b)return;
   const gp=areaGroups().find(x=>x.name===b.dataset.area);if(!gp)return;
   areaEditing=gp;$("aName").value=gp.name;
-  const custom=gp.people.find(p=>p.areaTa);$("aTa").value=custom?custom.areaTa:"";$("aTa").placeholder=ta(gp.name);
+  const custom=gp.people.find(p=>p.areaTa);$("aTa").value=custom?custom.areaTa:ta(gp.name);$("aTa").placeholder=ta(gp.name);$("aTa").dataset.touched=custom?"1":"";
   $("areaEdCount").textContent=gp.people.length+(gp.people.length===1?" person lives":" people live")+" in this area.";
   $("aErr").textContent="";$("areaEd").showModal();
 });
-$("aName").addEventListener("input",()=>{$("aTa").placeholder=ta($("aName").value)});
+$("aName").addEventListener("input",()=>{$("aTa").placeholder=ta($("aName").value);if(!$("aTa").dataset.touched)$("aTa").value=ta($("aName").value.trim())});
+$("aTa").addEventListener("input",()=>{$("aTa").dataset.touched="1"});
 $("aSave").onclick=async()=>{
   const gp=areaEditing;if(!gp)return;
   const to=$("aName").value.replace(/\s+/g," ").trim();if(!to){$("aErr").textContent="Enter the area name.";return}
   $("aSave").disabled=true;$("aSave").textContent="Saving…";
-  try{accept(await api("area",{from:gp.name,to,toTa:$("aTa").value.trim()}));$("areaEd").close();renderAreas();toast("Area updated for "+gp.people.length+" people")}
+  try{accept(await api("area",{from:gp.name,to,toTa:(v=>v&&v!==ta(to)?v:"")($("aTa").value.replace(/\s+/g," ").trim())}));$("areaEd").close();renderAreas();toast("Area updated for "+gp.people.length+" people")}
   catch(e){$("aErr").textContent=ERR[e.code]||("Couldn't save: "+e.message)}
   $("aSave").disabled=false;$("aSave").textContent="Save for everyone";
 };
@@ -1172,7 +1404,8 @@ $("wordList").addEventListener("click",e=>{
   const b=e.target.closest("[data-word]");if(!b)return;
   const w=b.dataset.word;wordEditing=w;
   $("wordEdTitle").textContent=w.charAt(0).toUpperCase()+w.slice(1);
-  $("wTa").value=TA_OVR[w]||"";$("wTa").placeholder=(TA_WORDS[w]||(w.length===1?w.toUpperCase():phonetic(w)));
+  const autoW=TA_WORDS[w]||(w.length===1?w.toUpperCase():phonetic(w));
+  $("wTa").value=TA_OVR[w]||autoW;$("wTa").placeholder=autoW;$("wTa").dataset.auto=autoW;
   $("wUsed").textContent="Used "+(wordUse()[w]||0)+" times in names.";$("wErr").textContent="";$("wReset").hidden=!TA_OVR[w];
   $("wordEd").showModal();
 });
@@ -1183,7 +1416,8 @@ async function saveWord(val){
   catch(e){$("wErr").textContent=ERR[e.code]||("Couldn't save: "+e.message)}
   $("wSave").disabled=false;
 }
-$("wSave").onclick=()=>{const v=$("wTa").value.trim();if(!v){$("wErr").textContent="Type the Tamil spelling, or tap Use automatic.";return}saveWord(v)};
+$("wSave").onclick=()=>{const v=$("wTa").value.replace(/\s+/g," ").trim();if(!v){$("wErr").textContent="Type the Tamil spelling, or tap Use automatic.";return}
+  if(v===$("wTa").dataset.auto){if(TA_OVR[wordEditing])saveWord("");else $("wordEd").close();return}saveWord(v)};
 $("wReset").onclick=()=>saveWord("");
 
 /* ---------- change log ---------- */
@@ -1195,6 +1429,345 @@ $("mLog").onclick=async()=>{
       return '<li class="logi"><b>'+esc(l.action)+(l.person?': '+esc(l.person):'')+'</b><span class="sub">'+esc(when)+' by '+esc(l.who)+(l.role?' ('+esc(l.role)+')':'')+'</span><span>'+esc(l.details)+'</span></li>'}).join("")||'<li class="empty">No changes yet.</li>';
   }catch(e){$("logList").innerHTML='<li class="empty">'+esc(ERR[e.code]||e.message)+'</li>'}
 };
+
+/* ---------- shared helpers for approvals ---------- */
+function nameMatch(a,b){const x0=toks(a),y0=toks(b);if(!x0.length||!y0.length)return false;const [x,y]=x0.length<=y0.length?[x0,y0]:[y0,x0];return x.every(w=>y.some(v=>1-lev(w,v)/Math.max(w.length,v.length)>=.8))}
+function dateText(d,m,y){return validDM(d,m)?d+" "+MON[m-1]+(y?" "+y:""):""}
+function viewFields(m){
+  return [["Name",m.name],["Gender",m.g==="F"?"Female":"Male"],["Birthday",dateText(m.bd,m.bm,m.by)],["Father",m.father],
+    [m.g==="F"?"Husband":"Wife",m.spouse],["Wedding",dateText(m.wd,m.wm,m.wy)],["Area",m.area],["Phone",phoneText(m.phone||"")],
+    ["Status",STATUS[m.status||""]],["Tamil name",m.nameTa||""]].map(([k,v])=>[k,String(v==null?"":v)]);
+}
+function whenText(iso){const d=new Date(iso);return isNaN(d)?String(iso||""):d.getDate()+" "+MON[d.getMonth()]+", "+String(d.getHours()).padStart(2,"0")+":"+String(d.getMinutes()).padStart(2,"0")}
+function typeTag(p){return (p.source==="presenter"?'<span class="tag presenter">Ad hoc</span>':p.source==="public form"?'<span class="tag public">Public form</span>':"")+(p.type==="change"?'<span class="tag change">Change</span>':'<span class="tag new">New</span>')}
+let pendingCount=0,PENDING=[];
+function setBadge(){let b=$("moreBtn").querySelector(".badgecount");if(isAdmin&&pendingCount>0){if(!b){b=document.createElement("span");b.className="badgecount";$("moreBtn").appendChild(b)}b.textContent=pendingCount}else if(b)b.remove();$("mAppr").textContent="Approvals"+(isAdmin&&pendingCount?" ("+pendingCount+")":"")}
+
+/* ---------- approvals (admin) ---------- */
+async function loadPending(){
+  $("apprList").innerHTML='<li class="empty">Loading…</li>';
+  try{const j=await api("pending");PENDING=j.pending||[];pendingCount=PENDING.length;setBadge();renderAppr()}
+  catch(e){$("apprList").innerHTML='<li class="empty">'+esc(ERR[e.code]||e.message)+'</li>'}
+}
+function renderAppr(){
+  $("apprCount").textContent=PENDING.length?PENDING.length+" waiting for your approval. Tap one to review it.":"";
+  $("apprList").innerHTML=PENDING.map(p=>'<li class="li"><button type="button" class="rowbtn" data-ref="'+esc(p.ref)+'"><span class="nm">'+typeTag(p)+esc(p.member.name||"")+'<span class="sub">From '+esc(p.by)+' ('+esc(ROLE_NAME[p.role]||p.role)+'), '+esc(whenText(p.when))+(p.group?", family form":"")+'</span></span></button></li>').join("")||'<li class="empty">Nothing waiting. All caught up.</li>';
+}
+$("mAppr").onclick=()=>{$("appr").showModal();loadPending()};
+let revItem=null,rejArmed=false;
+$("apprList").addEventListener("click",e=>{const b=e.target.closest("[data-ref]");if(!b)return;const p=PENDING.find(x=>x.ref===b.dataset.ref);if(p)openReview(p)});
+function matchesFor(m){
+  return members.filter(p=>(validDM(m.bd,m.bm)&&p.bd===m.bd&&p.bm===m.bm&&nameMatch(p.name,m.name))||(m.phone&&p.phone&&telOf(p.phone)===telOf(m.phone)&&nameMatch(p.name,m.name))).slice(0,3);
+}
+function openReview(p){
+  revItem=p;rejArmed=false;$("revReject").textContent="Reject";
+  const m=p.member,cur=p.type==="change"?byId[p.memberId]:null;
+  let h='<p class="sub">'+typeTag(p)+'From <b>'+esc(p.by)+'</b> ('+esc(ROLE_NAME[p.role]||p.role)+'), '+esc(whenText(p.when))+'</p>';
+  if(cur){
+    if(p.before){const changedSince=viewFields(p.before).filter(([k,v],i)=>viewFields(cur)[i][1]!==v).map(x=>x[0]);
+      if(changedSince.length)h+='<div class="warnbox">Someone changed this person after the suggestion was made ('+esc(changedSince.join(", "))+'). Check the current values before approving.</div>'}
+    const a=viewFields(cur),b=viewFields(Object.assign({},cur,m));
+    const rows=a.map(([k,v],i)=>v!==b[i][1]?'<tr><th>'+esc(k)+'</th><td><span class="old">'+esc(v||"(blank)")+'</span><br><span class="newv">'+esc(b[i][1]||"(blank)")+'</span></td></tr>':"").join("");
+    h+='<h4>'+esc(cur.name)+'</h4>'+(rows?'<table class="difft">'+rows+'</table>':'<p class="sub">No differences from the current record.</p>');
+  } else {
+    if(p.type==="change")h+='<div class="warnbox">The person this change was for is no longer in the list. Approving adds them as a new person.</div>';
+    h+='<table class="difft">'+viewFields(m).filter(([k,v])=>v&&!(k==="Status"&&v==="Active")).map(([k,v])=>'<tr><th>'+esc(k)+'</th><td class="newv">'+esc(v)+'</td></tr>').join("")+'</table>';
+    const ms=matchesFor(m);
+    if(ms.length){
+      h+='<div class="warnbox">This looks like someone already in the list.</div><div class="opts">'+
+        ms.map((x,i)=>'<label><input type="radio" name="revt" value="'+esc(x.id)+'"'+(i===0?" checked":"")+'><span>Update <b>'+esc(x.name)+'</b> (birthday '+esc(dateText(x.bd,x.bm,x.by))+(x.father?", father "+esc(x.father):"")+') with these details</span></label>').join("")+
+        '<label><input type="radio" name="revt" value=""><span>Add as a new person</span></label></div>';
+    }
+  }
+  h+='<div class="notebox" id="rejBox" hidden><label for="rejNote">Reason for rejecting (the sender sees this)</label><textarea id="rejNote"></textarea></div><p class="err" id="revErr"></p>';
+  $("revBody").innerHTML=h;$("rev").showModal();
+}
+function finalMember(){
+  const p=revItem,m=p.member;
+  if(p.type==="change"&&byId[p.memberId])return {target:p.memberId,member:Object.assign({},byId[p.memberId],m)};
+  const sel=document.querySelector("input[name=revt]:checked"),t=sel?sel.value:"";
+  if(t&&byId[t]){const base=Object.assign({},byId[t]);Object.keys(m).forEach(k=>{if(m[k]!==""&&m[k]!==0&&m[k]!=null)base[k]=m[k]});return {target:t,member:base}}
+  return {target:"",member:Object.assign({},m)};
+}
+function afterDecision(ref){PENDING=PENDING.filter(x=>x.ref!==ref);pendingCount=PENDING.length;setBadge();renderAppr()}
+$("revApprove").onclick=async()=>{
+  const f=finalMember(),ref=revItem.ref;$("revApprove").disabled=true;
+  try{accept(await api("approve",{ref,memberId:f.target,member:f.member}));$("rev").close();afterDecision(ref);toast("Approved")}
+  catch(e){$("revErr").textContent=ERR[e.code]||("Couldn't approve: "+e.message)}
+  $("revApprove").disabled=false;
+};
+$("revEdit").onclick=()=>{const f=finalMember(),ref=revItem.ref;$("rev").close();openEditor(Object.assign({},f.member,{id:f.target}),{mode:"approve",ref,target:f.target})};
+$("revReject").onclick=async()=>{
+  if(!rejArmed){rejArmed=true;$("rejBox").hidden=false;$("revReject").textContent="Confirm reject";$("rejNote").focus();return}
+  const ref=revItem.ref;$("revReject").disabled=true;
+  try{accept(await api("reject",{ref,note:$("rejNote").value.trim()}));$("rev").close();afterDecision(ref);toast("Rejected")}
+  catch(e){$("revErr").textContent=ERR[e.code]||("Couldn't reject: "+e.message)}
+  $("revReject").disabled=false;
+};
+
+/* ---------- my submissions ---------- */
+$("mMine").onclick=async()=>{
+  $("mineList").innerHTML='<li class="empty">Loading…</li>';$("mineDlg").showModal();
+  try{const j=await api("mine");$("mineList").innerHTML=(j.mine||[]).map(p=>'<li class="logi"><b><span class="tag '+esc(p.status)+'">'+esc(p.status)+'</span>'+esc(p.member.name||"")+'</b><span class="sub">'+(p.type==="change"?"Change":"New person")+(p.source==="presenter"?" (added while presenting)":"")+', sent '+esc(whenText(p.when))+(p.reviewedBy?", reviewed by "+esc(p.reviewedBy):"")+'</span>'+(p.note?'<span>Note: '+esc(p.note)+'</span>':"")+'</li>').join("")||'<li class="empty">You haven\'t sent anything yet.</li>'}
+  catch(e){$("mineList").innerHTML='<li class="empty">'+esc(ERR[e.code]||e.message)+'</li>'}
+};
+
+/* ---------- presenter: control side ---------- */
+const BC="BroadcastChannel" in window?new BroadcastChannel("bd-present"):null;
+const IS_DISPLAY=location.hash.indexOf("#display")===0;
+const PS={page:0,blank:false,lang:lsGet("bd.plang","ta")};
+let pages=[],ADHOC_SERVER=[],ADHOC_LOCAL=lsGet("bd.adhoc",[]),screenDetails=null,dispWin=null;
+const TA_DOW=["ஞாயிறு","திங்கள்","செவ்வாய்","புதன்","வியாழன்","வெள்ளி","சனி"];
+const TA_MONL=["ஜனவரி","பிப்ரவரி","மார்ச்","ஏப்ரல்","மே","ஜூன்","ஜூலை","ஆகஸ்ட்","செப்டம்பர்","அக்டோபர்","நவம்பர்","டிசம்பர்"];
+const PER_PAGE=7;
+function adhocAll(){
+  const seen=new Set(),out=[];
+  ADHOC_SERVER.forEach(a=>{const id=a.clientId||a.ref;seen.add(id);out.push({clientId:id,member:a.member,synced:true})});
+  ADHOC_LOCAL.forEach(a=>{if(!seen.has(a.clientId))out.push(a)});
+  return out;
+}
+function rangeTextL(tm){
+  if(!tm)return rangeLabel();
+  const [s,e]=range();
+  if(S.mode==="day")return TA_DOW[s.getDay()]+", "+s.getDate()+" "+TA_MONL[s.getMonth()];
+  if(S.mode==="month")return TA_MONL[s.getMonth()]+" "+s.getFullYear();
+  return s.getMonth()===e.getMonth()?s.getDate()+" – "+e.getDate()+" "+TA_MONL[e.getMonth()]:s.getDate()+" "+TA_MONL[s.getMonth()]+" – "+e.getDate()+" "+TA_MONL[e.getMonth()];
+}
+function buildPages(){
+  const tm=PS.lang==="ta",[s,e]=range();
+  const day=d=>({top:(tm?TA_DOW:DOWL)[d.getDay()],num:d.getDate()+" "+(tm?TA_MON:MON)[d.getMonth()]});
+  const bItems=occ(byB,p=>p.by).map(o=>({date:o.date,name:nameOf(o.it,tm),sub:detail(o.it,tm)}));
+  const wItems=occ(byW,w=>w.y).map(o=>({date:o.date,name:wLabel(o.it,tm),sub:wArea(o.it,tm)}));
+  const ah=adhocAll();
+  for(let d=new Date(s);d<=e;d=addDays(d,1)){
+    ah.forEach(a=>{const m=a.member;
+      if(m.bd===d.getDate()&&m.bm===d.getMonth()+1)bItems.push({date:new Date(d),name:nameOf(m,tm),sub:detail(m,tm),adhoc:true});
+      if(m.wd===d.getDate()&&m.wm===d.getMonth()+1)wItems.push({date:new Date(d),name:nameOf(m,tm)+(m.spouse?" & "+spouseOf(m,tm):""),sub:areaOfP(m,tm),adhoc:true});
+    });
+  }
+  const sortD=(a,b)=>a.date-b.date||a.name.localeCompare(b.name);
+  const out=[],rl=rangeTextL(tm);
+  [["b",bItems,S.showB,tm?"பிறந்தநாள் வாழ்த்துக்கள்":"Happy Birthday"],["w",wItems,S.showW,tm?"திருமண நாள் வாழ்த்துக்கள்":"Happy Wedding Anniversary"]].forEach(([k,items,show,title])=>{
+    if(!show||!items.length)return;
+    items.sort(sortD);
+    const n=Math.ceil(items.length/PER_PAGE);
+    for(let i=0;i<n;i++)out.push({kind:k,title,range:rl,n:i+1,of:n,items:items.slice(i*PER_PAGE,(i+1)*PER_PAGE).map(x=>Object.assign(day(x.date),{name:x.name,sub:x.sub,adhoc:!!x.adhoc}))});
+  });
+  if(!out.length)out.push({kind:"none",title:"",range:rl,text:tm?"இந்த நாட்களில் பிறந்தநாள் அல்லது திருமண நாள் இல்லை":"No birthdays or wedding days in these dates"});
+  return out;
+}
+function refreshPres(){
+  if(!BC||!canPresent||IS_DISPLAY)return;
+  pages=buildPages();
+  if(PS.page>=pages.length)PS.page=pages.length-1;
+  if(PS.page<0)PS.page=0;
+  postState();
+}
+function postState(){
+  if(!BC)return;
+  BC.postMessage({type:"state",page:pages[PS.page],blank:PS.blank});
+  if($("pres").open){
+    $("pPage").textContent=(PS.page+1)+" of "+pages.length;
+    $("pPrev").disabled=PS.page<=0;$("pNext").disabled=PS.page>=pages.length-1;
+    $("pBlank").textContent=PS.blank?"Show the screen again":"Blank the screen";
+    $("prLabel").textContent=rangeLabel();
+    document.querySelectorAll("[data-pm]").forEach(b=>b.setAttribute("aria-pressed",b.dataset.pm===S.mode));
+    document.querySelectorAll("[data-pl]").forEach(b=>b.setAttribute("aria-pressed",b.dataset.pl===PS.lang));
+    renderAdhocList();
+  }
+}
+function presNav(dir){PS.page=Math.max(0,Math.min(pages.length-1,PS.page+dir));postState()}
+if(BC)BC.onmessage=e=>{
+  const d=e.data||{};
+  if(!canPresent)return;
+  if(d.type==="hello"){if(!pages.length)pages=buildPages();postState()}
+  else if(d.type==="nav")presNav(d.dir);
+  else if(d.type==="blank"){PS.blank=!PS.blank;postState()}
+};
+async function checkScreens(){
+  const note=$("pScreenNote");$("pAllow").hidden=true;
+  if(!("getScreenDetails" in window)){note.textContent="This browser opens a normal window. Drag it to the projector and press F11.";return}
+  try{
+    const st=await navigator.permissions.query({name:"window-management"});
+    if(st.state==="granted"){screenDetails=await window.getScreenDetails();noteScreens()}
+    else if(st.state==="prompt"){$("pAllow").hidden=false;note.textContent="Tap Allow once so the app can find the projector."}
+    else note.textContent="Second-screen access is blocked in Chrome's site settings. The window will open normally; drag it to the projector and press F11.";
+  }catch(e){note.textContent="The window will open normally. Drag it to the projector and press F11."}
+}
+function noteScreens(){
+  const n=screenDetails?screenDetails.screens.length:1;
+  $("pScreenNote").textContent=n>1?"Projector found. The display opens full screen there.":"Only one screen found. Connect the projector, press Windows key + P and choose Extend.";
+  if(screenDetails)screenDetails.onscreenschange=noteScreens;
+}
+$("pAllow").onclick=async()=>{try{screenDetails=await window.getScreenDetails();noteScreens();$("pAllow").hidden=true}catch(e){$("pScreenNote").textContent="Permission wasn't given. The window will open normally; drag it to the projector and press F11."}};
+$("pOpen").onclick=()=>{
+  const url=location.href.split("#")[0]+"#display";
+  let feat="popup,width=1280,height=720";
+  if(screenDetails){
+    const cur=screenDetails.currentScreen,other=screenDetails.screens.find(s=>s!==cur);
+    if(other)feat="popup,left="+other.availLeft+",top="+other.availTop+",width="+other.availWidth+",height="+other.availHeight+",fullscreen";
+  }
+  dispWin=window.open(url,"bd-display",feat);
+  if(!dispWin)toast("Chrome blocked the window. Allow pop-ups for this site, then try again.");
+};
+$("presentBtn").onclick=()=>{
+  $("pres").showModal();
+  $("presPreview").src=location.href.split("#")[0]+"#display-preview";
+  checkScreens();refreshPres();syncAdhoc();
+};
+$("pres").addEventListener("close",()=>{$("presPreview").src="about:blank"});
+$("pPrev").onclick=()=>presNav(-1);$("pNext").onclick=()=>presNav(1);
+$("pBlank").onclick=()=>{PS.blank=!PS.blank;postState()};
+$("prPrev").onclick=()=>shift(-1);$("prNext").onclick=()=>shift(1);
+document.querySelectorAll("[data-pm]").forEach(b=>b.onclick=()=>{S.mode=b.dataset.pm;PS.page=0;render()});
+document.querySelectorAll("[data-pl]").forEach(b=>b.onclick=()=>{PS.lang=b.dataset.pl;lsSet("bd.plang",PS.lang);refreshPres()});
+$("pres").addEventListener("keydown",e=>{
+  if(/INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName))return;
+  if(["ArrowRight","PageDown"," "].includes(e.key)){e.preventDefault();presNav(1)}
+  else if(["ArrowLeft","PageUp"].includes(e.key)){e.preventDefault();presNav(-1)}
+  else if(e.key==="b"||e.key==="B"){PS.blank=!PS.blank;postState()}
+});
+
+/* ---------- presenter: names added on the spot ---------- */
+fillDM($("ahD"),$("ahM"));
+function ahType(){return document.querySelector("input[name=aht]:checked").value}
+document.querySelectorAll("input[name=aht]").forEach(r=>r.onchange=()=>{$("ahB").hidden=ahType()!=="b";$("ahW").hidden=ahType()!=="w"});
+$("pAdd").onclick=()=>{
+  ["ahName","ahFather","ahHus","ahWife","ahArea"].forEach(id=>$(id).value="");
+  document.querySelectorAll("input[name=ahg]").forEach(r=>r.checked=false);
+  const t=noon(new Date());$("ahD").value=t.getDate();$("ahM").value=t.getMonth()+1;$("ahErr").textContent="";
+  $("adhocDlg").showModal();setTimeout(()=>$(ahType()==="b"?"ahName":"ahHus").focus(),50);
+};
+$("ahSave").onclick=()=>{
+  const d=+$("ahD").value,m=+$("ahM").value,area=$("ahArea").value.trim(),err=$("ahErr");
+  if(!validDM(d,m)){err.textContent="Choose the day and month.";return}
+  let mem;
+  if(ahType()==="b"){
+    const name=$("ahName").value.trim(),g=(document.querySelector("input[name=ahg]:checked")||{}).value;
+    if(!name){err.textContent="Enter the name.";return}if(!g){err.textContent="Choose male or female.";return}
+    mem={name,g,father:$("ahFather").value.trim(),area,bd:d,bm:m};
+  } else {
+    const h=$("ahHus").value.trim(),w=$("ahWife").value.trim();
+    if(!h||!w){err.textContent="Enter both names.";return}
+    mem={name:h,g:"M",spouse:w,area,wd:d,wm:m};
+  }
+  ["father","spouse","area","phone","nameTa","fatherTa","spouseTa","areaTa","status"].forEach(k=>{if(mem[k]==null)mem[k]=""});
+  ["bd","bm","by","wd","wm","wy"].forEach(k=>{if(mem[k]==null)mem[k]=0});
+  ADHOC_LOCAL.push({clientId:"a"+Date.now().toString(36),member:mem,synced:false});lsSet("bd.adhoc",ADHOC_LOCAL);
+  $("adhocDlg").close();refreshPres();toast("Added to the screen");syncAdhoc();
+};
+let adhocSyncing=false;
+async function syncAdhoc(){
+  const un=ADHOC_LOCAL.filter(a=>!a.synced);if(!un.length||adhocSyncing||!pin)return;
+  adhocSyncing=true;
+  try{
+    const j=await api("submit",{source:"presenter",items:un.map(a=>({clientId:a.clientId,member:a.member}))});
+    if(j.adhoc)ADHOC_SERVER=j.adhoc;else{try{const l=await api("list");accept(l)}catch(e){}}
+    ADHOC_LOCAL=ADHOC_LOCAL.filter(a=>!un.includes(a));lsSet("bd.adhoc",ADHOC_LOCAL);
+  }catch(e){}
+  adhocSyncing=false;refreshPres();
+}
+function renderAdhocList(){
+  const all=adhocAll();
+  $("pAdhoc").innerHTML=all.map(a=>{const m=a.member;const dt=m.bd?dateText(m.bd,m.bm):dateText(m.wd,m.wm);
+    return '<li class="logi"><b>'+esc(m.name+(m.spouse&&m.wd?" & "+m.spouse:""))+'</b><span class="sub">'+(m.bd?"Birthday":"Wedding day")+" "+esc(dt)+", "+(a.synced?"waiting for approval":"not sent yet (no internet)")+'</span></li>'}).join("");
+}
+window.addEventListener("online",syncAdhoc);
+
+/* ---------- presenter: the projected window ---------- */
+function startDisplay(preview){
+  document.title="Birthdays – screen";
+  $("gate").hidden=true;$("app").hidden=true;$("bar").hidden=true;$("display").hidden=false;
+  const stage=$("stage");
+  const fit=()=>{const s=Math.min(innerWidth/1920,innerHeight/1080);stage.style.transform="translate(-50%,-50%) scale("+s+")"};
+  fit();window.addEventListener("resize",fit);
+  const isFull=()=>!!document.fullscreenElement||(Math.abs(innerHeight-screen.height)<4&&Math.abs(innerWidth-screen.width)<4);
+  const hint=$("fsHint");
+  const upd=()=>{hint.hidden=preview||isFull()};upd();window.addEventListener("resize",upd);document.addEventListener("fullscreenchange",upd);
+  if(!BC){stage.innerHTML='<div class="sl-empty">This browser can\'t show the presenter screen. Please use Chrome.</div>';return}
+  BC.onmessage=e=>{const d=e.data||{};if(d.type==="state")drawSlide(d)};
+  BC.postMessage({type:"hello"});
+  if(preview)return;
+  const nav=dir=>BC.postMessage({type:"nav",dir});
+  document.addEventListener("keydown",e=>{
+    if(["ArrowRight","PageDown"," ","Enter"].includes(e.key)){e.preventDefault();nav(1)}
+    else if(["ArrowLeft","PageUp","Backspace"].includes(e.key)){e.preventDefault();nav(-1)}
+    else if(e.key==="b"||e.key==="B")BC.postMessage({type:"blank"});
+  });
+  document.addEventListener("click",()=>{if(!isFull()){document.documentElement.requestFullscreen().catch(()=>{});return}nav(1)});
+  document.addEventListener("contextmenu",e=>{e.preventDefault();nav(-1)});
+  let mt;document.addEventListener("mousemove",()=>{document.body.style.cursor="default";clearTimeout(mt);mt=setTimeout(()=>document.body.style.cursor="none",2000)});
+  function drawSlide(d){
+    stage.classList.toggle("blank",!!d.blank);
+    const p=d.page;if(!p){stage.innerHTML="";return}
+    stage.classList.toggle("wed",p.kind==="w");
+    if(p.kind==="none"){stage.innerHTML='<div class="sl-head"><div class="sl-title"></div><div class="sl-range">'+esc(p.range)+'</div></div><div class="sl-empty">'+esc(p.text)+'</div>';return}
+    stage.innerHTML='<div class="sl-head"><div class="sl-title">'+esc(p.title)+'</div><div class="sl-range">'+esc(p.range)+'</div></div><div class="sl-rows">'+
+      p.items.map(it=>'<div class="sl-row"><div class="sl-day"><span>'+esc(it.top)+'</span><b>'+esc(it.num)+'</b></div><div class="sl-txt"><div class="sl-name">'+esc(it.name)+(preview&&it.adhoc?'<span class="sl-mark">*</span>':"")+'</div>'+(it.sub?'<div class="sl-sub">'+esc(it.sub)+'</div>':"")+'</div></div>').join("")+
+      '</div><div class="sl-foot">'+(p.of>1?p.n+" / "+p.of:"")+'</div>';
+  }
+  window.drawSlide=drawSlide;
+}
+
+/* ---------- public form ---------- */
+function startJoin(){
+  document.title="Member details – Bethesda Prayer House";
+  $("gate").hidden=true;$("app").hidden=true;$("bar").hidden=true;$("join").hidden=false;
+  const areaOpts=[...new Set(AREAS.map(a=>a[1]))].sort().map(a=>'<option value="'+esc(a)+'">').join("");
+  const dOpts='<option value="0">Day</option>'+Array.from({length:31},(_,i)=>'<option>'+(i+1)+'</option>').join("");
+  const mOpts='<option value="0">Month</option>'+MON.map((m,i)=>'<option value="'+(i+1)+'">'+m+'</option>').join("");
+  let n=0;
+  function card(){
+    const i=++n,first=i===1;
+    const c=document.createElement("div");c.className="jcard";c.dataset.i=i;
+    c.innerHTML='<h3><span>'+(first?'You / <span lang="ta">நீங்கள்</span>':'Family member / <span lang="ta">குடும்ப உறுப்பினர்</span>')+'</span>'+(first?'':'<button type="button" class="linkbtn rm">Remove</button>')+'</h3>'+
+      '<label><span class="req">Name <span lang="ta">/ பெயர்</span></span><input type="text" data-f="name" autocomplete="'+(first?"name":"off")+'"></label>'+
+      '<span class="lbl req">Gender <span lang="ta">/ பாலினம்</span></span><div class="seg"><label><input type="radio" name="g'+i+'" value="M"> Male / ஆண்</label><label><input type="radio" name="g'+i+'" value="F"> Female / பெண்</label></div>'+
+      '<span class="lbl req">Date of birth <span lang="ta">/ பிறந்த தேதி</span></span><div class="dmy"><select data-f="bd" aria-label="Birth day">'+dOpts+'</select><select data-f="bm" aria-label="Birth month">'+mOpts+'</select><input type="number" data-f="by" inputmode="numeric" placeholder="Year" aria-label="Birth year"></div>'+
+      '<label><span class="req">Father\'s name <span lang="ta">/ தந்தையின் பெயர்</span></span><input type="text" data-f="father" autocomplete="off"></label>'+
+      '<label>Husband\'s or wife\'s name <span lang="ta">/ கணவர் அல்லது மனைவியின் பெயர்</span><input type="text" data-f="spouse" autocomplete="off" placeholder="Leave empty if not married"></label>'+
+      '<span class="lbl">Wedding date <span lang="ta">/ திருமண தேதி</span></span><div class="dmy"><select data-f="wd" aria-label="Wedding day">'+dOpts+'</select><select data-f="wm" aria-label="Wedding month">'+mOpts+'</select><input type="number" data-f="wy" inputmode="numeric" placeholder="Year" aria-label="Wedding year"></div>'+
+      '<label><span class="req">Area <span lang="ta">/ பகுதி</span></span><input type="text" data-f="area" list="jAreas" autocomplete="off" placeholder="e.g. Thiruvalluvar Nagar, Ambattur"></label><div class="ex">Example: Thiruvalluvar Nagar, Ambattur or Teachers Colony, Ambattur</div>'+
+      '<label><span class="req">Mobile number <span lang="ta">/ கைபேசி எண்</span></span><input type="tel" data-f="phone" inputmode="tel" autocomplete="'+(first?"tel":"off")+'" placeholder="10-digit mobile number"></label>';
+    if(!first){const f=$("jPeople").querySelector(".jcard");if(f){c.querySelector('[data-f=area]').value=f.querySelector('[data-f=area]').value;c.querySelector('[data-f=phone]').value=f.querySelector('[data-f=phone]').value}}
+    const rm=c.querySelector(".rm");if(rm)rm.onclick=()=>c.remove();
+    $("jPeople").appendChild(c);
+    if(!first)c.querySelector('[data-f=name]').focus();
+  }
+  if(!document.getElementById("jAreas")){const dl=document.createElement("datalist");dl.id="jAreas";dl.innerHTML=areaOpts;document.body.appendChild(dl)}
+  $("jPeople").innerHTML="";card();
+  $("jAdd").onclick=card;
+  $("jAgain").onclick=()=>{$("jDone").hidden=true;$("jForm").hidden=false;$("jPeople").innerHTML="";n=0;card();$("jConsent").checked=false;scrollTo(0,0)};
+  $("jForm").onsubmit=async e=>{
+    e.preventDefault();const err=$("jErr");err.textContent="";
+    const items=[];
+    for(const c of $("jPeople").querySelectorAll(".jcard")){
+      const v=f=>c.querySelector('[data-f='+f+']').value.replace(/\s+/g," ").trim();
+      const g=(c.querySelector("input[type=radio]:checked")||{}).value;
+      const m={name:v("name"),g:g||"",bd:+v("bd"),bm:+v("bm"),by:+v("by")||0,father:v("father"),spouse:v("spouse"),wd:+v("wd"),wm:+v("wm"),wy:+v("wy")||0,area:v("area"),phone:v("phone")};
+      const who=m.name||"each person";
+      const bad=msg=>{err.textContent=msg;c.scrollIntoView({behavior:"smooth",block:"center"});return true};
+      if(!m.name&&bad("Please enter the name. / பெயரை உள்ளிடவும்."))return;
+      if(!m.g&&bad("Please choose male or female for "+who+"."))return;
+      if(!validDM(m.bd,m.bm)&&bad("Please choose the date of birth for "+who+"."))return;
+      if(m.by&&(m.by<1900||m.by>new Date().getFullYear())&&bad("Please check the birth year for "+who+"."))return;
+      if(!m.father&&bad("Please enter the father's name for "+who+"."))return;
+      if((m.wd||m.wm)&&!validDM(m.wd,m.wm)&&bad("Please choose both the day and month of the wedding for "+who+", or leave both empty."))return;
+      if(!m.area&&bad("Please enter the area for "+who+"."))return;
+      if(!/^(\+?91)?[6-9]\d{9}$/.test(m.phone.replace(/[\s-]/g,""))&&bad("Please enter a 10-digit mobile number for "+who+"."))return;
+      if(!validDM(m.wd,m.wm)){m.wd=0;m.wm=0;m.wy=0}
+      items.push({member:m});
+    }
+    if(!$("jConsent").checked){err.textContent="Please tick the box to agree before submitting. / சமர்ப்பிக்கும் முன் ஒப்புதல் பெட்டியைத் தேர்வுசெய்யவும்.";return}
+    $("jSubmit").disabled=true;
+    try{
+      const j=await call({action:"publicSubmit",data:JSON.stringify({items,consent:true,contact:items[0].member.name,hp:$("jHp").value})});
+      if(!j||!j.ok)throw Object.assign(new Error(j&&j.error||"network"),{code:j&&j.error});
+      $("jForm").hidden=true;$("jDone").hidden=false;scrollTo(0,0);
+    }catch(e2){err.textContent=e2.code==="busy"?"Many forms are coming in right now. Please try again in a few minutes.":"Couldn't send the form. Please check your internet and try again."}
+    $("jSubmit").disabled=false;
+  };
+}
 
 /* ---------- install ---------- */
 let deferredInstall=null;
@@ -1217,7 +1790,10 @@ $("verLine").textContent="App "+APP_VERSION;
 let pin=lsGet("bd.pin",""),role="",lastSync=lsGet("bd.synced",0);
 setRole(lsGet("bd.role",""));
 index();render();roleUI();
-if(!API_OK||!pin) showGate("");
+const ROUTE=location.hash.replace("#","");
+if(ROUTE==="join"){if(API_OK)startJoin();else showGate("")}
+else if(ROUTE.indexOf("display")===0)startDisplay(ROUTE==="display-preview");
+else if(!API_OK||!pin) showGate("");
 else{hideGate();statusText(!navigator.onLine);refresh(true)}
 </script>
 </body>
