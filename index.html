@@ -7,19 +7,23 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Birthdays">
 <title>Birthdays &amp; Wedding Days</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Noto+Sans+Tamil:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="preload" href="inter.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="ila-sundaram-01.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="ila-sundaram-03.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" href="icon-192.png">
 <link rel="apple-touch-icon" href="icon-192.png">
 <script src="config.js"></script>
 <style>
+/* Tamil letters: Uni Ila.Sundaram (-01 regular, -03 bold). Everything else (initials, numbers, symbols): Inter. */
+@font-face{font-family:"BPTamil";src:url(ila-sundaram-01.woff2) format("woff2");font-weight:100 549;font-display:swap;unicode-range:U+0B80-0BFF,U+200C-200D,U+25CC;size-adjust:118%}
+@font-face{font-family:"BPTamil";src:url(ila-sundaram-03.woff2) format("woff2");font-weight:550 900;font-display:swap;unicode-range:U+0B80-0BFF,U+200C-200D,U+25CC;size-adjust:118%}
+@font-face{font-family:"Inter";src:url(inter.woff2) format("woff2");font-weight:100 900;font-display:swap}
 :root{
   --bg:#EEF1F7; --surface:#FFFFFF; --ink:#1A2140; --muted:#5D6680; --line:#D9DEEA;
   --accent:#3A3FB0; --tile:#3A3FB0; --call:#137A3E; --call-bg:#DDF2E5; --wed:#A3326B; --gold:#A86F00; --today:#C98A00; --danger:#B42318;
-  --display:"Bricolage Grotesque", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-  --body:ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans Tamil", sans-serif;
+  --display:"BPTamil", "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --body:"BPTamil", "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   box-sizing:border-box;
   padding-top:env(safe-area-inset-top,0px);
   padding-bottom:env(safe-area-inset-bottom,0px);
@@ -138,22 +142,19 @@ dialog.wide{max-width:1100px}
 .display{position:fixed;inset:0;background:#05081A;overflow:hidden;cursor:default}
 .stage{position:absolute;left:50%;top:50%;width:1920px;height:1080px;transform-origin:center center;
   background:radial-gradient(1200px 700px at 15% 0%,#1F2758 0%,transparent 60%),linear-gradient(160deg,#0D1233 0%,#070A1C 100%);
-  color:#F3F4FB;font-family:"Noto Sans Tamil","Nirmala UI",var(--body);padding:70px 110px;box-sizing:border-box;display:flex;flex-direction:column}
+  color:#F3F4FB;font-family:var(--body);padding:60px 110px;box-sizing:border-box;display:flex;flex-direction:column}
 .stage.blank{background:#000}
 .stage.blank>*{display:none}
-.sl-head{display:flex;align-items:baseline;justify-content:space-between;gap:40px;border-bottom:3px solid rgba(242,190,58,.35);padding-bottom:22px;margin-bottom:26px}
-.sl-title{font-size:76px;font-weight:800;color:#F2BE3A;line-height:1.1}
+.sl-head{display:flex;align-items:baseline;justify-content:space-between;gap:40px;border-bottom:3px solid rgba(242,190,58,.35);padding-bottom:20px;margin-bottom:24px;flex:none}
+.sl-title{font-size:76px;font-weight:800;color:#F2BE3A;line-height:1.15;white-space:nowrap;overflow:hidden;min-width:0;flex:1}
 .wed .sl-title{color:#F49BC1}.wed .sl-head{border-color:rgba(244,155,193,.35)}
-.sl-range{font-size:40px;color:#B8BFE0;white-space:nowrap}
-.sl-rows{flex:1;display:flex;flex-direction:column;gap:14px}
-.sl-row{display:flex;align-items:center;gap:36px;height:104px}
-.sl-day{flex:none;width:190px;height:96px;border-radius:18px;background:rgba(242,190,58,.14);color:#F2BE3A;display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1.05}
-.wed .sl-day{background:rgba(244,155,193,.14);color:#F49BC1}
-.sl-day b{font-size:46px}.sl-day span{font-size:24px;font-weight:600}
-.sl-txt{min-width:0;flex:1}
-.sl-name{font-size:56px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.25}
-.sl-sub{font-size:31px;color:#B8BFE0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.3}
-.sl-foot{display:flex;justify-content:flex-end;font-size:30px;color:#7F88B8;margin-top:10px}
+.sl-range{font-size:38px;color:#B8BFE0;white-space:nowrap;flex:none}
+.sl-rows{flex:1;min-height:0;display:flex;flex-direction:column;gap:calc(12px*var(--k,1));overflow:hidden}
+.sl-row{flex:none;min-width:0;border-left:6px solid rgba(242,190,58,.55);padding-left:28px}
+.wed .sl-row{border-left-color:rgba(244,155,193,.55)}
+.sl-name{font-size:calc(52px*var(--k,1));font-weight:700;white-space:nowrap;overflow:hidden;line-height:1.2}
+.sl-sub{font-size:calc(30px*var(--k,1));color:#B8BFE0;white-space:nowrap;overflow:hidden;line-height:1.25}
+.sl-foot{display:flex;justify-content:flex-end;font-size:28px;color:#7F88B8;margin-top:8px;flex:none;min-height:34px}
 .sl-empty{flex:1;display:grid;place-items:center;font-size:60px;color:#B8BFE0;text-align:center}
 .sl-mark{color:#F2BE3A;font-size:40px;vertical-align:super}
 .fshint{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:rgba(255,255,255,.12);color:#fff;padding:10px 18px;border-radius:999px;font:15px var(--body)}
@@ -161,6 +162,16 @@ dialog.wide{max-width:1100px}
 .jcard .seg label{display:flex;margin:0;font-size:.9rem;color:var(--ink)}
 .jcard label>input,.jcard label>select{margin-top:4px}
 
+.arrh{display:flex;align-items:center;justify-content:space-between;margin-top:6px}
+.olist{list-style:none;margin:0;padding:0;max-height:300px;overflow:auto;border:1px solid var(--line);border-radius:10px}
+.olist .oh button{all:unset;box-sizing:border-box;display:block;width:100%;padding:8px 10px;font-size:.8rem;font-weight:700;color:var(--muted);background:var(--bg);cursor:pointer}
+.olist .oh.on button{color:var(--bg);background:var(--ink)}
+.olist .oi{display:flex;align-items:center;gap:4px;padding:5px 6px 5px 10px;border-top:1px solid var(--line);font-size:.86rem}
+.olist .on2{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.olist small{color:var(--muted);font-weight:600}
+.ob{flex:none;border:1px solid var(--line);background:var(--surface);border-radius:8px;min-width:30px;height:30px;cursor:pointer;font-size:.85rem}
+.ob.nx{padding:0 8px;font-size:.74rem}
+.ob:disabled{opacity:.35;cursor:default}
 .spin svg{animation:spin 1s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}
 @media (prefers-reduced-motion:reduce){.spin svg{animation:none}}
 body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.45 var(--body);-webkit-font-smoothing:antialiased;padding-bottom:calc(80px + env(safe-area-inset-bottom,0px));overflow-x:hidden}
@@ -355,8 +366,6 @@ dialog input[type=text],dialog input[type=number],dialog select{width:100%;borde
 
   <div class="chips">
     <button class="chip" id="todayBtn" type="button">Today</button>
-    <button class="chip toggle" id="tBday" type="button" title="Birthdays">🎂 <b id="nB">0</b></button>
-    <button class="chip toggle" id="tWed" type="button" title="Wedding days">💍 <b id="nW">0</b></button>
     <button class="chip toggle" id="tLang" type="button" aria-label="Show names in Tamil">தமிழ்</button>
     <label class="chip datechip" id="dateChip" title="Pick a date"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg><input type="date" id="jump" aria-label="Pick a date"></label>
     <label class="chip" title="Sort"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M7 4v16M3 16l4 4 4-4M17 20V4M13 8l4-4 4 4"/></svg>
@@ -540,6 +549,9 @@ dialog input[type=text],dialog input[type=number],dialog select{width:100%;borde
           <button class="btn primary" id="pNext" type="button" aria-label="Next page">Next ›</button>
         </div>
         <p class="sub center">Keys: → or Page Down for next, ← or Page Up for previous, B to blank the screen. A mouse click on the projector also moves to the next page.</p>
+        <div class="arrh"><b>Order on screen</b><button class="linkbtn" id="pReset" type="button">Oldest first</button></div>
+        <p class="sub">Oldest first by default. Use ↑ ↓ to reorder, or Next slide to move a name onto the following slide. Tap a slide title to show it.</p>
+        <ul class="olist" id="pOrder"></ul>
       </div>
       <div class="presside">
         <button class="btn primary big" id="pOpen" type="button">Open on second screen</button>
@@ -735,7 +747,7 @@ function wArea(w,tm){const a=w.hm||w.p;return areaOfP(a,tm)||(w.wf?areaOfP(w.wf,
 const S={
   mode:"day", anchor:noon(new Date()),
   sort:lsGet("bd.sort","date"), weekStart:lsGet("bd.ws",0), incAge:false,
-  showB:lsGet("bd.showB",true), showW:lsGet("bd.showW",true), lang:lsGet("bd.lang","en")
+  showB:true, showW:true, lang:lsGet("bd.lang","en")
 };
 let cur={b:[],w:[]};
 
@@ -800,8 +812,6 @@ function render(){
   cur.b=sortList(occ(byB,p=>p.by),o=>o.it.name);
   cur.w=sortList(occ(byW,w=>w.y),o=>o.it.label);
   $("tLang").setAttribute("aria-pressed",tamil());lsSet("bd.lang",S.lang);
-  $("nB").textContent=cur.b.length;$("tBday").setAttribute("aria-pressed",S.showB);$("tBday").setAttribute("aria-label","Birthdays "+cur.b.length);
-  $("nW").textContent=cur.w.length;$("tWed").setAttribute("aria-pressed",S.showW);$("tWed").setAttribute("aria-label","Wedding days "+cur.w.length);
   $("todayBtn").hidden=S.mode==="day"&&same(S.anchor,noon(new Date()));
   const nb=S.showB?cur.b.length:0,nw=S.showW?cur.w.length:0;
   $("count").textContent=(nb+nw)?[nb?nb+(nb===1?" birthday":" birthdays"):"",nw?nw+(nw===1?" wedding day":" wedding days"):""].filter(Boolean).join(", "):"";
@@ -821,7 +831,7 @@ function render(){
   if(typeof refreshPres==="function")refreshPres();
   if($("view").open){viewIds=viewIds.filter(id=>byId[id]);if(viewIds.length)$("viewBody").innerHTML=viewIds.map(id=>recordCard(byId[id])).join("");else $("view").close()}
     const off=!(nb+nw);["copyNames","copyMsg"].forEach(id=>$(id).setAttribute("aria-disabled",off));
-  lsSet("bd.sort",S.sort);lsSet("bd.ws",S.weekStart);lsSet("bd.showB",S.showB);lsSet("bd.showW",S.showW);
+  lsSet("bd.sort",S.sort);lsSet("bd.ws",S.weekStart);
   function section(title,list,cls,rowFn){
     if(!list.length)return "";
     let h='<section class="'+cls+'"><h2>'+title+' <small>'+list.length+'</small></h2>';
@@ -1208,9 +1218,7 @@ $("dateChip").addEventListener("click",e=>{if(e.target!==$("jump")){try{$("jump"
 $("jump").onchange=e=>{if(e.target.value){const [y,m,d]=e.target.value.split("-").map(Number);S.anchor=noon(new Date(y,m-1,d));render()}};
 $("sort").onchange=e=>{S.sort=e.target.value;render()};
 $("weekStart").onchange=e=>{S.weekStart=+e.target.value;render()};
-$("tBday").onclick=()=>{S.showB=!S.showB;render()};
 $("tLang").onclick=()=>{S.lang=tamil()?"en":"ta";render()};
-$("tWed").onclick=()=>{S.showW=!S.showW;render()};
 $("copyNames").onclick=()=>{const tm=tamil();const n=[...(S.showB?cur.b.map(o=>nameOf(o.it,tm)):[]),...(S.showW?cur.w.map(o=>wLabel(o.it,tm)):[])];copy(n.join("\n"),"Copied "+n.length+(n.length===1?" name":" names"))};
 $("copyMsg").onclick=()=>copy(buildMessage(),"List copied");
 // swipe left/right on the list to move dates
@@ -1226,7 +1234,7 @@ function setStatus(t){$("status").textContent=t}
 const API=((window.APP_CONFIG&&window.APP_CONFIG.apiUrl)||"").trim();
 const API_OK=/^https:\/\/script\.google\.com\/.+\/exec$/.test(API);
 const ERR={not_allowed:"This PIN can't do that.",admin_only:"Only the admin PIN can do this.",bad_pin:"That PIN isn't right.",locked:"Too many wrong tries. Wait 15 minutes and try again.",pins_not_set:"The PINs in the Google script haven't been changed yet. Set them, then deploy again.",view_only:"This PIN can't make changes.",network:"Can't reach the list. Check your internet and try again."};
-const APP_VERSION="v9";
+const APP_VERSION="v11";
 // Three ways to reach the Google script. Browsers differ in what they allow, so the app tries each
 // and remembers the one that works on this phone.
 let cbN=0;
@@ -1298,7 +1306,7 @@ function accept(j){
   live=true;index();render();roleUI();statusText();
 }
 function ago(t){if(!t)return "";const m=Math.round((Date.now()-t)/60000);if(m<1)return "just now";if(m<60)return m+" min ago";const d=new Date(t);return d.getDate()+" "+MON[d.getMonth()]+", "+String(d.getHours()).padStart(2,"0")+":"+String(d.getMinutes()).padStart(2,"0")}
-function setRole(r){role=r==="edit"?"admin":r;canEdit=role==="editor"||role==="admin";isAdmin=role==="admin";canSubmit=role==="frontdesk"||role==="presenter";canPresent=role==="presenter"||canEdit;lsSet("bd.role",role)}
+function setRole(r){role=r==="edit"?"admin":r;canEdit=role==="editor"||role==="admin";isAdmin=role==="admin";canSubmit=role==="frontdesk"||role==="presenter";canPresent=role==="presenter";lsSet("bd.role",role)}
 const ROLE_NAME={view:"view only",frontdesk:"front desk",presenter:"presenter",editor:"editor",admin:"admin"};
 function statusText(off){setStatus(members.length+" members"+(off?". Offline, showing the list from "+ago(lastSync):", updated "+ago(lastSync))+" ("+(ROLE_NAME[role]||"view only")+")")}
 function roleUI(){
@@ -1533,28 +1541,84 @@ function rangeTextL(tm){
   if(S.mode==="month")return TA_MONL[s.getMonth()]+" "+s.getFullYear();
   return s.getMonth()===e.getMonth()?s.getDate()+" – "+e.getDate()+" "+TA_MONL[e.getMonth()]:s.getDate()+" "+TA_MONL[s.getMonth()]+" – "+e.getDate()+" "+TA_MONL[e.getMonth()];
 }
+// Order on screen: oldest first by default (years married for wedding days). The presenter can reorder
+// names and push a name to the next slide; that arrangement is kept for the chosen dates.
+let ARR=lsGet("bd.arr",null),SECT={};
+function rangeKey(){return S.mode+"|"+iso(range()[0])}
+function arrFor(k){
+  if(!ARR||ARR.key!==rangeKey())ARR={key:rangeKey(),b:{order:[],brk:[]},w:{order:[],brk:[]}};
+  return ARR[k];
+}
+function saveArr(){lsSet("bd.arr",ARR)}
 function buildPages(){
   const tm=PS.lang==="ta",[s,e]=range();
-  const day=d=>({top:(tm?TA_DOW:DOWL)[d.getDay()],num:d.getDate()+" "+(tm?TA_MON:MON)[d.getMonth()]});
-  const bItems=occ(byB,p=>p.by).map(o=>({date:o.date,name:nameOf(o.it,tm),sub:detail(o.it,tm)}));
-  const wItems=occ(byW,w=>w.y).map(o=>({date:o.date,name:wLabel(o.it,tm),sub:wArea(o.it,tm)}));
+  const bItems=occ(byB,p=>p.by).map(o=>({key:"m:"+o.it.id,n:o.n,date:o.date,name:nameOf(o.it,tm),sub:detail(o.it,tm)}));
+  const wItems=occ(byW,w=>w.y).map(o=>({key:"w:"+o.it.ids.join("+"),n:o.n,date:o.date,name:wLabel(o.it,tm),sub:wArea(o.it,tm)}));
   const ah=adhocAll();
   for(let d=new Date(s);d<=e;d=addDays(d,1)){
     ah.forEach(a=>{const m=a.member;
-      if(m.bd===d.getDate()&&m.bm===d.getMonth()+1)bItems.push({date:new Date(d),name:nameOf(m,tm),sub:detail(m,tm),adhoc:true});
-      if(m.wd===d.getDate()&&m.wm===d.getMonth()+1)wItems.push({date:new Date(d),name:nameOf(m,tm)+(m.spouse?" & "+spouseOf(m,tm):""),sub:areaOfP(m,tm),adhoc:true});
+      if(m.bd===d.getDate()&&m.bm===d.getMonth()+1)bItems.push({key:"a:"+a.clientId,n:null,date:new Date(d),name:nameOf(m,tm),sub:detail(m,tm),adhoc:true});
+      if(m.wd===d.getDate()&&m.wm===d.getMonth()+1)wItems.push({key:"a:"+a.clientId,n:null,date:new Date(d),name:nameOf(m,tm)+(m.spouse?" & "+spouseOf(m,tm):""),sub:areaOfP(m,tm),adhoc:true});
     });
   }
-  const sortD=(a,b)=>a.date-b.date||a.name.localeCompare(b.name);
-  const out=[],rl=rangeTextL(tm);
-  [["b",bItems,S.showB,tm?"பிறந்தநாள் வாழ்த்துக்கள்":"Happy Birthday"],["w",wItems,S.showW,tm?"திருமண நாள் வாழ்த்துக்கள்":"Happy Wedding Anniversary"]].forEach(([k,items,show,title])=>{
-    if(!show||!items.length)return;
-    items.sort(sortD);
-    const n=Math.ceil(items.length/PER_PAGE);
-    for(let i=0;i<n;i++)out.push({kind:k,title,range:rl,n:i+1,of:n,items:items.slice(i*PER_PAGE,(i+1)*PER_PAGE).map(x=>Object.assign(day(x.date),{name:x.name,sub:x.sub,adhoc:!!x.adhoc}))});
+  const oldestFirst=(a,b)=>((a.n==null)-(b.n==null))||((b.n||0)-(a.n||0))||(a.date-b.date)||a.name.localeCompare(b.name);
+  const out=[],rl=rangeTextL(tm);SECT={};
+  [["b",bItems,tm?"பிறந்தநாள் வாழ்த்துக்கள்":"Happy Birthday"],["w",wItems,tm?"திருமண நாள் வாழ்த்துக்கள்":"Happy Wedding Anniversary"]].forEach(([k,items,title])=>{
+    if(!items.length)return;
+    items.sort(oldestFirst);
+    const ar=arrFor(k);
+    if(ar.order.length){const pos=new Map(ar.order.map((x,i)=>[x,i]));items.sort((a,b)=>(pos.has(a.key)?pos.get(a.key):1e6)-(pos.has(b.key)?pos.get(b.key):1e6))}
+    const brk=new Set(ar.brk),groups=[];let cur=[];
+    items.forEach(it=>{if(cur.length&&(cur.length>=PER_PAGE||brk.has(it.key))){groups.push(cur);cur=[]}cur.push(it)});
+    if(cur.length)groups.push(cur);
+    SECT[k]={items,groups,first:out.length,title};
+    groups.forEach((g,i)=>out.push({kind:k,title,range:rl,n:i+1,of:groups.length,items:g.map(x=>({name:x.name,sub:x.sub,adhoc:!!x.adhoc}))}));
   });
   if(!out.length)out.push({kind:"none",title:"",range:rl,text:tm?"இந்த நாட்களில் பிறந்தநாள் அல்லது திருமண நாள் இல்லை":"No birthdays or wedding days in these dates"});
   return out;
+}
+function arrMove(k,key,how){
+  const sec=SECT[k];if(!sec)return;
+  const ar=arrFor(k),order=sec.items.map(x=>x.key),brk=new Set(ar.brk);
+  const i=order.indexOf(key);if(i<0)return;
+  if(how==="up"||how==="down"){
+    const j=how==="up"?i-1:i+1;if(j<0||j>=order.length)return;
+    const a=order[i],b=order[j],ba=brk.has(a),bb=brk.has(b);
+    order[i]=b;order[j]=a;
+    // a slide break belongs to the position, not the person
+    brk.delete(a);brk.delete(b);if(ba)brk.add(b);if(bb)brk.add(a);
+  } else if(how==="next"){
+    const gi=sec.groups.findIndex(g=>g.some(x=>x.key===key));
+    if(gi<sec.groups.length-1){
+      const F=sec.groups[gi+1][0].key;
+      order.splice(i,1);
+      if(brk.has(F)){order.splice(order.indexOf(F),0,key);brk.delete(F);brk.add(key)}
+      else order.splice(order.indexOf(F)+1,0,key);
+    } else {
+      if(sec.groups[gi].length===1)return;
+      order.splice(i,1);order.push(key);brk.add(key);
+    }
+  }
+  ar.order=order;ar.brk=[...brk];saveArr();refreshPres();
+}
+function renderArrange(){
+  const box=$("pOrder");if(!box)return;
+  const tm=PS.lang==="ta";let h="";
+  ["b","w"].forEach(k=>{
+    const sec=SECT[k];if(!sec)return;
+    sec.groups.forEach((g,gi)=>{
+      const idx=sec.first+gi;
+      h+='<li class="oh'+(idx===PS.page?' on':'')+'"><button type="button" data-go="'+idx+'">Slide '+(idx+1)+': '+(k==="b"?"Birthdays":"Wedding days")+(sec.groups.length>1?" ("+(gi+1)+" of "+sec.groups.length+")":"")+'</button></li>';
+      g.forEach((x,xi)=>{
+        const last=gi===sec.groups.length-1&&g.length===1;
+        h+='<li class="oi"><span class="on2"'+(tm?' lang="ta"':'')+'>'+esc(x.name)+(x.n!=null?' <small>'+x.n+'</small>':'')+(x.adhoc?' <small>*</small>':'')+'</span>'+
+          '<button type="button" class="ob" data-k="'+k+'" data-key="'+esc(x.key)+'" data-how="up" aria-label="Move up"'+(gi===0&&xi===0?' disabled':'')+'>↑</button>'+
+          '<button type="button" class="ob" data-k="'+k+'" data-key="'+esc(x.key)+'" data-how="down" aria-label="Move down"'+(gi===sec.groups.length-1&&xi===g.length-1?' disabled':'')+'>↓</button>'+
+          '<button type="button" class="ob nx" data-k="'+k+'" data-key="'+esc(x.key)+'" data-how="next" title="Move to the next slide"'+(last?' disabled':'')+'>Next slide</button></li>';
+      });
+    });
+  });
+  box.innerHTML=h||'<li class="empty">Nothing to show for these dates.</li>';
 }
 function refreshPres(){
   if(!BC||!canPresent||IS_DISPLAY)return;
@@ -1573,7 +1637,7 @@ function postState(){
     $("prLabel").textContent=rangeLabel();
     document.querySelectorAll("[data-pm]").forEach(b=>b.setAttribute("aria-pressed",b.dataset.pm===S.mode));
     document.querySelectorAll("[data-pl]").forEach(b=>b.setAttribute("aria-pressed",b.dataset.pl===PS.lang));
-    renderAdhocList();
+    renderAdhocList();renderArrange();
   }
 }
 function presNav(dir){PS.page=Math.max(0,Math.min(pages.length-1,PS.page+dir));postState()}
@@ -1616,6 +1680,11 @@ $("presentBtn").onclick=()=>{
   checkScreens();refreshPres();syncAdhoc();
 };
 $("pres").addEventListener("close",()=>{$("presPreview").src="about:blank"});
+$("pOrder").addEventListener("click",e=>{
+  const g=e.target.closest("[data-go]");if(g){PS.page=+g.dataset.go;postState();return}
+  const b=e.target.closest("[data-how]");if(b&&!b.disabled)arrMove(b.dataset.k,b.dataset.key,b.dataset.how);
+});
+$("pReset").onclick=()=>{ARR=null;try{localStorage.removeItem("bd.arr")}catch(e){}PS.page=0;refreshPres();toast("Back to oldest first")};
 $("pPrev").onclick=()=>presNav(-1);$("pNext").onclick=()=>presNav(1);
 $("pBlank").onclick=()=>{PS.blank=!PS.blank;postState()};
 $("prPrev").onclick=()=>shift(-1);$("prNext").onclick=()=>shift(1);
@@ -1685,7 +1754,11 @@ function startDisplay(preview){
   const hint=$("fsHint");
   const upd=()=>{hint.hidden=preview||isFull()};upd();window.addEventListener("resize",upd);document.addEventListener("fullscreenchange",upd);
   if(!BC){stage.innerHTML='<div class="sl-empty">This browser can\'t show the presenter screen. Please use Chrome.</div>';return}
-  BC.onmessage=e=>{const d=e.data||{};if(d.type==="state")drawSlide(d)};
+  BC.onmessage=e=>{const d=e.data||{};if(d.type==="state")showState(d)};
+  var lastState=null;
+  function showState(d){lastState=d;drawSlide(d)}
+  if(document.fonts&&document.fonts.ready)document.fonts.ready.then(()=>{if(lastState)drawSlide(lastState)});
+  if(document.fonts&&document.fonts.addEventListener)document.fonts.addEventListener("loadingdone",()=>{if(lastState)drawSlide(lastState)});
   BC.postMessage({type:"hello"});
   if(preview)return;
   const nav=dir=>BC.postMessage({type:"nav",dir});
@@ -1703,10 +1776,21 @@ function startDisplay(preview){
     stage.classList.toggle("wed",p.kind==="w");
     if(p.kind==="none"){stage.innerHTML='<div class="sl-head"><div class="sl-title"></div><div class="sl-range">'+esc(p.range)+'</div></div><div class="sl-empty">'+esc(p.text)+'</div>';return}
     stage.innerHTML='<div class="sl-head"><div class="sl-title">'+esc(p.title)+'</div><div class="sl-range">'+esc(p.range)+'</div></div><div class="sl-rows">'+
-      p.items.map(it=>'<div class="sl-row"><div class="sl-day"><span>'+esc(it.top)+'</span><b>'+esc(it.num)+'</b></div><div class="sl-txt"><div class="sl-name">'+esc(it.name)+(preview&&it.adhoc?'<span class="sl-mark">*</span>':"")+'</div>'+(it.sub?'<div class="sl-sub">'+esc(it.sub)+'</div>':"")+'</div></div>').join("")+
+      p.items.map(it=>'<div class="sl-row"><div class="sl-name">'+esc(it.name)+(preview&&it.adhoc?'<span class="sl-mark">*</span>':"")+'</div>'+(it.sub?'<div class="sl-sub">'+esc(it.sub)+'</div>':"")+'</div>').join("")+
       '</div><div class="sl-foot">'+(p.of>1?p.n+" / "+p.of:"")+'</div>';
+    fitSlide();
   }
-  window.drawSlide=drawSlide;
+  // Keeps everything inside the screen: first shrink the rows to fit the height, then any line too wide for the width
+  function fitSlide(){
+    const rows=stage.querySelector(".sl-rows");
+    if(rows){let k=1;rows.style.setProperty("--k",1);while(rows.scrollHeight>rows.clientHeight+1&&k>0.55){k-=0.04;rows.style.setProperty("--k",k)}}
+    const shrink=(el,min)=>{let s=parseFloat(getComputedStyle(el).fontSize);while(el.scrollWidth>el.clientWidth+1&&s>min){s-=2;el.style.fontSize=s+"px"}};
+    stage.querySelectorAll(".sl-title").forEach(el=>shrink(el,36));
+    stage.querySelectorAll(".sl-name").forEach(el=>shrink(el,24));
+    stage.querySelectorAll(".sl-sub").forEach(el=>shrink(el,16));
+  }
+
+  window.drawSlide=showState;
 }
 
 /* ---------- public form ---------- */
