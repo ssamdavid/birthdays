@@ -172,6 +172,12 @@ dialog.wide{max-width:1100px}
 .ob{flex:none;border:1px solid var(--line);background:var(--surface);border-radius:8px;min-width:30px;height:30px;cursor:pointer;font-size:.85rem}
 .ob.nx{padding:0 8px;font-size:.74rem}
 .ob:disabled{opacity:.35;cursor:default}
+.updbar{position:fixed;left:50%;top:calc(10px + env(safe-area-inset-top,0px));transform:translateX(-50%);z-index:20;display:flex;align-items:center;gap:10px;background:var(--ink);color:var(--bg);padding:8px 8px 8px 16px;border-radius:999px;box-shadow:0 6px 20px rgba(0,0,0,.25);font-size:.88rem;max-width:calc(100vw - 20px)}
+.updbar button{border:0;border-radius:999px;padding:7px 14px;font-weight:700;background:var(--gold);color:#1A2140;cursor:pointer}
+#youthWrap.on{border-color:var(--ink);background:var(--ink);color:var(--bg)}
+#youthWrap.on .k{color:inherit}
+#youthDlg .dmy label{display:block;font-size:.8rem;color:var(--muted)}
+#youthDlg .dmy input{margin-top:4px}
 .spin svg{animation:spin 1s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}
 @media (prefers-reduced-motion:reduce){.spin svg{animation:none}}
 body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.45 var(--body);-webkit-font-smoothing:antialiased;padding-bottom:calc(80px + env(safe-area-inset-bottom,0px));overflow-x:hidden}
@@ -370,6 +376,8 @@ dialog input[type=text],dialog input[type=number],dialog select{width:100%;borde
     <label class="chip datechip" id="dateChip" title="Pick a date"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg><input type="date" id="jump" aria-label="Pick a date"></label>
     <label class="chip" title="Sort"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M7 4v16M3 16l4 4 4-4M17 20V4M13 8l4-4 4 4"/></svg>
       <select id="sort" aria-label="Sort"><option value="date">Date</option><option value="oldest">Oldest</option><option value="youngest">Youngest</option><option value="name">Name</option></select></label>
+    <label class="chip" id="youthWrap" title="Youth filter" hidden><span class="k">Youth</span>
+      <select id="youthSel" aria-label="Youth filter"><option value="all">All</option><option value="only">Only youth</option><option value="not">Hide youth</option></select></label>
     <label class="chip" id="wsWrap" title="Week starts on"><span class="k">Week</span>
       <select id="weekStart" aria-label="Week starts on"><option value="0">Sun</option><option value="1">Mon</option></select></label>
   </div>
@@ -455,6 +463,7 @@ dialog input[type=text],dialog input[type=number],dialog select{width:100%;borde
     <button class="btn" id="mWords" type="button">Tamil spellings</button>
     <button class="btn" id="mLog" type="button">Change log</button>
     <button class="btn" id="loadBtn" type="button">Load sheet</button>
+    <button class="btn" id="mYouth" type="button">Youth age range</button>
     <button class="btn" id="mWho" type="button">Your name</button>
     <button class="btn" id="lockBtn" type="button">Change PIN</button>
     <p class="sub" id="mRole"></p>
@@ -501,6 +510,17 @@ dialog input[type=text],dialog input[type=number],dialog select{width:100%;borde
 <dialog id="logDlg" aria-labelledby="logTitle">
   <div class="dhead"><h3 id="logTitle">Change log</h3><button class="icon" type="button" data-close aria-label="Close">✕</button></div>
   <div class="dbody"><p class="sub">The latest 300 changes. The full log is in the "Change Log" tab of your Google Sheet.</p><ul class="people" id="logList"></ul></div>
+</dialog>
+
+<!-- youth age range (admin) -->
+<dialog id="youthDlg" aria-labelledby="youthTitle">
+  <div class="dhead"><h3 id="youthTitle">Youth age range</h3><button class="icon" type="button" data-close aria-label="Close">✕</button></div>
+  <div class="dbody">
+    <p class="sub">Youth means unmarried members in this age range. Someone with a husband or wife name or a wedding date counts as married. Age is worked out from the date of birth, so people without a birth year are never counted as youth.</p>
+    <div class="dmy two"><label>From age<input id="yMin" type="number" inputmode="numeric" min="1" max="99"></label><label>To age<input id="yMax" type="number" inputmode="numeric" min="1" max="99"></label></div>
+    <p class="err" id="yErr"></p>
+  </div>
+  <div class="dfoot"><span class="grow"></span><button class="btn primary" id="ySave" type="button">Save</button></div>
 </dialog>
 
 <!-- your name -->
@@ -609,6 +629,7 @@ dialog input[type=text],dialog input[type=number],dialog select{width:100%;borde
       <button class="chip toggle" type="button" data-f="inactive">Inactive</button>
       <button class="chip toggle" type="button" data-f="deceased">Deceased</button>
       <button class="chip toggle" type="button" data-f="left">Left church</button>
+      <button class="chip toggle" type="button" data-f="youth" id="dirYouth" hidden>Youth</button>
       <button class="chip toggle" type="button" data-f="all">Everyone</button>
     </div>
     <p class="sub" id="dirCount"></p>
@@ -639,6 +660,7 @@ dialog input[type=text],dialog input[type=number],dialog select{width:100%;borde
   <div class="dfoot"><span class="grow"></span><button class="btn primary" type="button" data-close>Done</button></div>
 </dialog>
 <div class="toast" id="toast" role="status"></div>
+<div class="updbar" id="updBar" role="status" hidden><span id="updTxt">A new version is ready.</span><button type="button" id="updBtn">Update now</button></div>
 
 <script>
 const DOW=["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
@@ -657,6 +679,7 @@ function validDM(d,m){return d>=1&&m>=1&&m<=12&&d<=[31,29,31,30,31,30,31,31,30,3
 
 /* ---------- data ---------- */
 let members=[];
+let YOUTH=lsGet("bd.youthRange2",{min:15,max:30});
 let canEdit=false, isAdmin=false, canSubmit=false, canPresent=false, live=false, who=lsGet("bd.who",""), TA_OVR=lsGet("bd.words",{});
 let byB={}, byW={}, byId={}, weddings=[];
 
@@ -747,7 +770,7 @@ function wArea(w,tm){const a=w.hm||w.p;return areaOfP(a,tm)||(w.wf?areaOfP(w.wf,
 const S={
   mode:"day", anchor:noon(new Date()),
   sort:lsGet("bd.sort","date"), weekStart:lsGet("bd.ws",0), incAge:false,
-  showB:true, showW:true, lang:lsGet("bd.lang","en")
+  showB:true, showW:true, youth:lsGet("bd.youth","all"), lang:lsGet("bd.lang","en")
 };
 let cur={b:[],w:[]};
 
@@ -809,12 +832,13 @@ function render(){
   $("wsWrap").hidden=S.mode!=="week";
   $("sort").value=S.sort;$("weekStart").value=String(S.weekStart);$("jump").value=iso(S.anchor);
   $("rel").textContent=relative()||"\u00a0";$("label").textContent=rangeLabel();
-  cur.b=sortList(occ(byB,p=>p.by),o=>o.it.name);
-  cur.w=sortList(occ(byW,w=>w.y),o=>o.it.label);
+  cur.b=sortList(occ(byB,p=>p.by).filter(youthKeepB),o=>o.it.name);
+  cur.w=sortList(occ(byW,w=>w.y).filter(youthKeepW),o=>o.it.label);
+  $("youthSel").value=S.youth;$("youthWrap").classList.toggle("on",isAdmin&&S.youth!=="all");
   $("tLang").setAttribute("aria-pressed",tamil());lsSet("bd.lang",S.lang);
   $("todayBtn").hidden=S.mode==="day"&&same(S.anchor,noon(new Date()));
   const nb=S.showB?cur.b.length:0,nw=S.showW?cur.w.length:0;
-  $("count").textContent=(nb+nw)?[nb?nb+(nb===1?" birthday":" birthdays"):"",nw?nw+(nw===1?" wedding day":" wedding days"):""].filter(Boolean).join(", "):"";
+  $("count").textContent=((nb+nw)?[nb?nb+(nb===1?" birthday":" birthdays"):"",nw?nw+(nw===1?" wedding day":" wedding days"):""].filter(Boolean).join(", "):"")+(youthMode()==="only"?" (unmarried youth "+YOUTH.min+"–"+YOUTH.max+" only)":youthMode()==="not"?" (youth hidden)":"");
   const today=noon(new Date());
   let html="";
   if(!members.length){
@@ -859,6 +883,13 @@ function rowW(o){
 /* ---------- full record ---------- */
 let viewIds=[];
 function longDate(d,m,y){return d+" "+MONL[m-1]+(y?" "+y:"")}
+function ageOf(p){return yearsSince(p.bd,p.bm,p.by)}
+// Youth = unmarried (no husband/wife name and no wedding date) and aged within the youth range
+function isMarried(p){return !!(p.spouse||validDM(p.wd,p.wm))}
+function isYouth(p){if(!p||isMarried(p))return false;const a=ageOf(p);return a!=null&&a>=YOUTH.min&&a<=YOUTH.max}
+function youthMode(){return isAdmin?S.youth:"all"}
+function youthKeepB(o){const m=youthMode();return m==="all"||(m==="only"?isYouth(o.it):!isYouth(o.it))}
+function youthKeepW(o){return youthMode()!=="only"}   // youth are unmarried, so wedding days are never youth
 function yearsSince(d,m,y){if(!y)return null;const t=new Date();let n=t.getFullYear()-y;if(t.getMonth()+1<m||(t.getMonth()+1===m&&t.getDate()<d))n--;return n>=0?n:null}
 function recordCard(p){
   const rows=[];
@@ -897,7 +928,8 @@ function renderDir(){
   document.querySelectorAll("#dirF [data-f]").forEach(b=>b.setAttribute("aria-pressed",b.dataset.f===dirFilter));
   const list=members.filter(p=>{
     if(dirFilter==="active"&&p.status)return false;
-    if(dirFilter!=="active"&&dirFilter!=="all"&&p.status!==dirFilter)return false;
+    if(dirFilter==="youth"&&(p.status||!isYouth(p)))return false;
+    if(dirFilter!=="active"&&dirFilter!=="all"&&dirFilter!=="youth"&&p.status!==dirFilter)return false;
     if(!q)return true;
     if(qd.length>=3&&String(p.phone).replace(/\D/g,"").includes(qd))return true;
     return [p.name,p.area,p.father,p.spouse,nameOf(p,true)].some(x=>String(x||"").toLowerCase().includes(q));
@@ -1217,6 +1249,11 @@ $("todayBtn").onclick=()=>{S.mode="day";S.anchor=noon(new Date());render()};
 $("dateChip").addEventListener("click",e=>{if(e.target!==$("jump")){try{$("jump").showPicker()}catch(_){$("jump").focus()}}});
 $("jump").onchange=e=>{if(e.target.value){const [y,m,d]=e.target.value.split("-").map(Number);S.anchor=noon(new Date(y,m-1,d));render()}};
 $("sort").onchange=e=>{S.sort=e.target.value;render()};
+$("youthSel").onchange=e=>{S.youth=e.target.value;lsSet("bd.youth",S.youth);render()};
+$("mYouth").onclick=()=>{$("yMin").value=YOUTH.min;$("yMax").value=YOUTH.max;$("yErr").textContent="";$("youthDlg").showModal()};
+$("ySave").onclick=()=>{const a=+$("yMin").value,b=+$("yMax").value;
+  if(!a||!b||a<1||b>99||a>b){$("yErr").textContent="Enter a range like 15 to 35.";return}
+  YOUTH={min:a,max:b};lsSet("bd.youthRange2",YOUTH);$("youthDlg").close();roleUI();render();toast("Youth is now "+a+"–"+b)};
 $("weekStart").onchange=e=>{S.weekStart=+e.target.value;render()};
 $("tLang").onclick=()=>{S.lang=tamil()?"en":"ta";render()};
 $("copyNames").onclick=()=>{const tm=tamil();const n=[...(S.showB?cur.b.map(o=>nameOf(o.it,tm)):[]),...(S.showW?cur.w.map(o=>wLabel(o.it,tm)):[])];copy(n.join("\n"),"Copied "+n.length+(n.length===1?" name":" names"))};
@@ -1234,7 +1271,7 @@ function setStatus(t){$("status").textContent=t}
 const API=((window.APP_CONFIG&&window.APP_CONFIG.apiUrl)||"").trim();
 const API_OK=/^https:\/\/script\.google\.com\/.+\/exec$/.test(API);
 const ERR={not_allowed:"This PIN can't do that.",admin_only:"Only the admin PIN can do this.",bad_pin:"That PIN isn't right.",locked:"Too many wrong tries. Wait 15 minutes and try again.",pins_not_set:"The PINs in the Google script haven't been changed yet. Set them, then deploy again.",view_only:"This PIN can't make changes.",network:"Can't reach the list. Check your internet and try again."};
-const APP_VERSION="v11";
+const APP_VERSION="v14";
 // Three ways to reach the Google script. Browsers differ in what they allow, so the app tries each
 // and remembers the one that works on this phone.
 let cbN=0;
@@ -1313,7 +1350,8 @@ function roleUI(){
   $("addBtn").hidden=!(canEdit||canSubmit);
   ["mAreas","mWords"].forEach(id=>$(id).hidden=!canEdit);
   $("mWho").hidden=!(canEdit||canSubmit);$("mMine").hidden=!canSubmit;
-  ["mLog","loadBtn","mAppr"].forEach(id=>$(id).hidden=!isAdmin);
+  ["mLog","loadBtn","mAppr","mYouth","youthWrap","dirYouth"].forEach(id=>$(id).hidden=!isAdmin);
+  $("mYouth").textContent="Youth: unmarried, age "+YOUTH.min+"–"+YOUTH.max;$("dirYouth").textContent="Youth (unmarried "+YOUTH.min+"–"+YOUTH.max+")";
   $("presentBtn").hidden=!canPresent;setBadge();
   $("mWho").textContent="Your name: "+(who||"not set");
   $("mRole").textContent="Signed in as "+(ROLE_NAME[role]||"view only")+". App "+APP_VERSION+".";
@@ -1358,7 +1396,7 @@ window.addEventListener("online",()=>refresh(true));
 
 /* ---------- more menu ---------- */
 $("moreBtn").onclick=()=>{roleUI();$("more").showModal()};
-["mAppr","mMine","mAreas","mWords","mLog","loadBtn","mWho","lockBtn"].forEach(id=>$(id).addEventListener("click",()=>$("more").close(),true));
+["mAppr","mMine","mAreas","mWords","mLog","loadBtn","mYouth","mWho","lockBtn"].forEach(id=>$(id).addEventListener("click",()=>$("more").close(),true));
 function askWho(){$("whoIn").value=who||"";$("whoErr").textContent="";$("whoDlg").showModal();setTimeout(()=>$("whoIn").focus(),50)}
 $("mWho").onclick=askWho;
 $("whoSave").onclick=()=>{const v=$("whoIn").value.replace(/\s+/g," ").trim();if(!v){$("whoErr").textContent="Enter your name.";return}who=v;lsSet("bd.who",who);$("whoDlg").close();roleUI();toast("Thanks, "+who)};
@@ -1852,6 +1890,34 @@ function startJoin(){
     $("jSubmit").disabled=false;
   };
 }
+
+/* ---------- updates ---------- */
+// The app checks GitHub for a newer index.html. Right after opening it updates straight away;
+// later it shows an "Update now" bar so nobody is interrupted mid-task (and the projector never reloads by itself).
+const OPENED_AT=Date.now();
+const vnum=v=>parseInt(String(v).replace(/\D/g,""),10)||0;
+let updShown=false;
+async function checkUpdate(){
+  if(!navigator.onLine||location.protocol==="file:")return;
+  try{
+    const r=await fetch("index.html?check="+Date.now(),{cache:"no-store"});
+    if(!r.ok)return;
+    const m=(await r.text()).match(/const APP_VERSION="(v\d+)"/);
+    if(!m||vnum(m[1])<=vnum(APP_VERSION))return;
+    const busy=document.querySelector("dialog[open]")||IS_DISPLAY;
+    if(!busy&&Date.now()-OPENED_AT<15000){applyUpdate();return}
+    if(IS_DISPLAY||updShown)return;
+    updShown=true;$("updTxt").textContent="New version ("+m[1]+") is ready.";$("updBar").hidden=false;
+  }catch(e){}
+}
+async function applyUpdate(){
+  try{const reg=navigator.serviceWorker&&await navigator.serviceWorker.getRegistration();if(reg)await reg.update()}catch(e){}
+  location.reload();
+}
+$("updBtn").onclick=applyUpdate;
+setTimeout(checkUpdate,1500);
+setInterval(checkUpdate,30*60*1000);
+document.addEventListener("visibilitychange",()=>{if(!document.hidden)checkUpdate()});
 
 /* ---------- install ---------- */
 let deferredInstall=null;

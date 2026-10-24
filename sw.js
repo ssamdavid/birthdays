@@ -1,5 +1,5 @@
 // Keeps the app working offline. The member list itself is saved by the app on the phone.
-const CACHE = "birthdays-v11";
+const CACHE = "birthdays-v14";
 const SHELL = ["./", "./index.html", "./config.js", "./manifest.webmanifest", "./icon-192.png", "./icon-512.png", "./inter.woff2", "./ila-sundaram-01.woff2", "./ila-sundaram-03.woff2"];
 
 self.addEventListener("install", e => {
